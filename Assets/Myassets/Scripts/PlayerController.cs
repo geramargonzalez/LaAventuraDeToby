@@ -171,7 +171,6 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void OnDrawGizmos(){
-		//Gizmos.DrawWireSphere (feet.position, radiusfeet);
 		Gizmos.DrawWireCube (feet.position, new Vector3(boxWidth, boxHeight,0));
 	}
 

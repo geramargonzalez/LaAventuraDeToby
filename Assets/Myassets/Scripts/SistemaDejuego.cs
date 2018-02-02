@@ -84,6 +84,7 @@ public class SistemaDejuego : MonoBehaviour {
 	}
 
 	 public void ResultadoOperacion(int num){
+		Debug.Log ("Entro en el metido ..");
 		if (resultado == respuestas [num]) {
 			die = true;
 			ok = true;
