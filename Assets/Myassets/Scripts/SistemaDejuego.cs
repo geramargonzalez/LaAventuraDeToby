@@ -19,6 +19,9 @@ public class SistemaDejuego : MonoBehaviour {
 
 	private int fallos;
 
+	//List<int> arr = new List<int>();
+	//List<int> arrDes = new List<int>();
+
 		   GameObject destruirTrolls;
 	 	   Animator trollDeath;
 		   public  bool attack = false;
@@ -84,7 +87,7 @@ public class SistemaDejuego : MonoBehaviour {
 	}
 
 	 public void ResultadoOperacion(int num){
-		Debug.Log ("Entro en el metido ..");
+		
 		if (resultado == respuestas [num]) {
 			die = true;
 			ok = true;
@@ -99,13 +102,13 @@ public class SistemaDejuego : MonoBehaviour {
 				if(cantidadTrolls == 1){
 					StartCoroutine(tiempoFinalEscapar());
 				}
-				//persController.AumentarJump();
+
 			}
 
 
 		} else {
 			restarVidas();
-			//persController.DisminuirJump();
+
 		}
 
 	}
@@ -149,27 +152,47 @@ public class SistemaDejuego : MonoBehaviour {
 
 		}
 
-		respuestas = DesordenarLista(arrDes);
+		respuestas = DesordenarListados(arrDes);
 		BotonRespuestas();
 	}
 
-	 public static List<T> DesordenarLista<T>(List<T> input)
+	/* public  List<int> DesordenarLista(List<int> input)
 	 {
-		List<T> arr = input;
-		List<T> arrDes = new List<T>();
-
-		Random randNum = new Random();
+		 arr = input;
 
 		while (arr.Count > 0)
 		 {
-			float val = Random.Range (0f, arr.Count-1);
-			arrDes.Add(arr[(int)val]);
-			arr.RemoveAt((int)val);
+			StartCoroutine(tiempoEspera());
+
+		}
+
+		return arrDes;
+	}*/
+
+
+	public static List<T> DesordenarListados<T>(List<T> input)
+	{
+		List<T> arr = input;
+		List<T> arrDes = new List<T>();
+
+		//Random randNum = new Random();
+		while (arr.Count > 0)
+		{
+			int val = Random.Range(0,arr.Count);
+			arrDes.Add(arr[val]);
+			arr.RemoveAt(val);
 		}
 
 		return arrDes;
 	}
 		
+
+	/*IEnumerator tiempoEspera(){
+		float val = Random.Range (0f, arr.Count-1);
+		arrDes.Add(arr[(int)val]);
+		arr.RemoveAt((int)val);
+		yield return new WaitForSeconds (0.2f);	
+	}*/
 
 	public void cargarPosiciones(Transform position){
 		tmp = position;
@@ -202,7 +225,6 @@ public class SistemaDejuego : MonoBehaviour {
 	}
 
 	public void recibirTroll(GameObject untroll){
-		
 		destruirTrolls = untroll;
 		trollDeath = destruirTrolls.GetComponent<Animator>();
 	}
@@ -214,7 +236,6 @@ public class SistemaDejuego : MonoBehaviour {
 		txtPuntos.text = puntos.ToString();
 		txMonedas.text = monedas.ToString();
 		if(monedas == 100){
-			//persController.AumentarSpeed();
 			monedas = 0;
 			txMonedas.text = monedas.ToString();
 		}
@@ -222,8 +243,7 @@ public class SistemaDejuego : MonoBehaviour {
 
 	public void GameOver(){
 		if(vidas == 0){
-			//JUEGOTERMINADO
-			//COMENZAR DE NUEVO
+
 		}
 	}
 
@@ -243,5 +263,9 @@ public class SistemaDejuego : MonoBehaviour {
 	}
 
 	public void Cambiarescena(){
+	}
+
+	public void probandoBotones(){
+		Debug.Log ("Entro en el metodo PELOTUDO ..");
 	}
 }

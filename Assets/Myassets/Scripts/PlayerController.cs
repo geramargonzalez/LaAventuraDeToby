@@ -6,7 +6,7 @@ using UnityEngine.UI;
 /// <summary>
 /// Player controller.
 /// Make moves player to right
-/// 
+///
 /// </summary>
 public class PlayerController : MonoBehaviour {
 

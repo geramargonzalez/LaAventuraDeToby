@@ -10,7 +10,7 @@ public class MuertePorCaida : MonoBehaviour {
 	public GameObject gameManager;
 	private SistemaDejuego sisJuego;
 
-	// Use this for initialization
+
 	void Start () {
 		sisJuego = gameManager.GetComponent<SistemaDejuego>();
 	}

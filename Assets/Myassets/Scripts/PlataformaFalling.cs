@@ -10,14 +10,15 @@ public class PlataformaFalling : MonoBehaviour {
 	public float falldelay = 1f;
 	public float volver = 5f;
 
-	// Use this for initialization
+
+
 	void Start () {
 		rgb2d = GetComponent<Rigidbody2D>();
 		pc2d = GetComponent<BoxCollider2D>();
 		start = transform.position;
 	}
 	
-	// Update is called once per frame
+
 	void Update () {
 		
 	}
@@ -25,7 +26,7 @@ public class PlataformaFalling : MonoBehaviour {
 	void OnCollisionEnter2D(Collision2D col){
 		if(col.gameObject.CompareTag("Player")){
 			Invoke("Fall",falldelay);
-			Invoke("Volver",falldelay + volver);
+			Invoke("Volver", falldelay + volver);
 		}
 	
 	}
