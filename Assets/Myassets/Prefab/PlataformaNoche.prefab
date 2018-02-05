@@ -38,7 +38,7 @@ GameObject:
   - component: {fileID: 61012318917048348}
   m_Layer: 0
   m_Name: PlataformaNoche
-  m_TagString: GROUND
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -412,7 +412,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.31484985, y: 1.32}
+  m_Offset: {x: -0.31484985, y: 1.4}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}

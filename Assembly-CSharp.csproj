@@ -58,6 +58,7 @@
      <Compile Include="Assets\Myassets\Scripts\Enemy.cs" />
      <Compile Include="Assets\Myassets\Scripts\EnemyScript.cs" />
      <Compile Include="Assets\Myassets\Scripts\GeneradorTablas.cs" />
+     <Compile Include="Assets\Myassets\Scripts\MainCamera.cs" />
      <Compile Include="Assets\Myassets\Scripts\MuertePorCaida.cs" />
      <Compile Include="Assets\Myassets\Scripts\Numero.cs" />
      <Compile Include="Assets\Myassets\Scripts\Numero2.cs" />
