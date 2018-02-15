@@ -32,21 +32,16 @@ public class PlayerController : MonoBehaviour {
 	public float boxHeight;
 	public LayerMask whatIsGround;
 
-//	public Transform leftBulletSpawnPos, rightBulletSpawnPos;
-	//public GameObject leftBullet, rightBullet;
-
 	bool leftpressed;
 	bool rightpressed;
 
-//	public bool sfxOn;
-//	public bool canFire;
 
 	//public Text txtHabilidad;
-	//public Text txtMsjgrlHabilidad;
-	//public GameObject Habilidadestatico;
+	public Text txtMsjgrlHabilidad;
+	public GameObject Habilidadestatico;
 
-	//public Animator animTxtHabilidad;
-	//public Animator animTxtMsjHabilidad;
+	Animator animTxtHabilidad;
+	Animator animTxtMsjHabilidad;
 
 	bool cantfall;
 
@@ -55,7 +50,10 @@ public class PlayerController : MonoBehaviour {
 		rg = GetComponent<Rigidbody2D>();
 		sp = GetComponent<SpriteRenderer>();
 		anim = GetComponent<Animator>();
+		//animTxtHabilidad = txtHabilidad.GetComponent<Animator> ();
+		Habilidadestatico.SetActive(false);
 
+		animTxtMsjHabilidad = txtMsjgrlHabilidad.GetComponent<Animator> ();
 
 	}
 		
@@ -84,6 +82,10 @@ public class PlayerController : MonoBehaviour {
 	
 
 	}
+
+	public void OnBecameInvisible(){
+		transform.position = new Vector3(0,0,0);
+	} 
 
 
 
@@ -132,6 +134,31 @@ public class PlayerController : MonoBehaviour {
 
 
 
+	void EnableDoubleJump(){
+		canDoublejump = true;
+	}
+
+
+	void Falling(){
+		if (rg.velocity.y < 0) {
+			anim.SetInteger ("state", 3);
+
+		} 
+	}
+
+
+	void OnCollisionEnter2D(Collision2D other){
+		if(other.gameObject.CompareTag("GROUND")){
+			isJumping = false;
+		}
+	}
+
+	void OnDrawGizmos(){
+		Gizmos.DrawWireCube (feet.position, new Vector3(boxWidth, boxHeight,0));
+	}
+
+
+	//Parte Movil Adaptacion
 	public void MoveRight(){
 		rightpressed = true;
 		leftpressed = false;
@@ -145,36 +172,63 @@ public class PlayerController : MonoBehaviour {
 		leftpressed = false;
 		PararMovimiento ();
 	}
-
-
-
+		
 	public void MobileJump(){
 		Jump ();
 	}
 
-	void EnableDoubleJump(){
-		canDoublejump = true;
-	}
 
+	//Mejora/Empeora velocidad y salto
+	public void AumentarJump(){
+		if (jumpSpeed < 1400) {
+			jumpSpeed = jumpSpeed + 50f;
+			txtMsjgrlHabilidad.text = "Aumento de capacidad: Salto";
+			//txtHabilidad.text = "SALTO ";
 
-	void Falling(){
-		if (rg.velocity.y < 0) {
-			anim.SetInteger ("state", 3);
+			StartCoroutine(mostrarHabilidad());
+		} else if(jumpSpeed == 1400) {
+			txtMsjgrlHabilidad.text = "Mayor capacidad alcanzada: Salto";
+			//txtHabilidad.text = " SALTO";
 
-		} 
-	}
-
-	void OnCollisionEnter2D(Collision2D other){
-		if(other.gameObject.CompareTag("GROUND")){
-			isJumping = false;
+			StartCoroutine(mostrarHabilidad());
 		}
 	}
 
-	void OnDrawGizmos(){
-		Gizmos.DrawWireCube (feet.position, new Vector3(boxWidth, boxHeight,0));
+	public void AumentarSpeed(){
+		if (speedBoost < 21) {
+			speedBoost = speedBoost + 0.4f;
+			txtMsjgrlHabilidad.text = "Aumento de capacidad: Velocidad";
+			//txtHabilidad.text = "Velocidad ";
+			StartCoroutine(mostrarHabilidad());
+		
+		} else if(speedBoost == 17) {
+
+			txtMsjgrlHabilidad.text = "Mayor capacidad alcanzada: Velocidad";
+			//txtHabilidad.text = " Velocidad";
+			StartCoroutine(mostrarHabilidad());
+		}
+	}
+
+	public void DisminuirJump(){
+		if(jumpSpeed >= 7){
+			jumpSpeed = jumpSpeed - 0.3f;
+			txtMsjgrlHabilidad.text = "Disminuyo: Salto";
+			//txtHabilidad.text = "SALTO";
+			StartCoroutine(mostrarHabilidad());
+		} 
 	}
 
 
+
+	IEnumerator mostrarHabilidad()
+	{
+		Habilidadestatico.SetActive(true);
+		//animTxtHabilidad.SetBool ("Entrar",true);
+		//animTxtMsjHabilidad.SetBool ("Entrar",true);
+		yield return new WaitForSeconds(2.10f);
+		Habilidadestatico.SetActive(false);
+	
+	}
 
 
 }

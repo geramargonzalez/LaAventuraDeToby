@@ -10,8 +10,10 @@ public class GeneradorTablas : MonoBehaviour {
 	public GameObject player;
 	public GameObject tablas;
 	public GameObject respuestas;
-	public GameObject troll;
 
+	public GameObject troll;
+	Animator trollDeath;
+	bool attack;
 
 	public GameObject numeroUno;
 	Numero gameScript;
@@ -24,6 +26,7 @@ public class GeneradorTablas : MonoBehaviour {
 		gameScript = numeroUno.GetComponent<Numero> ();
 		gameScript2 = numeroDos.GetComponent<Numero2> ();
 		sisJuego = gameManager.GetComponent<SistemaDejuego>();
+		trollDeath = troll.GetComponent<Animator> ();
 	}
 
 
@@ -42,9 +45,12 @@ public class GeneradorTablas : MonoBehaviour {
 		if (other.gameObject.tag == "Player") {
 			 StopCoroutine (tiempoDecambio ());
 			 tablas.SetActive(false);
-			respuestas.SetActive (false);
-				ok = true;
-
+			 respuestas.SetActive (false);
+			 ok = true;
+			if(attack == true){
+				attack = false;
+				trollDeath.SetBool("Attack", attack);
+			}
 		}
 	}
 
@@ -61,6 +67,7 @@ public class GeneradorTablas : MonoBehaviour {
 		respuestas.SetActive(true);
 		yield return new WaitForSeconds(10.0f);
 		ok = true;
+		attack = sisJuego.AtaqueEnemigo();
 
 	}
 

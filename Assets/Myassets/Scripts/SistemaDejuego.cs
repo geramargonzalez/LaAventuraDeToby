@@ -19,18 +19,18 @@ public class SistemaDejuego : MonoBehaviour {
 
 	private int fallos;
 
-	//List<int> arr = new List<int>();
-	//List<int> arrDes = new List<int>();
+	private int nivel;
+
 
 		   GameObject destruirTrolls;
 	 	   Animator trollDeath;
 		   public  bool attack = false;
-	      public bool die = false;
+	        public bool die = false;
 	       
 	private int cantidadTrolls;
 
 	public GameObject player;
-	PersonajeController persController;
+	PlayerController persController;
 
 	public bool ok = false;
 	public bool generar = false;
@@ -46,15 +46,16 @@ public class SistemaDejuego : MonoBehaviour {
 
 
 	public Text txtCantEnemigos;
-	public Text txtMsjFinal;
+	//public Text txtMsjFinal;
 
 	// Use this for initialization
 	void Start () {
-		persController = player.GetComponent<PersonajeController>();
+		persController = player.GetComponent<PlayerController>();
 		vidas = 5;
 		txtVidas.text = vidas.ToString();
 		cantidadTrolls = enemies.Length;
 		txtCantEnemigos.text = cantidadTrolls.ToString();
+		nivel = 1;
 
 	}
 
@@ -87,24 +88,24 @@ public class SistemaDejuego : MonoBehaviour {
 	}
 
 	 public void ResultadoOperacion(int num){
-		
+
+
 		if (resultado == respuestas [num]) {
 			die = true;
 			ok = true;
-			if(attack == false){
+			persController.AumentarJump();
 				posiciones.Add(tmp);
 				LimpiarRespuestas ();
 				trollDeath.SetBool("Die", die);
+			    trollDeath.SetBool("Attack", false);
 				puntos = puntos + 1000;
 				txtPuntos.text = puntos.ToString ();
 				cantidadTrolls--;
 				txtCantEnemigos.text = cantidadTrolls.ToString ();
 				if(cantidadTrolls == 1){
-					StartCoroutine(tiempoFinalEscapar());
+					//StartCoroutine(tiempoFinalEscapar());
 				}
-
-			}
-
+				
 
 		} else {
 			restarVidas();
@@ -113,12 +114,29 @@ public class SistemaDejuego : MonoBehaviour {
 
 	}
 
-	public void restarVidas(){
+	public bool obtenerAttack(){
+		return attack;
+	}
+
+	public bool AtaqueEnemigo(){
 		attack = true;
+		trollDeath.SetBool("Attack",true);
+		return attack;
+	}
+
+	IEnumerator TiempoAtaqueEnemigo(){
+		attack = true;
+		trollDeath.SetBool("Attack",attack);
+		yield return new WaitForSeconds(5.0f);
+		attack = false;
+		trollDeath.SetBool("Attack",attack);
+	}
+
+	public void restarVidas(){
 		fallos++;
 		vidas--;
 		txtVidas.text = vidas.ToString();
-		trollDeath.SetBool("Attack",true);
+		StartCoroutine(TiempoAtaqueEnemigo());
 	}
 
 	public void restarVidasPorcaida(){
@@ -156,31 +174,19 @@ public class SistemaDejuego : MonoBehaviour {
 		BotonRespuestas();
 	}
 
-	/* public  List<int> DesordenarLista(List<int> input)
-	 {
-		 arr = input;
-
-		while (arr.Count > 0)
-		 {
-			StartCoroutine(tiempoEspera());
-
-		}
-
-		return arrDes;
-	}*/
-
 
 	public static List<T> DesordenarListados<T>(List<T> input)
 	{
 		List<T> arr = input;
 		List<T> arrDes = new List<T>();
 
-		//Random randNum = new Random();
 		while (arr.Count > 0)
 		{
 			int val = Random.Range(0,arr.Count);
+
 			arrDes.Add(arr[val]);
-			arr.RemoveAt(val);
+		    arr.RemoveAt(val);
+		
 		}
 
 		return arrDes;
@@ -257,15 +263,13 @@ public class SistemaDejuego : MonoBehaviour {
 		Cambiarescena();
 	}
 
-	IEnumerator tiempoFinalEscapar(){
+	/*IEnumerator tiempoFinalEscapar(){
 		txtMsjFinal.text = "Tienes 15 segundos para llegar al castillo";
 		yield return new WaitForSeconds (15f);	   
-	}
+	}*/
 
 	public void Cambiarescena(){
 	}
 
-	public void probandoBotones(){
-		Debug.Log ("Entro en el metodo PELOTUDO ..");
-	}
+
 }
