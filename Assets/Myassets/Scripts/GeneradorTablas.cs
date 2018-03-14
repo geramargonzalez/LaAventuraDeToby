@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class GeneradorTablas : MonoBehaviour {
 
-	public GameObject gameManager;
+	private GameObject gameManager;
 	private SistemaDejuego sisJuego;
 
-	public GameObject player;
-	public GameObject tablas;
-	public GameObject respuestas;
+	private GameObject player;
+
+	private GameObject respuestas;
 
 	public GameObject troll;
-	Animator trollDeath;
-	bool attack;
+		   Animator trollDeath;
+		   bool attack;
 
 	public GameObject numeroUno;
 	Numero gameScript;
@@ -22,10 +22,18 @@ public class GeneradorTablas : MonoBehaviour {
 	Numero2 gameScript2;
 	bool ok = true;
 
+	public GameObject tablas;
+
 	void Start () {
+
+		gameManager = GameObject.Find ("SistemaJuego");
+		sisJuego = gameManager.GetComponent<SistemaDejuego>();
+		player = GameObject.Find ("Dog");
+		respuestas = GameObject.Find ("Repuestas");
+
 		gameScript = numeroUno.GetComponent<Numero> ();
 		gameScript2 = numeroDos.GetComponent<Numero2> ();
-		sisJuego = gameManager.GetComponent<SistemaDejuego>();
+
 		trollDeath = troll.GetComponent<Animator> ();
 	}
 
@@ -77,5 +85,9 @@ public class GeneradorTablas : MonoBehaviour {
 		foreach (Transform child in g.transform) {
 			DeactivateChildren(child.gameObject, a);
 		}
+	}
+
+	public void resetearTabla(){
+		StartCoroutine (tiempoDecambio());
 	}
 }

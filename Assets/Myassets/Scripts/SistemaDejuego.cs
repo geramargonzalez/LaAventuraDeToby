@@ -9,9 +9,10 @@ public class SistemaDejuego : MonoBehaviour {
 
 
 	public int min, max;
-	int numero1, numero2,resultado;
+	int numero1, numero2, resultado;
 	List<int> respuestas = new List<int>();
 	public List<Text> txtOpciones = new List<Text>();
+
 	public GameObject[] enemies;
 
 	private List<Transform> posiciones = new List<Transform>();
@@ -21,11 +22,13 @@ public class SistemaDejuego : MonoBehaviour {
 
 	private int nivel;
 
+	private GameObject genTablas;
+			GeneradorTablas gnScript;		
 
 		   GameObject destruirTrolls;
 	 	   Animator trollDeath;
 		   public  bool attack = false;
-	        public bool die = false;
+	       public bool die = false;
 	       
 	private int cantidadTrolls;
 
@@ -51,6 +54,8 @@ public class SistemaDejuego : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		persController = player.GetComponent<PlayerController>();
+		genTablas = GameObject.Find ("Collider");
+		gnScript = genTablas.GetComponent<GeneradorTablas>();
 		vidas = 5;
 		txtVidas.text = vidas.ToString();
 		cantidadTrolls = enemies.Length;
@@ -137,11 +142,13 @@ public class SistemaDejuego : MonoBehaviour {
 		vidas--;
 		txtVidas.text = vidas.ToString();
 		StartCoroutine(TiempoAtaqueEnemigo());
+
 	}
 
 	public void restarVidasPorcaida(){
 		vidas--;
 		txtVidas.text = vidas.ToString();
+		gnScript.resetearTabla ();
 
 	}
 		
