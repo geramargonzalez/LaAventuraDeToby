@@ -6,7 +6,8 @@ public class platformaMovil : MonoBehaviour {
 
 	public Transform target;
 	public float speed;
-
+	public GameObject player;
+	public Transform pos;
 	private Vector3 start, end;
 
 
@@ -33,5 +34,16 @@ public class platformaMovil : MonoBehaviour {
 			target.position = (target.position == start) ? end : start;
 		}
 	
+	}
+
+	void OnTriggerEnter2D(Collider2D other) {
+		if (other.gameObject.tag == "Player") {
+			other.gameObject.transform.parent = this.transform;
+		}
+	}
+
+	void OnTriggerExit2D(Collider2D other)
+	{
+		other.gameObject.transform.parent = null;
 	}
 }
