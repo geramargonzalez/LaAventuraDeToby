@@ -47,12 +47,11 @@ public class PlayerController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+
 		rg = GetComponent<Rigidbody2D>();
 		sp = GetComponent<SpriteRenderer>();
 		anim = GetComponent<Animator>();
-		//animTxtHabilidad = txtHabilidad.GetComponent<Animator> ();
 		Habilidadestatico.SetActive(false);
-
 		animTxtMsjHabilidad = txtMsjgrlHabilidad.GetComponent<Animator> ();
 
 	}
@@ -181,10 +180,9 @@ public class PlayerController : MonoBehaviour {
 	//Mejora/Empeora velocidad y salto
 	public void AumentarJump(){
 		if (jumpSpeed < 1400) {
-			jumpSpeed = jumpSpeed + 50f;
+			jumpSpeed = jumpSpeed + 20f;
 			txtMsjgrlHabilidad.text = "Aumento de capacidad: Salto";
 			//txtHabilidad.text = "SALTO ";
-
 			StartCoroutine(mostrarHabilidad());
 		} else if(jumpSpeed == 1400) {
 			txtMsjgrlHabilidad.text = "Mayor capacidad alcanzada: Salto";
@@ -196,7 +194,7 @@ public class PlayerController : MonoBehaviour {
 
 	public void AumentarSpeed(){
 		if (speedBoost < 21) {
-			speedBoost = speedBoost + 0.4f;
+			speedBoost = speedBoost + 0.1f;
 			txtMsjgrlHabilidad.text = "Aumento de capacidad: Velocidad";
 			//txtHabilidad.text = "Velocidad ";
 			StartCoroutine(mostrarHabilidad());
@@ -230,5 +228,12 @@ public class PlayerController : MonoBehaviour {
 	
 	}
 
+	public void TrasladarPersonaje(Vector3 trasladar){
+		StartCoroutine (TiempoTrasladoPersonaje(trasladar));
+	}
 
+	IEnumerator TiempoTrasladoPersonaje(Vector3 trasladar){
+		yield return new WaitForSeconds(1.0f);
+		transform.position = trasladar;
+	}
 }

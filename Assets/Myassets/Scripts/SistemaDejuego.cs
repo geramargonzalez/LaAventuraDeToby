@@ -9,8 +9,11 @@ public class SistemaDejuego : MonoBehaviour {
 
 
 	public int min, max;
+
 	int numero1, numero2, resultado;
+
 	List<int> respuestas = new List<int>();
+
 	public List<Text> txtOpciones = new List<Text>();
 
 	public GameObject[] enemies;
@@ -53,6 +56,7 @@ public class SistemaDejuego : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+
 		persController = player.GetComponent<PlayerController>();
 		genTablas = GameObject.Find ("Collider");
 		gnScript = genTablas.GetComponent<GeneradorTablas>();
@@ -81,9 +85,9 @@ public class SistemaDejuego : MonoBehaviour {
 
 
 	public void EleccionTabla(){
-		if (!destruirTrolls.activeSelf) {
-			destruirTrolls.SetActive(true);
-		}
+		//if (!destruirTrolls.activeSelf) {
+			//destruirTrolls.SetActive(true);
+		//}
 		OkGenerar();
 		if(generar){
 			IngresarRespuestas();
