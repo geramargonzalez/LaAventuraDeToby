@@ -7,7 +7,7 @@ public class platformaMovil : MonoBehaviour {
 	public Transform target;
 	public float speed;
 	public GameObject player;
-	public Transform pos;
+	private Transform pos;
 	private Vector3 start, end;
 
 
