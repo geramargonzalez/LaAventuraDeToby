@@ -8,7 +8,6 @@ public class Numero2 : MonoBehaviour {
 
 
 	public void setearNumero(int num){
-		//Debug.Log ("muestro el elemento de Numero2 " + num);
 			imgNumbers[num].SetActive(true);
 		}
 

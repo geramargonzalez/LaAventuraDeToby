@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour {
 
 	bool isJumping = false;
 
-	bool canDoublejump;
+//	bool canDoublejump;
 	public float delayDoubleJump;
 
 	public bool isGrounded;
@@ -37,8 +37,10 @@ public class PlayerController : MonoBehaviour {
 
 
 	//public Text txtHabilidad;
-	public Text txtMsjgrlHabilidad;
+	//public Text txtMsjgrlHabilidad;
 	public GameObject Habilidadestatico;
+
+	public UI ui;
 
 	Animator animTxtHabilidad;
 	Animator animTxtMsjHabilidad;
@@ -52,7 +54,8 @@ public class PlayerController : MonoBehaviour {
 		sp = GetComponent<SpriteRenderer>();
 		anim = GetComponent<Animator>();
 		Habilidadestatico.SetActive(false);
-		animTxtMsjHabilidad = txtMsjgrlHabilidad.GetComponent<Animator> ();
+		animTxtMsjHabilidad = ui.txtMsjgrlHabilidad.GetComponent<Animator> ();
+		//animTxtHabilidad = ui.txtHabilidad.GetComponent<Animator> ();
 
 	}
 		
@@ -134,7 +137,7 @@ public class PlayerController : MonoBehaviour {
 
 
 	void EnableDoubleJump(){
-		canDoublejump = true;
+//		canDoublejump = true;
 	}
 
 
@@ -180,39 +183,45 @@ public class PlayerController : MonoBehaviour {
 	//Mejora/Empeora velocidad y salto
 	public void AumentarJump(){
 		if (jumpSpeed < 1400) {
-			jumpSpeed = jumpSpeed + 20f;
-			txtMsjgrlHabilidad.text = "Aumento de capacidad: Salto";
-			//txtHabilidad.text = "SALTO ";
-			StartCoroutine(mostrarHabilidad());
-		} else if(jumpSpeed == 1400) {
-			txtMsjgrlHabilidad.text = "Mayor capacidad alcanzada: Salto";
-			//txtHabilidad.text = " SALTO";
 
+			jumpSpeed = jumpSpeed + 20f;
+			ui.txtMsjgrlHabilidad.text = "Mejora: Salto";
+			//ui.txtHabilidad.text = "SALTO ";
+			StartCoroutine(mostrarHabilidad());
+		
+		} else if(jumpSpeed == 1400) {
+			ui.txtMsjgrlHabilidad.text = "Mayor capacidad alcanzada de salto";
+			//txtHabilidad.text = " SALTO";
 			StartCoroutine(mostrarHabilidad());
 		}
 	}
 
 	public void AumentarSpeed(){
 		if (speedBoost < 21) {
+
 			speedBoost = speedBoost + 0.1f;
-			txtMsjgrlHabilidad.text = "Aumento de capacidad: Velocidad";
-			//txtHabilidad.text = "Velocidad ";
+			ui.txtMsjgrlHabilidad.text = "Mejora: Velocidad";
+			//ui.txtHabilidad.text = "Velocidad ";
 			StartCoroutine(mostrarHabilidad());
 		
 		} else if(speedBoost == 17) {
-
-			txtMsjgrlHabilidad.text = "Mayor capacidad alcanzada: Velocidad";
+			
+			ui.txtMsjgrlHabilidad.text = "Mayor capacidad alcanzada: Velocidad";
 			//txtHabilidad.text = " Velocidad";
 			StartCoroutine(mostrarHabilidad());
+
 		}
 	}
 
 	public void DisminuirJump(){
+
 		if(jumpSpeed >= 7){
+
 			jumpSpeed = jumpSpeed - 0.3f;
-			txtMsjgrlHabilidad.text = "Disminuyo: Salto";
-			//txtHabilidad.text = "SALTO";
+			ui.txtMsjgrlHabilidad.text = "Disminuyo: Salto";
+			//ui.txtHabilidad.text = " Salto";
 			StartCoroutine(mostrarHabilidad());
+		
 		} 
 	}
 
@@ -221,9 +230,9 @@ public class PlayerController : MonoBehaviour {
 	IEnumerator mostrarHabilidad()
 	{
 		Habilidadestatico.SetActive(true);
-		//animTxtHabilidad.SetBool ("Entrar",true);
-		//animTxtMsjHabilidad.SetBool ("Entrar",true);
-		yield return new WaitForSeconds(2.10f);
+		//animTxtHabilidad.SetBool ("entrar",true);
+		animTxtMsjHabilidad.SetBool ("entrar",true);
+		yield return new WaitForSeconds(2.20f);
 		Habilidadestatico.SetActive(false);
 	
 	}
@@ -236,4 +245,7 @@ public class PlayerController : MonoBehaviour {
 		yield return new WaitForSeconds(1.0f);
 		transform.position = trasladar;
 	}
+
+
+
 }

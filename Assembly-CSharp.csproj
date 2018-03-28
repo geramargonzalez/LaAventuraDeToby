@@ -57,6 +57,7 @@
      <Compile Include="Assets\Myassets\Scripts\DestroyWithDelay.cs" />
      <Compile Include="Assets\Myassets\Scripts\Enemy.cs" />
      <Compile Include="Assets\Myassets\Scripts\EnemyScript.cs" />
+     <Compile Include="Assets\Myassets\Scripts\GameData.cs" />
      <Compile Include="Assets\Myassets\Scripts\GeneradorTablas.cs" />
      <Compile Include="Assets\Myassets\Scripts\GuardarPuntoInicial.cs" />
      <Compile Include="Assets\Myassets\Scripts\HonguitoCtrl.cs" />
@@ -75,6 +76,7 @@
      <Compile Include="Assets\Myassets\Scripts\SFX.cs" />
      <Compile Include="Assets\Myassets\Scripts\SFXCtrl.cs" />
      <Compile Include="Assets\Myassets\Scripts\SistemaDejuego.cs" />
+     <Compile Include="Assets\Myassets\Scripts\UI.cs" />
      <Compile Include="Assets\Myassets\Scripts\Vidas.cs" />
      <Compile Include="Assets\Myassets\Sprites\Spooky Woods\Example\Scripts\BackgroundParallax.cs" />
      <Compile Include="Assets\Myassets\Sprites\Spooky Woods\Example\Scripts\CameraMove.cs" />
