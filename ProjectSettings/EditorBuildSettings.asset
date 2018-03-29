@@ -4,4 +4,7 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Myassets/Scenes/Noche.unity
+    guid: 859d255e7ef9241ba8eb58bb4237ca66
