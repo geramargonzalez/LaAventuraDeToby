@@ -53,6 +53,12 @@ public class SistemaDejuego : MonoBehaviour {
 	GameObject enemy;
 	EnemyScript gnScript;	
 
+	// CameraActual  ActivarYCamera
+	GameObject camera;
+	MainCamera mainCamera;
+
+	GameObject activarYCamera;
+
 	//Enemigo derrotado
 	GameObject destruirTrolls;
 	Animator trollDeath; 
@@ -72,6 +78,10 @@ public class SistemaDejuego : MonoBehaviour {
 			instance = this;
 		}
 
+		camera = GameObject.Find("Main Camera");
+		mainCamera = camera.GetComponent<MainCamera> ();
+
+		activarYCamera = GameObject.Find("ActivarYCamera");
 
 		bf = new BinaryFormatter ();
 		dataFilePath = Application.persistentDataPath + "/game.dat";
@@ -176,6 +186,7 @@ public class SistemaDejuego : MonoBehaviour {
 
 		//Cargo las variables
 		timeLeft = maxtime;
+		mainCamera.QuitarYCamera ();
 
 		if(!pnMenuJuegoTerminado.activeSelf){
 			Time.timeScale = 1f;
@@ -307,6 +318,8 @@ public class SistemaDejuego : MonoBehaviour {
 	public void restarVidas(){
 		CheckLives();
 	}
+
+
 
 	public void ActualizarUIVidas(){
 		int tmp = gData.vidas;

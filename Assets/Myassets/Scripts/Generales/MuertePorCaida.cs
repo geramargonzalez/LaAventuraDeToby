@@ -10,8 +10,16 @@ public class MuertePorCaida : MonoBehaviour {
 	public GameObject gameManager;
 	private SistemaDejuego sisJuego;
 
+	// CameraActual  ActivarYCamera
+	GameObject camera;
+	MainCamera mainCamera;
+
 
 	void Start () {
+		camera = GameObject.Find("Main Camera");
+
+		mainCamera = camera.GetComponent<MainCamera> ();
+
 		sisJuego = gameManager.GetComponent<SistemaDejuego>();
 	}
 	
@@ -23,10 +31,9 @@ public class MuertePorCaida : MonoBehaviour {
 	void OnTriggerEnter2D(Collider2D other) {
 		
 		if (other.gameObject.tag == "Player") {
-			
-			sisJuego.restarVidas();
 			other.gameObject.transform.position = volver.position;
-		
+			sisJuego.restarVidas();
+			mainCamera.QuitarYCamera ();
 		}
 	}
 }

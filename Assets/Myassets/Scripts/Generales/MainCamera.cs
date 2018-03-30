@@ -5,32 +5,44 @@ using UnityEngine;
 public class MainCamera : MonoBehaviour {
 
 	// dejar publico :  se usa con el observador
-	public Transform objetivoCamara;
+	 Transform objetivoCamara;
 	// ***********************************
-	public bool agreY;
+	 bool agreY;
 
 	 float tmp;
+	float yPos;
+//	 Transform posInicial;
 
 
 	public float yOff;
 
 	void Start(){
 		agreY = false;
-		AgregarY();
+		yPos = this.transform.position.y;
 		objetivoCamara = GameObject.Find ("Dog").transform;
+
 	}
 
 	// Update is called once per frame
 	void Update () {
-		transform.position = new Vector3 (objetivoCamara.position.x, tmp , transform.position.z);
-	}
-
-
-	public void AgregarY(){
-		if (agreY) {
-			tmp = objetivoCamara.transform.position.y + yOff;
+		if (!agreY) {
+			transform.position = new Vector3 (objetivoCamara.position.x, yPos, transform.position.z);
 		} else {
-			tmp = this.transform.position.y;
+			transform.position = new Vector3 (objetivoCamara.position.x, objetivoCamara.transform.position.y + yOff, transform.position.z);
 		}
+	
 	}
+
+
+
+
+	public void setearYCamera(){
+		agreY = true;
+	}
+
+	public void QuitarYCamera(){
+		agreY = false;
+		//transform.position = new Vector3 (objetivoCamara.position.x, this.transform.position.y, transform.position.z);
+	}
+
 }

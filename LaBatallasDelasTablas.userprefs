@@ -1,12 +1,12 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Myassets/Scripts/Generales/SFX.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Myassets/Scripts/Player/PlayerController.cs">
     <Files>
-      <File FileName="Assets/Myassets/Scripts/Generales/SFXCtrl.cs" Line="1" Column="1" />
-      <File FileName="Assets/Myassets/Scripts/Generales/SFX.cs" Line="1" Column="1" />
-      <File FileName="Assets/Myassets/Scripts/Generales/CoinCollector.cs" Line="1" Column="1" />
-      <File FileName="Assets/Myassets/Scripts/Generales/MonedasScript.cs" Line="1" Column="1" />
-      <File FileName="Assets/Myassets/Scripts/Generales/CoinCtrl.cs" Line="1" Column="1" />
+      <File FileName="Assets/ActivarYCamera.cs" Line="5" Column="28" />
+      <File FileName="Assets/Myassets/Scripts/Generales/MainCamera.cs" Line="30" Column="11" />
+      <File FileName="Assets/Myassets/Scripts/Generales/MuertePorCaida.cs" Line="35" Column="24" />
+      <File FileName="Assets/Myassets/Scripts/Generales/SistemaDejuego.cs" Line="318" Column="2" />
+      <File FileName="Assets/Myassets/Scripts/Player/PlayerController.cs" Line="238" Column="50" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

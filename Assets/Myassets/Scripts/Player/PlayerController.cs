@@ -67,6 +67,7 @@ public class PlayerController : MonoBehaviour {
 
 		float speed = Input.GetAxisRaw ("Horizontal");
 		speed *= speedBoost;
+
 		if (speed != 0) {
 			MoverHaciaAdelante (speed);
 		} else {
@@ -234,7 +235,7 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	public void CeroTroll(){
-		ui.txtMsjgrlHabilidad.text = "Ve hacia al castillo";
+		ui.txtMsjgrlHabilidad.text = "Moverse hacia el castillo";
 		StartCoroutine(mostrarHabilidad());
 	}
 
@@ -261,5 +262,51 @@ public class PlayerController : MonoBehaviour {
 	}
 
 
+/*public void OnTriggerEnter2D(Collider2D other){
+
+		switch (other.gameObject.tag )
+		{
+			case "Coin":
+
+			if(sfxOn){
+			  
+				SFXCtrl.instance.showCoinSparkle (other.gameObject.transform.position);
+			
+				GameCtrl.instance.UpdateCoinCount ();
+			
+			}
+
+			break;	
+		
+		case "Water":
+
+			//
+
+			garbajeCtrl.SetActive (false);
+
+			SFXCtrl.instance.showSplash (other.gameObject.transform.position);
+
+			GameCtrl.instance.PlayerDrowned ();
+
+			break;	
+		
+		case "PowerUp_bullets":
+
+			canFire = true;
+
+			Vector2 powerUpos = other.gameObject.transform.position;
+
+			Destroy (other.gameObject);
+
+			if(sfxOn){
+
+				SFXCtrl.instance.showSparkle(powerUpos);
+			
+			}
+
+			break;	
+		}
+	}
+*/
 
 }

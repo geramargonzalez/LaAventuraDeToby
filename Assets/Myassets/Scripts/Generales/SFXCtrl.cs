@@ -27,18 +27,23 @@ public class SFXCtrl : MonoBehaviour {
 	/// <summary>
 	/// Shows the coin sparkle.
 	/// </summary>
+
 	public void showCoinSparkle(Vector3 pos){
 		Instantiate(sfx.sfx_coin_pickup,pos,Quaternion.identity);
 	}
+
 	/// <summary>
 	/// Shows the sparkle.
 	/// </summary>
+
 	public void showSparkle(Vector3 pos){
-		Instantiate(sfx.sfx_bullets_pickup,pos,Quaternion.identity);
+		//Instantiate(sfx.sfx_bullets_pickup,pos,Quaternion.identity);
 	}
+
 	/// <summary>
 	/// Shows the player landing dust particle effects.
 	/// </summary>
+
 	public void showPlayerLanding(Vector3 pos){
 		Instantiate(sfx.sfx_playerLands,pos,Quaternion.identity);
 	}
@@ -46,6 +51,7 @@ public class SFXCtrl : MonoBehaviour {
 	/// <summary>
 	/// Handle the box breaking effects.
 	/// </summary>
+
 	public void HandleBoxBreaking(Vector3 pos){
 		Vector3 pos1 = pos;
 		pos1.x += 0.3f;
@@ -68,10 +74,10 @@ public class SFXCtrl : MonoBehaviour {
 	/// <summary>
 	/// 	Shows the splash hen player falls in water.
 	/// </summary>
-	/// <param name="pos">Position.</param>
+
 
 	public void showSplash(Vector3 pos){
-		Instantiate(sfx.sfx_splash,pos,Quaternion.identity);
+		//Instantiate(sfx.sfx_splash,pos,Quaternion.identity);
 	}
 
 }

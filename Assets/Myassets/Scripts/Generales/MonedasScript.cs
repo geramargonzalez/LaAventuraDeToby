@@ -5,18 +5,55 @@ using UnityEngine;
 public class MonedasScript : MonoBehaviour {
 
 	public GameObject gameManager;
-
 	private SistemaDejuego sisJuego;
 
 	private AudioSource audioCoins;
 
+	public enum CoinFX
+	{
+		Vanish,
+
+		Fly
+	}
+
+	public CoinFX coinFX;
+
+	public float speed;
+
+	public bool startFlying;
+
+	GameObject coinMeter;
 
 	void Start () {
 
-		audioCoins = GetComponent<AudioSource>();
-	
+		audioCoins = GetComponent<AudioSource> ();
 		sisJuego = gameManager.GetComponent<SistemaDejuego>();
+
+		startFly ();
 	
+	}
+
+	// Update is called once per frame
+	void Update () {
+
+		if(startFlying){
+
+			transform.position = Vector3.Lerp (transform.position,coinMeter.transform.position,speed);
+
+		}
+
+	}
+
+
+	public void startFly(){
+		
+		startFlying = false;
+
+		if(CoinFX.Fly == coinFX){
+
+			coinMeter = GameObject.Find ("BoneCollector");
+
+		}
 	}
 
 
@@ -28,15 +65,18 @@ public class MonedasScript : MonoBehaviour {
 		
 			sisJuego.sumarMonedas();
 		
-			StartCoroutine(tiempodesactivar());
-		
+			if(coinFX == CoinFX.Vanish){
+
+				Destroy(gameObject);
+
+			} else if(coinFX == CoinFX.Fly){
+
+				startFlying = true;
+
+			}
+
 		}
 	}
 
-	IEnumerator tiempodesactivar(){
 
-		yield return new WaitForSeconds(.1f);
-
-		this.gameObject.SetActive (false);
-	}
 }
