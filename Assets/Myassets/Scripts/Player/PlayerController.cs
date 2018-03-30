@@ -220,7 +220,6 @@ public class PlayerController : MonoBehaviour {
 	public void DisminuirJump(){
 
 		if(jumpSpeed >= 7){
-
 			jumpSpeed = jumpSpeed - 0.3f;
 			ui.txtMsjgrlHabilidad.text = "Disminuyo: Salto";
 			//ui.txtHabilidad.text = " Salto";
@@ -235,6 +234,7 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	public void CeroTroll(){
+		ui.txtMsjgrlHabilidad.fontSize = 200;
 		ui.txtMsjgrlHabilidad.text = "Moverse hacia el castillo";
 		StartCoroutine(mostrarHabilidad());
 	}
@@ -247,6 +247,7 @@ public class PlayerController : MonoBehaviour {
 		animTxtMsjHabilidad.SetBool ("entrar",true);
 		yield return new WaitForSeconds(2.20f);
 		Habilidadestatico.SetActive(false);
+		ui.txtMsjgrlHabilidad.fontSize = 300;
 	
 	}
 

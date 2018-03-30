@@ -84,6 +84,7 @@
      <Compile Include="Assets\Myassets\Sprites\Spooky Woods\Example\Scripts\BackgroundParallax.cs" />
      <Compile Include="Assets\Myassets\Sprites\Spooky Woods\Example\Scripts\CameraMove.cs" />
      <Compile Include="Assets\PortalCambio.cs" />
+     <Compile Include="Assets\setearOperacion.cs" />
      <None Include="Assets\Myassets\Sprites\Actors\Enemies\monster_round\get more at bevouliin_dot_com.txt" />
      <None Include="Assets\Myassets\Sprites\Mossy Woods\Readme.txt" />
      <None Include="Assets\Myassets\Sprites\Fantasy Character\_TXT\LICENSES.txt" />

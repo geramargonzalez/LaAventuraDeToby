@@ -9,6 +9,7 @@ TagManager:
   - Enemigos
   - honguitoVioleta
   - Bone
+  - Signo
   layers:
   - Default
   - TransparentFX

@@ -18,8 +18,10 @@ public class SistemaDejuego : MonoBehaviour {
 
 	List<int> respuestas = new List<int>();
 
-	//Todos los enemigos por Pantalla o operaciones a derrotar
-	 GameObject[] enemies;
+	//Todos los enemigos por Pantalla o Operaciones a derrotar
+	GameObject[] enemies;
+
+	int signo;
 
 	private List<Transform> posiciones = new List<Transform>();
 	public List<Text> txtOpciones = new List<Text>();
@@ -91,6 +93,7 @@ public class SistemaDejuego : MonoBehaviour {
 
 		enemies = GameObject.FindGameObjectsWithTag("Enemigos");
 
+	
 		Comenzar ();
 
 	}
@@ -182,6 +185,8 @@ public class SistemaDejuego : MonoBehaviour {
 	}
 
 
+
+
 	public void Comenzar(){
 
 		//Cargo las variables
@@ -189,20 +194,38 @@ public class SistemaDejuego : MonoBehaviour {
 		mainCamera.QuitarYCamera ();
 
 		if(!pnMenuJuegoTerminado.activeSelf){
+
 			Time.timeScale = 1f;
+		
 		}
 
 
 		if(!gData.yaJugo){
-			gData.vidas = 5;
 
+			gData.vidas = 5;
 			gData.puntos = 0;
 			gData.nivel = 0;
 			gData.monedas = 0;
+		
 		}
+
 		gData.cantidadTrolls = enemies.Length;
 		ui.txtCantEnemigos.text = gData.cantidadTrolls.ToString();
 	
+	}
+
+	public void OcultarSignos(){
+		
+	}
+
+
+	//Todos los metodos Randomicos
+
+	public int GenerarSignoUIRandom(){
+		
+		float random = Random.Range(0f,3f);
+		Debug.Log ((int)random);
+		return (int)random;
 	}
 
 	public int GeneradorNumeroRandom(){
@@ -211,15 +234,23 @@ public class SistemaDejuego : MonoBehaviour {
 		return (int)random;
 	}
 
+	public int GeneradorNumeroRandomIzquierda(){
+		float random = Random.Range(0.0f,9.0f);
+		return (int)random;
+	
+	}
+
 	public int GeneradorNumeroRandomRespuesta(){
 		float random = Random.Range(0.0f,90.0f);
 		return (int)random;
 	}
 
 
+	//Nivel actual del jugador.
+
 	public void NivelDejuego(){
 		if(gData.nivel == 0){
-			min = 1;
+			min = 0;
 			max = 3;
 		} else if (gData.nivel == 1){
 			min = 3;
@@ -253,7 +284,7 @@ public class SistemaDejuego : MonoBehaviour {
 		if (resultado == respuestas [num]) {
 
 			die = true;
-			//ok = true;
+
 
 			persController.AumentarJump();
 			posiciones.Add(tmp);
@@ -266,6 +297,7 @@ public class SistemaDejuego : MonoBehaviour {
 			if(gData.cantidadTrolls == 1){
 				persController.QuedaUnSoloTroll ();
 				}
+
 			if(gData.cantidadTrolls == 0){
 				persController.CeroTroll ();
 			}
@@ -278,11 +310,56 @@ public class SistemaDejuego : MonoBehaviour {
 
 	}
 
-	public void sumarPuntos(){
-		gData.puntos = gData.puntos + 1000;
-		ui.txtPuntos.text = gData.puntos.ToString ();
+
+
+	public int pasarNumero1(){
+		
+		numero1 = GeneradorNumeroRandom();
+
+		return numero1 ;
+	
 	}
 
+	public int pasarNumero2(){
+
+		numero2 = GeneradorNumeroRandomIzquierda();
+	
+		return numero2;
+	
+	}
+
+	public int ObtenerSigno(){
+
+		signo = GenerarSignoUIRandom ();
+	
+		return signo;
+	
+	}
+
+	public void OperacionMultiplicar(){
+
+		if(signo == 0){
+			
+			resultado = numero1 * numero2;
+
+		} else if(signo == 1){
+		
+			resultado = numero1 + numero2;
+		
+		}
+
+		else if(signo == 2){
+			resultado = numero1 - numero2;
+		}
+
+		else if(signo == 3){
+			
+			resultado = numero1 / numero2;
+		
+		}
+
+
+	}
 
 	public bool obtenerAttack(){
 		return attack;
@@ -309,17 +386,101 @@ public class SistemaDejuego : MonoBehaviour {
 
 
 
+	//Eligo dos respuestas al azar y agrego el resultado de la operacion
+	public void IngresarRespuestas(){
+
+		List<int> arrDes = new List<int>();
+
+		int tmp = 0;		
+
+		for(int i = 0;  i < 3; i++){
+			if(i < 2){
+
+				tmp = GeneradorNumeroRandomRespuesta();
+				arrDes.Add(tmp);
+
+			} else if(i == 2){
+
+				//Agrego el resultado de la operacion
+				arrDes.Add(resultado);
+
+			}
+
+		}
+
+		//Desordeno las respuestas para mostrarlas
+		respuestas = DesordenarListados(arrDes);
+		BotonRespuestas();
+	
+	}
+
+
+	public static List<T> DesordenarListados<T>(List<T> input)
+	{
+		List<T> arr = input;
+		List<T> arrDes = new List<T>();
+
+		while (arr.Count > 0)
+		{
+			int val = Random.Range(0,arr.Count);
+			arrDes.Add(arr[val]);
+			arr.RemoveAt(val);
+		}
+
+		return arrDes;
+	}
+		
+
+	public void cargarPosiciones(Transform position){
+		tmp = position;
+		OkGenerar ();
+
+	}
+
+
+	public void OkGenerar(){
+		for(int i = 0;  i < posiciones.Count; i++){
+			if(tmp == posiciones[i]){
+				generar = false;
+			}
+		}
+		generar = true;
+	}
+
+	public void BotonRespuestas(){
+		for(int i=0;  i < respuestas.Count; i++){
+			txtOpciones[i].text = respuestas[i].ToString();
+		}
+	}
+	public void LimpiarRespuestas(){
+		for(int i=0;  i < respuestas.Count; i++){
+			txtOpciones[i].text = " ";
+		}
+	}
+
+
+	public void recibirTroll(GameObject untroll){
+		destruirTrolls = untroll;
+		trollDeath = destruirTrolls.GetComponent<Animator>();
+		SetearActualEnemigos(untroll);
+	}
+
+
+
+	// Todo sobre las vidas, fallos puntajes
+	public void sumarPuntos(){
+		gData.puntos = gData.puntos + 1000;
+		ui.txtPuntos.text = gData.puntos.ToString ();
+	}
+
 	public void SumarFallos(){
 		gData.fallos++;
 		persController.DisminuirJump ();
 	}
 
-
 	public void restarVidas(){
 		CheckLives();
 	}
-
-
 
 	public void ActualizarUIVidas(){
 		int tmp = gData.vidas;
@@ -345,91 +506,6 @@ public class SistemaDejuego : MonoBehaviour {
 			ActualizarUIVidas();
 		}
 	}
-		
-	public int pasarNumero1(){
-		numero1 = GeneradorNumeroRandom();
-		return numero1 - 1;
-	}
-	public int pasarNumero2(){
-		numero2 = GeneradorNumeroRandom();
-		return numero2 - 1;
-	}
-		
-	public void IngresarRespuestas(){
-		List<int> arrDes = new List<int>();
-		int tmp = 0;		
-		for(int i = 0;  i < 3; i++){
-			if(i < 2){
-			  tmp = GeneradorNumeroRandomRespuesta();
-			  arrDes.Add(tmp);
-			} else if(i == 2){
-			  
-			  arrDes.Add(resultado);
-			}
-
-		}
-
-		respuestas = DesordenarListados(arrDes);
-		BotonRespuestas();
-	}
-
-
-	public static List<T> DesordenarListados<T>(List<T> input)
-	{
-		List<T> arr = input;
-		List<T> arrDes = new List<T>();
-
-		while (arr.Count > 0)
-		{
-			int val = Random.Range(0,arr.Count);
-			arrDes.Add(arr[val]);
-		    arr.RemoveAt(val);
-		}
-
-		return arrDes;
-	}
-		
-
-
-
-	public void cargarPosiciones(Transform position){
-		tmp = position;
-		OkGenerar ();
-
-	}
-		
-
-	public void OkGenerar(){
-		for(int i = 0;  i < posiciones.Count; i++){
-			if(tmp == posiciones[i]){
-				generar = false;
-			}
-		}
-		generar = true;
-	}
-
-    public void BotonRespuestas(){
-		  for(int i=0;  i < respuestas.Count; i++){
-			 txtOpciones[i].text = respuestas[i].ToString();
-		}
-	}
-	public void LimpiarRespuestas(){
-		for(int i=0;  i < respuestas.Count; i++){
-			txtOpciones[i].text = " ";
-		}
-	}
-	public void OperacionMultiplicar(){
-		resultado = numero1 * numero2;
-	}
-
-	public void recibirTroll(GameObject untroll){
-		destruirTrolls = untroll;
-		trollDeath = destruirTrolls.GetComponent<Animator>();
-		SetearActualEnemigos(untroll);
-	}
-
-
-
 	public void sumarMonedas(){
 		gData.monedas++;
 		gData.puntos = gData.puntos + 100;
@@ -481,6 +557,10 @@ public class SistemaDejuego : MonoBehaviour {
 	}
 
 
+	/// <summary>
+	///  Todo Sobre el tiempo
+	/// </summary>
+
 	public void UpdateTime(){
 
 		timeLeft -= Time.deltaTime;
@@ -491,11 +571,15 @@ public class SistemaDejuego : MonoBehaviour {
 			//SaveData();
 			GameOver();
 
+		} else if(timeLeft <= 20){
+			ui.textTimer.color = Color.red;
 		}
 	}
 
 	public void Salir(){
 		Application.Quit();
 	}
+
+
 
 }

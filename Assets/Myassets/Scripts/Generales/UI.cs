@@ -24,6 +24,9 @@ public class UI  {
 
 	public Text textTimer;
 
+	public Text texttimeOp;
+
+
 	[Header("Textos de Habilidades")]
 
 	public Text txtMsjgrlHabilidad;
