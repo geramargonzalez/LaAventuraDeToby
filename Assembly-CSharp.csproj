@@ -51,10 +51,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\ActivarYCamera.cs" />
-     <Compile Include="Assets\MenuGameOver.cs" />
      <Compile Include="Assets\Myassets\Scripts\Enemy\Enemy.cs" />
      <Compile Include="Assets\Myassets\Scripts\Enemy\EnemyScript.cs" />
+     <Compile Include="Assets\Myassets\Scripts\Generales\ActivarYCamera.cs" />
      <Compile Include="Assets\Myassets\Scripts\Generales\CameraFollow.cs" />
      <Compile Include="Assets\Myassets\Scripts\Generales\CoinCollector.cs" />
      <Compile Include="Assets\Myassets\Scripts\Generales\CoinCtrl.cs" />
@@ -64,10 +63,13 @@
      <Compile Include="Assets\Myassets\Scripts\Generales\GuardarPuntoInicial.cs" />
      <Compile Include="Assets\Myassets\Scripts\Generales\HonguitoCtrl.cs" />
      <Compile Include="Assets\Myassets\Scripts\Generales\MainCamera.cs" />
+     <Compile Include="Assets\Myassets\Scripts\Generales\MenuGameOver.cs" />
      <Compile Include="Assets\Myassets\Scripts\Generales\MonedasScript.cs" />
      <Compile Include="Assets\Myassets\Scripts\Generales\MuertePorCaida.cs" />
      <Compile Include="Assets\Myassets\Scripts\Generales\Numero.cs" />
      <Compile Include="Assets\Myassets\Scripts\Generales\Numero2.cs" />
+     <Compile Include="Assets\Myassets\Scripts\Generales\PortalCambio.cs" />
+     <Compile Include="Assets\Myassets\Scripts\Generales\setearOperacion.cs" />
      <Compile Include="Assets\Myassets\Scripts\Generales\SFX.cs" />
      <Compile Include="Assets\Myassets\Scripts\Generales\SFXCtrl.cs" />
      <Compile Include="Assets\Myassets\Scripts\Generales\SistemaDejuego.cs" />
@@ -83,8 +85,6 @@
      <Compile Include="Assets\Myassets\Scripts\Player\seguimientoPuntero.cs" />
      <Compile Include="Assets\Myassets\Sprites\Spooky Woods\Example\Scripts\BackgroundParallax.cs" />
      <Compile Include="Assets\Myassets\Sprites\Spooky Woods\Example\Scripts\CameraMove.cs" />
-     <Compile Include="Assets\PortalCambio.cs" />
-     <Compile Include="Assets\setearOperacion.cs" />
      <None Include="Assets\Myassets\Sprites\Actors\Enemies\monster_round\get more at bevouliin_dot_com.txt" />
      <None Include="Assets\Myassets\Sprites\Mossy Woods\Readme.txt" />
      <None Include="Assets\Myassets\Sprites\Fantasy Character\_TXT\LICENSES.txt" />
