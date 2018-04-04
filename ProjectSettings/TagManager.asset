@@ -10,6 +10,8 @@ TagManager:
   - honguitoVioleta
   - Bone
   - Signo
+  - PlayerFeet
+  - Orquito
   layers:
   - Default
   - TransparentFX

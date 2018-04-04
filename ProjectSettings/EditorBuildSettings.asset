@@ -6,5 +6,5 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Myassets/Scenes/Noche.unity
+    path: Assets/Myassets/Scenes/0.unity
     guid: 859d255e7ef9241ba8eb58bb4237ca66

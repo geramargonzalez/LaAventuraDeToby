@@ -44,14 +44,12 @@ public class PlayerController : MonoBehaviour {
 
 	bool cantfall;
 
-	public GameObject gameManager;
-	private SistemaDejuego sisJuego;
+
 
 
 	// Use this for initialization
 	void Start () {
-		gameManager = GameObject.Find ("SistemaDejuego");
-		sisJuego = gameManager.GetComponent<SistemaDejuego>();
+		
 	
 		rg = GetComponent<Rigidbody2D>();
 		sp = GetComponent<SpriteRenderer>();
@@ -127,13 +125,6 @@ public class PlayerController : MonoBehaviour {
 			anim.SetInteger ("state",2);
 			//Invoke("EnableDoubleJump",delayDoubleJump);
 		}
-
-		/*if(canDoublejump && !isGrounded){
-			rg.velocity = Vector2.zero;
-			rg.AddForce (new Vector2 (0, jumpSpeed)); // Solo hace saltar al personaje.
-			anim.SetInteger ("state",2);
-			canDoublejump = false;
-		}*/
 	}
 
 
@@ -154,8 +145,9 @@ public class PlayerController : MonoBehaviour {
 		if(other.gameObject.CompareTag("GROUND")){
 			isJumping = false;
 		}
-		if (other.gameObject.tag == "Enemigos") {
-			sisJuego.restarVidas();
+		//Orquito
+		if (other.gameObject.tag == "Enemigos" || other.gameObject.tag == "Orquito") {
+			SistemaDejuego.instance.PlayerDiedAnimaton (gameObject);
 		}
 	}
 

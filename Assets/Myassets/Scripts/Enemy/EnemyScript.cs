@@ -9,7 +9,7 @@ public class EnemyScript : MonoBehaviour {
 	float speed;
 
 	public GameObject gameManager;
-	private SistemaDejuego sisJuego;
+
 
 	//private GameObject player;
 	private GameObject respuestas;
@@ -45,7 +45,6 @@ public class EnemyScript : MonoBehaviour {
 		move = false;
 		anim = gameObject.GetComponent<Animator> ();
 
-		sisJuego = gameManager.GetComponent<SistemaDejuego>();
 	
 		respuestas = GameObject.Find ("Repuestas");
 
@@ -83,17 +82,17 @@ public class EnemyScript : MonoBehaviour {
 		
 
 	public void finAttack(){
-		sisJuego.attack = false;
-		anim.SetBool ("Attack", sisJuego.attack);
+		SistemaDejuego.instance.attack = false;
+		anim.SetBool ("Attack", SistemaDejuego.instance.attack);
 	}
 
 	public void Atacar(){
-		sisJuego.attack = true;
-		anim.SetBool ("Attack", sisJuego.attack);
+		SistemaDejuego.instance.attack = true;
+		anim.SetBool ("Attack",SistemaDejuego.instance.attack);
 	}
 
 	void OnTriggerEnter2D(Collider2D other) {
-		sisJuego.recibirTroll(this.gameObject);
+		SistemaDejuego.instance.recibirTroll(this.gameObject);
 		Walk();
 		if (other.gameObject.tag == "Player") {
 			if (ok) {
@@ -119,19 +118,16 @@ public class EnemyScript : MonoBehaviour {
 	{
 		if (other.gameObject.tag == "Player") {
 
-			ui.texttimeOp.text = "";
-			opHabilitada = false;
 			Idle ();
-			StopCoroutine (tiempoDecambio ());
-			tablas.SetActive(false);
-			respuestas.SetActive (false);
-			sisJuego.detenerAtaque ();
-			ok = true;
 
-			if(attack == true){
-				attack = false;
-				anim.SetBool("Attack", attack);
-			}
+			detenerOperacion();
+
+			//ok = true;
+
+			//if(attack == true){
+				//attack = false;
+				//anim.SetBool("Attack", attack);
+			//}
 		}
 	}
 
@@ -147,10 +143,9 @@ public class EnemyScript : MonoBehaviour {
 
 	IEnumerator tiempoDecambio(){
 		
-		restaurarValoresTiempo ();
-		//sisJuego.cargarPosiciones(this.gameObject.transform);
+			restaurarValoresTiempo ();
 
-			// Desactivo los numeros.
+			//Desactivo los numeros.
 			gameScript.desactivarObjetos();
 			gameScript2.desactivarObjetos();
 			scriptTipoOp.desactivarObjetos();
@@ -158,15 +153,21 @@ public class EnemyScript : MonoBehaviour {
 
 	
 		//Muestro los numeros seleccionados para la operacion
-		scriptTipoOp.setearSigno(sisJuego.ObtenerSigno());
-		gameScript.setearNumero(sisJuego.pasarNumero2());
-		gameScript2.setearNumero(sisJuego.pasarNumero1());
+		scriptTipoOp.setearSigno(SistemaDejuego.instance.ObtenerSigno());
+
+		//Numero de la Izquiera
+		gameScript.setearNumero(SistemaDejuego.instance.pasarNumeroIzquierda());
+
+		//Numero de la Derecha
+		gameScript2.setearNumero(SistemaDejuego.instance.pasarNumeroDerecha());
+
+
 
 		//Multiplico las operaciones
-		sisJuego.OperacionMultiplicar();
+		SistemaDejuego.instance.OperacionAritmetica();
 
 		//seteo las tablas
-		sisJuego.EleccionTabla();
+		SistemaDejuego.instance.EleccionTabla();
 
 		//Activo las tablas
 		tablas.SetActive(true);
@@ -179,7 +180,8 @@ public class EnemyScript : MonoBehaviour {
 
 		//Si pasan los 10 segundos ataco al personaje
 		ok = true;
-		attack = sisJuego.AtaqueEnemigo();
+
+		attack = SistemaDejuego.instance.AtaqueEnemigo();
 
 	
 	}
@@ -187,7 +189,9 @@ public class EnemyScript : MonoBehaviour {
 	void DeactivateChildren(GameObject g, bool a) {
 
 		//g.activeSelf = a;
+
 		g.SetActive(a);
+
 		foreach (Transform child in g.transform) {
 			DeactivateChildren(child.gameObject, a);
 		}
@@ -218,4 +222,13 @@ public class EnemyScript : MonoBehaviour {
 			ui.texttimeOp.color = Color.red;
 		}
 	}
+
+	public void detenerOperacion(){
+		StopCoroutine (tiempoDecambio ());
+		ui.texttimeOp.text = "";
+		opHabilitada = false;
+		tablas.SetActive(false);
+		respuestas.SetActive (false);
+	}
+
 }

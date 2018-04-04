@@ -52,7 +52,10 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Myassets\Scripts\Enemy\Enemy.cs" />
+     <Compile Include="Assets\Myassets\Scripts\Enemy\EnemyHeadCtrl.cs" />
+     <Compile Include="Assets\Myassets\Scripts\Enemy\EnemyPatrol.cs" />
      <Compile Include="Assets\Myassets\Scripts\Enemy\EnemyScript.cs" />
+     <Compile Include="Assets\Myassets\Scripts\Enemy\HeadCtrl.cs" />
      <Compile Include="Assets\Myassets\Scripts\Generales\ActivarYCamera.cs" />
      <Compile Include="Assets\Myassets\Scripts\Generales\CameraFollow.cs" />
      <Compile Include="Assets\Myassets\Scripts\Generales\CoinCollector.cs" />
@@ -79,10 +82,10 @@
      <Compile Include="Assets\Myassets\Scripts\Plataformas\platformaMovil.cs" />
      <Compile Include="Assets\Myassets\Scripts\Player\checkGround.cs" />
      <Compile Include="Assets\Myassets\Scripts\Player\FeetCtrl.cs" />
-     <Compile Include="Assets\Myassets\Scripts\Player\HeadCtrl.cs" />
      <Compile Include="Assets\Myassets\Scripts\Player\PersonajeController.cs" />
      <Compile Include="Assets\Myassets\Scripts\Player\PlayerController.cs" />
      <Compile Include="Assets\Myassets\Scripts\Player\seguimientoPuntero.cs" />
+     <Compile Include="Assets\Myassets\Sprites\Orc Warrior\Scripts\MouseController.cs" />
      <Compile Include="Assets\Myassets\Sprites\Spooky Woods\Example\Scripts\BackgroundParallax.cs" />
      <Compile Include="Assets\Myassets\Sprites\Spooky Woods\Example\Scripts\CameraMove.cs" />
      <None Include="Assets\Myassets\Sprites\Actors\Enemies\monster_round\get more at bevouliin_dot_com.txt" />

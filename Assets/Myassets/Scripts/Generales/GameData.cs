@@ -10,13 +10,21 @@ using System;
 public class GameData 
 {
 
-	public int fallos;
+
 	public int puntos;
 	public int vidas;
 	public int nivel;
 	public int monedas;
 	public int cantidadTrolls;
-	public bool yaJugo = false;
+
+
+	//Contador global y por cada cuenta
+	public int fallos;
+	public int fallosMultiplicacion;
+	public int fallosSuma;
+	public int fallosResta;
+	public int fallosDivision;
+
 
 
 }

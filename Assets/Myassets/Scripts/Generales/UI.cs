@@ -26,6 +26,8 @@ public class UI  {
 
 	public Text texttimeOp;
 
+	public Text textFallos;
+
 
 	[Header("Textos de Habilidades")]
 

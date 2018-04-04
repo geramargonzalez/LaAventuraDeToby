@@ -63,7 +63,7 @@ public class MonedasScript : MonoBehaviour {
 
 			audioCoins.Play();
 		
-			sisJuego.sumarMonedas();
+			SistemaDejuego.instance.SumarBone ();
 		
 			if(coinFX == CoinFX.Vanish){
 

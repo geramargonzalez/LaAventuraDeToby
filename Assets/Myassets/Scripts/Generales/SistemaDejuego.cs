@@ -68,32 +68,53 @@ public class SistemaDejuego : MonoBehaviour {
 	//Interface Grafica
 	public UI ui;
 
+	int numeroUsuaio;
 
 	float restartdevel;
+
+	int bigBoneValue = 10;
+	int orquitosValues = 500;
+	int enemyValue = 1000;
+
+	public enum Item {
+		Enemigos,
+		Orquitos,
+		Bone
+	}
+
+		void Awake(){
+
+		if(instance == null){
+			
+			instance = this;
+		}
+
+		bf = new BinaryFormatter ();
+		dataFilePath = Application.persistentDataPath + "/game.dat";
+
+	}
+
 
 
 	// Use this for initialization
 	void Start () {
 
-		if(instance == null){
-
-			instance = this;
-		}
+		
 
 		camera = GameObject.Find("Main Camera");
 		mainCamera = camera.GetComponent<MainCamera> ();
 
 		activarYCamera = GameObject.Find("ActivarYCamera");
 
-		bf = new BinaryFormatter ();
-		dataFilePath = Application.persistentDataPath + "/game.dat";
+
+		//Debug.Log (dataFilePath);
 
 		player = GameObject.Find ("Dog");
 		persController = player.GetComponent<PlayerController>();
 
 		enemies = GameObject.FindGameObjectsWithTag("Enemigos");
 
-	
+		Debug.Log ("Start Metodo");
 		Comenzar ();
 
 	}
@@ -119,9 +140,7 @@ public class SistemaDejuego : MonoBehaviour {
 	public void SaveData () {
 
 		FileStream fs = new FileStream (dataFilePath, FileMode.Create);
-
-		gData.yaJugo = true;
-
+	
 		bf.Serialize (fs, gData);
 
 		fs.Close (); 															// Close connection
@@ -131,20 +150,22 @@ public class SistemaDejuego : MonoBehaviour {
 
 	public void LoadData () {
 
-		if(File.Exists(dataFilePath)){
+		if (File.Exists (dataFilePath)) {
 
 			FileStream fs = new FileStream (dataFilePath, FileMode.Open);
 
-			ui.txMonedas.text =  gData.monedas.ToString();  				// Para cargar el los coin cuando hacen terminar.
+			ui.txMonedas.text = gData.monedas.ToString ();  				// Para cargar el los coin cuando hacen terminar.
 
-			ui.txtPuntos.text = gData.puntos.ToString();
+			ui.txtPuntos.text = gData.puntos.ToString ();
 
-			ui.txtVidas.text = gData.vidas.ToString();
+			Debug.Log ("LoadData Metodo");
 
 			gData = (GameData)bf.Deserialize (fs);
-		}
-
+		
+		} 
 	}
+
+
 
 	void OnEnable(){
 
@@ -165,9 +186,7 @@ public class SistemaDejuego : MonoBehaviour {
 		FileStream fs = new FileStream (dataFilePath, FileMode.Create);
 
 		gData.vidas = 5;
-
-		//UpdateHearts ();
-
+	
 		gData.monedas = 0;
 
 		gData.puntos = 0;
@@ -189,35 +208,23 @@ public class SistemaDejuego : MonoBehaviour {
 
 	public void Comenzar(){
 
-		//Cargo las variables
+		Debug.Log ( "Comenzar: vidas  " + gData.vidas);
+
 		timeLeft = maxtime;
-		mainCamera.QuitarYCamera ();
 
 		if(!pnMenuJuegoTerminado.activeSelf){
 
 			Time.timeScale = 1f;
 		
 		}
-
-
-		if(!gData.yaJugo){
-
-			gData.vidas = 5;
-			gData.puntos = 0;
-			gData.nivel = 0;
-			gData.monedas = 0;
-		
-		}
-
+			
+		mainCamera.QuitarYCamera ();
 		gData.cantidadTrolls = enemies.Length;
 		ui.txtCantEnemigos.text = gData.cantidadTrolls.ToString();
-	
-	}
 
-	public void OcultarSignos(){
+		RestaurarVidas ();
+	}
 		
-	}
-
 
 	//Todos los metodos Randomicos
 
@@ -249,16 +256,23 @@ public class SistemaDejuego : MonoBehaviour {
 	//Nivel actual del jugador.
 
 	public void NivelDejuego(){
+
 		if(gData.nivel == 0){
+
 			min = 0;
 			max = 3;
+		
 		} else if (gData.nivel == 1){
 			min = 3;
 			max = 6;
+		
 		}else if (gData.nivel == 2){
+		
 			min = 6;
 			max = 9;
+		
 		} else if (gData.nivel == 2){
+
 			//Nivel maximo es un repaso de todos lo demas
 			min = 0;
 			max = 9;
@@ -267,52 +281,65 @@ public class SistemaDejuego : MonoBehaviour {
 	}
 
 	public void EleccionTabla(){
+
 		if (!destruirTrolls.activeSelf) {
+		
 			destruirTrolls.SetActive(true);
+		
 		}
 
 		OkGenerar();
 
 		if(generar){
+
 			IngresarRespuestas();
+		
 			generar = false;
+		
 		}
 
 	}
 
 	 public void ResultadoOperacion(int num){
-		if (resultado == respuestas [num]) {
-
-			die = true;
 
 
-			persController.AumentarJump();
-			posiciones.Add(tmp);
-			LimpiarRespuestas ();
-			trollDeath.SetBool("Die", die);
-			trollDeath.SetBool("Attack", false);
-			gData.cantidadTrolls--;
-			ui.txtCantEnemigos.text = gData.cantidadTrolls.ToString ();
+		numeroUsuaio = num;
 
-			if(gData.cantidadTrolls == 1){
-				persController.QuedaUnSoloTroll ();
+
+			if (resultado == respuestas [num]) {
+
+				die = true;
+				persController.AumentarJump();
+				posiciones.Add(tmp);
+				LimpiarRespuestas ();
+				trollDeath.SetBool("Die", die);
+				trollDeath.SetBool("Attack", false);
+				gData.cantidadTrolls--;
+				ui.txtCantEnemigos.text = gData.cantidadTrolls.ToString ();
+				gnScript.detenerOperacion ();
+				sumarPuntos (Item.Enemigos);
+
+				if(gData.cantidadTrolls == 1){
+					persController.QuedaUnSoloTroll ();
 				}
 
-			if(gData.cantidadTrolls == 0){
-				persController.CeroTroll ();
+				if(gData.cantidadTrolls == 0){
+					persController.CeroTroll ();
+				}
+
+			} else {
+
+				SumarFallos();
+				StartCoroutine(TiempoAtaqueEnemigo());
 			}
 
-		} else {
-
-			SumarFallos();
-			StartCoroutine(TiempoAtaqueEnemigo());
-		}
 
 	}
 
 
 
-	public int pasarNumero1(){
+
+	public int pasarNumeroDerecha(){
 		
 		numero1 = GeneradorNumeroRandom();
 
@@ -320,7 +347,7 @@ public class SistemaDejuego : MonoBehaviour {
 	
 	}
 
-	public int pasarNumero2(){
+	public int pasarNumeroIzquierda(){
 
 		numero2 = GeneradorNumeroRandomIzquierda();
 	
@@ -336,7 +363,7 @@ public class SistemaDejuego : MonoBehaviour {
 	
 	}
 
-	public void OperacionMultiplicar(){
+	public void OperacionAritmetica(){
 
 		if(signo == 0){
 			
@@ -349,15 +376,41 @@ public class SistemaDejuego : MonoBehaviour {
 		}
 
 		else if(signo == 2){
-			resultado = numero1 - numero2;
+			
+			operacionRestar ();
 		}
 
 		else if(signo == 3){
 			
-			resultado = numero1 / numero2;
+			operacionDividir ();
 		
 		}
 
+
+	}
+
+
+	void operacionRestar(){
+
+		if (numero1 > numero2) {
+
+			resultado = numero1 - numero2;
+		
+		} else if (numero2 > numero1) {
+
+			resultado = numero2 - numero1;
+		
+		} else {
+
+			resultado = numero1 - numero2;
+		}
+
+	}
+
+	void operacionDividir(){
+
+		float entera = numero2 / numero1;
+		resultado = (int)entera;
 
 	}
 
@@ -369,6 +422,7 @@ public class SistemaDejuego : MonoBehaviour {
 		attack = true;
 		trollDeath.SetBool("Attack",true);
 		return attack;
+	
 	}
 
 	public void detenerAtaque(){
@@ -448,34 +502,77 @@ public class SistemaDejuego : MonoBehaviour {
 	}
 
 	public void BotonRespuestas(){
+
 		for(int i=0;  i < respuestas.Count; i++){
+		
 			txtOpciones[i].text = respuestas[i].ToString();
 		}
 	}
+
 	public void LimpiarRespuestas(){
+
 		for(int i=0;  i < respuestas.Count; i++){
+
 			txtOpciones[i].text = " ";
+		
 		}
+	
 	}
 
 
 	public void recibirTroll(GameObject untroll){
+
 		destruirTrolls = untroll;
 		trollDeath = destruirTrolls.GetComponent<Animator>();
 		SetearActualEnemigos(untroll);
+	
 	}
 
 
 
 	// Todo sobre las vidas, fallos puntajes
-	public void sumarPuntos(){
-		gData.puntos = gData.puntos + 1000;
+	public void sumarPuntos(Item pItem){
+		int itemValue = 0;
+
+		switch (pItem) {
+
+		case Item.Bone:
+
+			itemValue = bigBoneValue; 
+			break;
+
+		case Item.Enemigos:
+
+			itemValue = enemyValue;
+			break;
+
+		case Item.Orquitos:
+
+			itemValue = orquitosValues;
+			break;
+
+		default:
+			break;
+
+		}
+		gData.puntos += itemValue ;
 		ui.txtPuntos.text = gData.puntos.ToString ();
 	}
 
 	public void SumarFallos(){
 		gData.fallos++;
+		txtFallos ();
 		persController.DisminuirJump ();
+	}
+
+	public void txtFallos(){
+
+		//Animator anim = ui.textFallos.gameObject.GetComponent<Animator> ();
+		//anim.SetBool ("enter", true);
+		ui.textFallos.text = "Fallos: " + gData.fallos.ToString();
+		if(gData.fallos == 5){
+			restarVidas ();
+		}
 	}
 
 	public void restarVidas(){
@@ -485,17 +582,22 @@ public class SistemaDejuego : MonoBehaviour {
 	public void ActualizarUIVidas(){
 		int tmp = gData.vidas;
 		ui.vidasGo [tmp].SetActive (false);
+
 	}
 
 	public void RestaurarVidas(){
-		for (int i = 0; i < 5; i++) {
+
+		for (int i = 0; i <= gData.vidas-1; i++) {
+
 			ui.vidasGo [i].SetActive (true);
+		
 		}
 	}
 
 	public void CheckLives(){
 
 		gData.vidas--;
+	
 
 		if (gData.vidas == 0) {
 			gData.vidas = 5;
@@ -503,18 +605,29 @@ public class SistemaDejuego : MonoBehaviour {
 			Invoke ("GameOver", restartdevel);
 		
 		} else {
+
+
+			//SaveData ();
 			ActualizarUIVidas();
+			SaveData ();
+			Invoke ("RestartLevel", restartdevel);
+			
 		}
+	
 	}
-	public void sumarMonedas(){
+
+	public void SumarBone(){
+
 		gData.monedas++;
-		gData.puntos = gData.puntos + 100;
+		gData.puntos += bigBoneValue;
 		ui.txtPuntos.text = gData.puntos.ToString();
 		ui.txMonedas.text = gData.monedas.ToString();
 		if(gData.monedas == 100){
 			gData.monedas = 0;
 			ui.txMonedas.text = gData.monedas.ToString();
+		
 		}
+	
 	}
 
 
@@ -525,7 +638,7 @@ public class SistemaDejuego : MonoBehaviour {
 
 
 	public void RestartLevel(){
-		SceneManager.LoadScene ("Noche");
+		SceneManager.LoadScene (gData.nivel.ToString());
 
 	}
 
@@ -548,12 +661,19 @@ public class SistemaDejuego : MonoBehaviour {
 
 
 	public void SetearActualEnemigos(GameObject pGO){
+
 		for(int i = 0; i <= enemies.Length-1; i++){
+
 			if(pGO.name == enemies[i].name){
+
 				enemy = pGO;
+
 				gnScript = enemy.GetComponent<EnemyScript>();
+			
 			}
+		
 		}
+	
 	}
 
 
@@ -580,6 +700,63 @@ public class SistemaDejuego : MonoBehaviour {
 		Application.Quit();
 	}
 
+	public void EnemyStompsEnemy(GameObject enemy){
+
+		// Change the enemy tag
+		enemy.tag = "Untagged";
+
+		//Destroy the enemy
+		Destroy(enemy);
+
+		//Update Score
+		//UpdateScore(Item.Enemy);
+
+		sumarPuntos (Item.Orquitos);
+
+	}
+
+
+
+	public void PlayerDiedAnimaton (GameObject player){
+
+		//Tomamos el Rigibody
+		Rigidbody2D rb = player.GetComponent<Rigidbody2D>();
+		rb.AddForce (new Vector2(-150f,400f));
+
+		player.transform.Rotate (new Vector3(0f,0f,45f));
+
+		player.GetComponent<PlayerController> ().enabled = false;
+
+		foreach(Collider2D col in player.transform.GetComponents<Collider2D>()){
+			col.enabled = false;
+		}
+
+		foreach(Transform tra in player.transform){
+			tra.gameObject.SetActive (true);
+		}
+
+		Camera.main.GetComponent<MainCamera> ().enabled = false;
+
+		rb.velocity = Vector2.zero;
+
+		StartCoroutine ("PausaForReload",player);
+
+	}
+
+	IEnumerator PausaForReload(GameObject player){
+
+		yield return new WaitForSeconds (1.0f);
+		PlayerDies (player);
+
+	}
+
+	/// </summary>
+	public void PlayerDies(GameObject player){
+
+		player.SetActive (false);
+		restarVidas();
+
+	}
 
 
 }
