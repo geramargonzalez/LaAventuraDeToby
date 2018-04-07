@@ -8,11 +8,11 @@ public class EnemyScript : MonoBehaviour {
 
 	float speed;
 
-	public GameObject gameManager;
+	//public GameObject gameManager;
 
 
 	//private GameObject player;
-	private GameObject respuestas;
+	public GameObject respuestas;
 
 	public bool attack;
 	bool move;
@@ -25,6 +25,9 @@ public class EnemyScript : MonoBehaviour {
 
 	public GameObject signo;
 		   setearOperacion scriptTipoOp;
+
+
+
 
 
 	bool ok = true;
@@ -45,9 +48,10 @@ public class EnemyScript : MonoBehaviour {
 		move = false;
 		anim = gameObject.GetComponent<Animator> ();
 
-	
-		respuestas = GameObject.Find ("Repuestas");
 
+	//	respuestas = GameObject.Find ("Respuestas");
+	
+		//respuestas.SetActive (false);
 		tablas.SetActive (false);
 
 		gameScript = numeroUno.GetComponent<Numero> ();
@@ -92,9 +96,16 @@ public class EnemyScript : MonoBehaviour {
 	}
 
 	void OnTriggerEnter2D(Collider2D other) {
+
+
 		SistemaDejuego.instance.recibirTroll(this.gameObject);
+
 		Walk();
+
 		if (other.gameObject.tag == "Player") {
+
+			SistemaDejuego.instance.ActivarBotonRespuestas();
+
 			if (ok) {
 				StartCoroutine (tiempoDecambio());
 			} 
@@ -118,9 +129,11 @@ public class EnemyScript : MonoBehaviour {
 	{
 		if (other.gameObject.tag == "Player") {
 
+			//SistemaDejuego.instance.DesactivarBotonRespuestas ();
+
 			Idle ();
 
-			detenerOperacion();
+		   detenerOperacion();
 
 			//ok = true;
 
@@ -136,13 +149,17 @@ public class EnemyScript : MonoBehaviour {
 	
 		if (coll.gameObject.tag == "Player")
 			Atacar();
+			respuestas.SetActive (false);
 	
 	}
 
 
 
+
 	IEnumerator tiempoDecambio(){
-		
+
+			
+
 			restaurarValoresTiempo ();
 
 			//Desactivo los numeros.
@@ -229,6 +246,9 @@ public class EnemyScript : MonoBehaviour {
 		opHabilitada = false;
 		tablas.SetActive(false);
 		respuestas.SetActive (false);
+
 	}
+
+
 
 }

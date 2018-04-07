@@ -21,6 +21,8 @@ public class SistemaDejuego : MonoBehaviour {
 	//Todos los enemigos por Pantalla o Operaciones a derrotar
 	GameObject[] enemies;
 
+	GameObject[] goRespuestas;
+
 	int signo;
 
 	private List<Transform> posiciones = new List<Transform>();
@@ -62,7 +64,7 @@ public class SistemaDejuego : MonoBehaviour {
 	GameObject activarYCamera;
 
 	//Enemigo derrotado
-	GameObject destruirTrolls;
+	GameObject trollActual;
 	Animator trollDeath; 
 
 	//Interface Grafica
@@ -75,6 +77,10 @@ public class SistemaDejuego : MonoBehaviour {
 	int bigBoneValue = 10;
 	int orquitosValues = 500;
 	int enemyValue = 1000;
+
+	int enemigosActivos;
+
+	bool operacionConcretada;
 
 	public enum Item {
 		Enemigos,
@@ -99,22 +105,18 @@ public class SistemaDejuego : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-		
-
 		camera = GameObject.Find("Main Camera");
 		mainCamera = camera.GetComponent<MainCamera> ();
 
 		activarYCamera = GameObject.Find("ActivarYCamera");
 
-
-		//Debug.Log (dataFilePath);
-
 		player = GameObject.Find ("Dog");
+
 		persController = player.GetComponent<PlayerController>();
 
 		enemies = GameObject.FindGameObjectsWithTag("Enemigos");
+		goRespuestas = GameObject.FindGameObjectsWithTag("btnRespuesta");
 
-		Debug.Log ("Start Metodo");
 		Comenzar ();
 
 	}
@@ -143,26 +145,38 @@ public class SistemaDejuego : MonoBehaviour {
 	
 		bf.Serialize (fs, gData);
 
-		fs.Close (); 															// Close connection
+		fs.Close (); 	
+
+
 
 	}
 
 
 	public void LoadData () {
 
+
+
 		if (File.Exists (dataFilePath)) {
 
 			FileStream fs = new FileStream (dataFilePath, FileMode.Open);
 
-			ui.txMonedas.text = gData.monedas.ToString ();  				// Para cargar el los coin cuando hacen terminar.
+			gData = (GameData)bf.Deserialize (fs);
+
+			//gData.tiempoActual = maxtime;
+	
+			ui.txMonedas.text = gData.monedas.ToString ();  				
 
 			ui.txtPuntos.text = gData.puntos.ToString ();
 
-			Debug.Log ("LoadData Metodo");
+			if(!gData.yaJugo){
+			
+				gData.GuardarPosicionInicial ();
+		
+			}
 
-			gData = (GameData)bf.Deserialize (fs);
 		
 		} 
+	
 	}
 
 
@@ -195,11 +209,15 @@ public class SistemaDejuego : MonoBehaviour {
 
 		ui.txMonedas.text = "0";
 
+		gData.tiempoActual = gData.ResetTime ();
+
+		gData.yaJugo = false;
+
 		RestaurarVidas ();
 
 		bf.Serialize (fs, gData);
 
-		fs.Close ();										 //Close Connection
+		fs.Close ();										 
 
 	}
 
@@ -208,9 +226,12 @@ public class SistemaDejuego : MonoBehaviour {
 
 	public void Comenzar(){
 
-		Debug.Log ( "Comenzar: vidas  " + gData.vidas);
+		gData.yaJugo = false;
 
-		timeLeft = maxtime;
+		player.transform.position = new Vector3 (gData.x, gData.y, gData.z);
+		//Debug.Log ("Metodo: Comenzar");
+
+		timeLeft = gData.tiempoActual;
 
 		if(!pnMenuJuegoTerminado.activeSelf){
 
@@ -218,27 +239,28 @@ public class SistemaDejuego : MonoBehaviour {
 		
 		}
 			
-		mainCamera.QuitarYCamera ();
-		gData.cantidadTrolls = enemies.Length;
-		ui.txtCantEnemigos.text = gData.cantidadTrolls.ToString();
+		MarcarOperacionesNoRealizadas ();
+		EnemigosDerrotados();
+		gData.cantidadTrolls = enemigosActivos;
 
+		mainCamera.QuitarYCamera ();
+		ui.txtCantEnemigos.text = gData.cantidadTrolls.ToString();
 		RestaurarVidas ();
+	
 	}
 		
-
-	//Todos los metodos Randomicos
 
 	public int GenerarSignoUIRandom(){
 		
 		float random = Random.Range(0f,3f);
-		Debug.Log ((int)random);
+
 		return (int)random;
 	}
 
 	public int GeneradorNumeroRandom(){
-		NivelDejuego();
-		float random = Random.Range((float)min,(float)max);
-		return (int)random;
+		 NivelDejuego();
+		 float random = Random.Range((float)min,(float)max);
+		 return (int)random;
 	}
 
 	public int GeneradorNumeroRandomIzquierda(){
@@ -254,7 +276,6 @@ public class SistemaDejuego : MonoBehaviour {
 
 
 	//Nivel actual del jugador.
-
 	public void NivelDejuego(){
 
 		if(gData.nivel == 0){
@@ -263,6 +284,7 @@ public class SistemaDejuego : MonoBehaviour {
 			max = 3;
 		
 		} else if (gData.nivel == 1){
+
 			min = 3;
 			max = 6;
 		
@@ -273,7 +295,6 @@ public class SistemaDejuego : MonoBehaviour {
 		
 		} else if (gData.nivel == 2){
 
-			//Nivel maximo es un repaso de todos lo demas
 			min = 0;
 			max = 9;
 		}
@@ -282,9 +303,9 @@ public class SistemaDejuego : MonoBehaviour {
 
 	public void EleccionTabla(){
 
-		if (!destruirTrolls.activeSelf) {
+		if (!trollActual.activeSelf) {
 		
-			destruirTrolls.SetActive(true);
+			trollActual.SetActive(true);
 		
 		}
 
@@ -302,7 +323,10 @@ public class SistemaDejuego : MonoBehaviour {
 
 	 public void ResultadoOperacion(int num){
 
-
+		if(!gData.yaJugo){
+			gData.yaJugo = true;
+		}
+			
 		numeroUsuaio = num;
 
 
@@ -310,14 +334,25 @@ public class SistemaDejuego : MonoBehaviour {
 
 				die = true;
 				persController.AumentarJump();
+				
 				posiciones.Add(tmp);
 				LimpiarRespuestas ();
+				DesactivarBotonRespuestas ();
+				
+				
 				trollDeath.SetBool("Die", die);
 				trollDeath.SetBool("Attack", false);
 				gData.cantidadTrolls--;
 				ui.txtCantEnemigos.text = gData.cantidadTrolls.ToString ();
+				
 				gnScript.detenerOperacion ();
+				
 				sumarPuntos (Item.Enemigos);
+				
+
+			    operacionConcretada = true;
+				OperacionesAritmeticasCompletadas ();
+			    
 
 				if(gData.cantidadTrolls == 1){
 					persController.QuedaUnSoloTroll ();
@@ -335,6 +370,37 @@ public class SistemaDejuego : MonoBehaviour {
 
 
 	}
+
+	public void OperacionesAritmeticasCompletadas(){
+		
+
+		for(int i=0; i < enemies.Length; i++){
+
+			if (trollActual.name == enemies [i].name && operacionConcretada) {
+
+				gData.operaRealizadas [i] = true;
+
+			}
+		}
+		
+	}
+
+
+
+	public void MarcarOperacionesNoRealizadas(){
+
+		if(!gData.yaJugo) {
+
+			gData.operaRealizadas = new bool[enemies.Length];
+
+			for(int i=0; i < gData.operaRealizadas .Length; i++){
+
+				gData.operaRealizadas [i] = false;
+			}
+		}
+
+	}
+		
 
 
 
@@ -448,21 +514,20 @@ public class SistemaDejuego : MonoBehaviour {
 		int tmp = 0;		
 
 		for(int i = 0;  i < 3; i++){
+
 			if(i < 2){
 
 				tmp = GeneradorNumeroRandomRespuesta();
 				arrDes.Add(tmp);
 
 			} else if(i == 2){
-
-				//Agrego el resultado de la operacion
+				
 				arrDes.Add(resultado);
 
 			}
 
 		}
-
-		//Desordeno las respuestas para mostrarlas
+			
 		respuestas = DesordenarListados(arrDes);
 		BotonRespuestas();
 	
@@ -519,12 +584,33 @@ public class SistemaDejuego : MonoBehaviour {
 	
 	}
 
+	public void DesactivarBotonRespuestas(){
+
+		for(int i=0;  i < goRespuestas.Length; i++){
+
+			goRespuestas [i].SetActive (false);
+
+		}
+	}
+
+
+	public void ActivarBotonRespuestas(){
+
+		for(int i=0;  i < goRespuestas.Length; i++){
+
+			goRespuestas [i].SetActive (true);
+
+		}
+	}
+
+
+
 
 	public void recibirTroll(GameObject untroll){
 
-		destruirTrolls = untroll;
-		trollDeath = destruirTrolls.GetComponent<Animator>();
-		SetearActualEnemigos(untroll);
+		trollActual = untroll;
+		trollDeath = trollActual.GetComponent<Animator>();
+		SetearActualEnemigos(trollActual);
 	
 	}
 
@@ -555,20 +641,21 @@ public class SistemaDejuego : MonoBehaviour {
 			break;
 
 		}
+
 		gData.puntos += itemValue ;
 		ui.txtPuntos.text = gData.puntos.ToString ();
 	}
 
 	public void SumarFallos(){
+		
 		gData.fallos++;
 		txtFallos ();
 		persController.DisminuirJump ();
+	
 	}
 
 	public void txtFallos(){
 
-		//Animator anim = ui.textFallos.gameObject.GetComponent<Animator> ();
-		//anim.SetBool ("enter", true);
 		ui.textFallos.text = "Fallos: " + gData.fallos.ToString();
 		if(gData.fallos == 5){
 			restarVidas ();
@@ -580,6 +667,7 @@ public class SistemaDejuego : MonoBehaviour {
 	}
 
 	public void ActualizarUIVidas(){
+		
 		int tmp = gData.vidas;
 		ui.vidasGo [tmp].SetActive (false);
 
@@ -600,6 +688,7 @@ public class SistemaDejuego : MonoBehaviour {
 	
 
 		if (gData.vidas == 0) {
+			
 			gData.vidas = 5;
 			SaveData();
 			Invoke ("GameOver", restartdevel);
@@ -622,6 +711,7 @@ public class SistemaDejuego : MonoBehaviour {
 		gData.puntos += bigBoneValue;
 		ui.txtPuntos.text = gData.puntos.ToString();
 		ui.txMonedas.text = gData.monedas.ToString();
+
 		if(gData.monedas == 100){
 			gData.monedas = 0;
 			ui.txMonedas.text = gData.monedas.ToString();
@@ -632,19 +722,23 @@ public class SistemaDejuego : MonoBehaviour {
 
 
 	public void GameOver(){
-		
+		ResetData ();
 		pnMenuJuegoTerminado.SetActive (true);
 	}
 
 
 	public void RestartLevel(){
+
 		SceneManager.LoadScene (gData.nivel.ToString());
 
 	}
 
 	public void EnemigosVencidos(){
+
 		if(gData.cantidadTrolls == 1){
+		
 			PantallaTerminada();
+		
 		}
 	}
 
@@ -677,27 +771,27 @@ public class SistemaDejuego : MonoBehaviour {
 	}
 
 
-	/// <summary>
-	///  Todo Sobre el tiempo
-	/// </summary>
 
 	public void UpdateTime(){
 
 		timeLeft -= Time.deltaTime;
-
+		 
 		ui.textTimer.text = "Restan: " + (int)timeLeft;
 
 		if(timeLeft <= 0){
-			//SaveData();
+			
 			GameOver();
 
 		} else if(timeLeft <= 20){
+
 			ui.textTimer.color = Color.red;
 		}
 	}
 
 	public void Salir(){
+	
 		Application.Quit();
+	
 	}
 
 	public void EnemyStompsEnemy(GameObject enemy){
@@ -707,9 +801,7 @@ public class SistemaDejuego : MonoBehaviour {
 
 		//Destroy the enemy
 		Destroy(enemy);
-
-		//Update Score
-		//UpdateScore(Item.Enemy);
+	
 
 		sumarPuntos (Item.Orquitos);
 
@@ -721,7 +813,8 @@ public class SistemaDejuego : MonoBehaviour {
 
 		//Tomamos el Rigibody
 		Rigidbody2D rb = player.GetComponent<Rigidbody2D>();
-		rb.AddForce (new Vector2(-150f,400f));
+
+		rb.AddForce (new Vector2(-150f,900f));
 
 		player.transform.Rotate (new Vector3(0f,0f,45f));
 
@@ -739,7 +832,7 @@ public class SistemaDejuego : MonoBehaviour {
 
 		rb.velocity = Vector2.zero;
 
-		StartCoroutine ("PausaForReload",player);
+		StartCoroutine ("PausaForReload", player);
 
 	}
 
@@ -749,14 +842,58 @@ public class SistemaDejuego : MonoBehaviour {
 		PlayerDies (player);
 
 	}
-
-	/// </summary>
+		
 	public void PlayerDies(GameObject player){
 
+		gData.tiempoActual = timeLeft;
+
+
+		SaveData ();
+
 		player.SetActive (false);
+
 		restarVidas();
 
 	}
 
+	public void EnemigosDerrotados(){
+
+		for(int i=0; i < gData.operaRealizadas.Length; i++){
+
+			if (gData.operaRealizadas [i] == true) {
+				
+				enemies [i].SetActive (false);
+			} 
+
+			else {
+				
+				enemigosActivos++;
+
+			}	
+		 
+		}
+
+	}
+
+
+	public void CheckPointReached(Transform pos){
+		gData.x = pos.position.x + 15f;
+		gData.y = pos.position.y;
+		gData.z = pos.position.z;
+	}
+
+
+	public void checkPointTXT(){
+		StartCoroutine (MsjCheckpointAlcanzado());
+	}
+
+
+	IEnumerator MsjCheckpointAlcanzado(){
+		
+		ui.textCheckPoint.text = "Checkpoint ...";
+		yield return new WaitForSeconds(2.0f);
+		ui.textCheckPoint.text = " ";
+	
+	}
 
 }

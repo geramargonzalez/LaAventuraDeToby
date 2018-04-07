@@ -146,7 +146,7 @@ public class PlayerController : MonoBehaviour {
 			isJumping = false;
 		}
 		//Orquito
-		if (other.gameObject.tag == "Enemigos" || other.gameObject.tag == "Orquito") {
+		if (other.gameObject.tag == "Enemigos" || other.gameObject.tag == "Orquito" || other.gameObject.tag == "Spike") {
 			SistemaDejuego.instance.PlayerDiedAnimaton (gameObject);
 		}
 	}

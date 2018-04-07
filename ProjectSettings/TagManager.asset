@@ -12,6 +12,8 @@ TagManager:
   - Signo
   - PlayerFeet
   - Orquito
+  - Spike
+  - btnRespuesta
   layers:
   - Default
   - TransparentFX

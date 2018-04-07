@@ -6,21 +6,16 @@ public class MuertePorCaida : MonoBehaviour {
 
 
 	public Transform volver;
-
-	public GameObject gameManager;
-	private SistemaDejuego sisJuego;
-
-	// CameraActual  ActivarYCamera
 	GameObject camera;
 	MainCamera mainCamera;
 
 
 	void Start () {
+		
 		camera = GameObject.Find("Main Camera");
-
 		mainCamera = camera.GetComponent<MainCamera> ();
 
-		sisJuego = gameManager.GetComponent<SistemaDejuego>();
+
 	}
 	
 	// Update is called once per frame
@@ -31,9 +26,10 @@ public class MuertePorCaida : MonoBehaviour {
 	void OnTriggerEnter2D(Collider2D other) {
 		
 		if (other.gameObject.tag == "Player") {
-			other.gameObject.transform.position = volver.position;
-			sisJuego.restarVidas();
+
+			//other.gameObject.transform.position = volver.position;
 			mainCamera.QuitarYCamera ();
+			SistemaDejuego.instance.PlayerDies (other.gameObject);
 		}
 	}
 }

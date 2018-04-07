@@ -51,6 +51,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\checkPointAlcanzado.cs" />
+     <Compile Include="Assets\followPlayerRespuestas.cs" />
      <Compile Include="Assets\Myassets\Scripts\Enemy\Enemy.cs" />
      <Compile Include="Assets\Myassets\Scripts\Enemy\EnemyHeadCtrl.cs" />
      <Compile Include="Assets\Myassets\Scripts\Enemy\EnemyPatrol.cs" />
@@ -80,6 +82,7 @@
      <Compile Include="Assets\Myassets\Scripts\Menu\MenuController.cs" />
      <Compile Include="Assets\Myassets\Scripts\Plataformas\PlataformaFalling.cs" />
      <Compile Include="Assets\Myassets\Scripts\Plataformas\platformaMovil.cs" />
+     <Compile Include="Assets\Myassets\Scripts\Player\btnRespuestas.cs" />
      <Compile Include="Assets\Myassets\Scripts\Player\checkGround.cs" />
      <Compile Include="Assets\Myassets\Scripts\Player\FeetCtrl.cs" />
      <Compile Include="Assets\Myassets\Scripts\Player\PersonajeController.cs" />

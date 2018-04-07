@@ -28,6 +28,8 @@ public class UI  {
 
 	public Text textFallos;
 
+	public Text textCheckPoint;
+
 
 	[Header("Textos de Habilidades")]
 
