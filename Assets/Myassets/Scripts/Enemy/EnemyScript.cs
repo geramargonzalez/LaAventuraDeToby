@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EnemyScript : MonoBehaviour {
 
@@ -9,10 +10,8 @@ public class EnemyScript : MonoBehaviour {
 	float speed;
 
 	//public GameObject gameManager;
-
-
 	//private GameObject player;
-	public GameObject respuestas;
+    public GameObject respuestas;
 
 	public bool attack;
 	bool move;
@@ -26,10 +25,6 @@ public class EnemyScript : MonoBehaviour {
 	public GameObject signo;
 		   setearOperacion scriptTipoOp;
 
-
-
-
-
 	bool ok = true;
 
 	public GameObject tablas;
@@ -39,31 +34,55 @@ public class EnemyScript : MonoBehaviour {
 	float timeLeft;
 	bool opHabilitada = false;
 
+
 	public UI ui;
+
+	int pos;
 
 	// Use this for initialization
 	void Start () {
 
 		maxtime = 10;
 		move = false;
-		anim = gameObject.GetComponent<Animator> ();
+		attack = false;
 
 
-	//	respuestas = GameObject.Find ("Respuestas");
-	
+		respuestas = GameObject.Find ("Respuestas");
+
+		ui.texttimeOp = GameObject.Find ("ResetOperacion").GetComponent<Text>();
+
 		//respuestas.SetActive (false);
 		tablas.SetActive (false);
 
 		gameScript = numeroUno.GetComponent<Numero> ();
 		gameScript2 = numeroDos.GetComponent<Numero2> ();
 		scriptTipoOp =   signo.GetComponent<setearOperacion> ();
-
+		anim = GetComponent<Animator> ();
 
 	}
 
 	// Update is called once per frame
 	void Update () {
+		
+		if(SistemaDejuego.instance.matarTroll()){
+			//Debug.Log ("Matar troll esta en true");
+
+			detenerOperacion ();
+			Death ();
+
+
+			//SistemaDejuego.instance.SetDie (false);
+		}
+
+		if(SistemaDejuego.instance.obtenerAttack()){
+			
+			Atacar ();
+		
+		}
+			
 		Mover ();
+
+		finAttack();
 
 		if(timeLeft > 0 && opHabilitada){
 
@@ -79,30 +98,56 @@ public class EnemyScript : MonoBehaviour {
 	}
 
 	public void ocultarTroll(){
-		this.gameObject.SetActive(false);
-		anim.SetBool ("Die", false);
+		
+		StartCoroutine (DestruirTroll());
+	}
 
+
+	IEnumerator DestruirTroll(){
+		
+		//anim.SetBool("Die", SistemaDejuego.instance.matarTroll());
+
+		SistemaDejuego.instance.SetDie(false);
+		//SistemaDejuego.instance.SetAttack(false);
+		SistemaDejuego.instance.SetearCrearNuevoTroll (true);
+
+		yield return new WaitForSeconds(0.05f);
+	
+		Destroy (this.gameObject);
 	}
 		
 
 	public void finAttack(){
-		SistemaDejuego.instance.attack = false;
-		anim.SetBool ("Attack", SistemaDejuego.instance.attack);
+		anim.SetBool ("Attack", SistemaDejuego.instance.obtenerAttack());
 	}
 
 	public void Atacar(){
-		SistemaDejuego.instance.attack = true;
-		anim.SetBool ("Attack",SistemaDejuego.instance.attack);
+		anim.SetBool ("Attack", true);
+	}
+
+	public void Walk(){
+		move = true;
+		anim.SetBool ("walk" , move);
+
+	}
+
+	public void Idle(){
+		move = false;
+		anim.SetBool ("walk", move);
+
+	}
+
+	public void Death(){
+		anim.SetBool ("Die", SistemaDejuego.instance.matarTroll());
 	}
 
 	void OnTriggerEnter2D(Collider2D other) {
 
+		if (other.gameObject.CompareTag("Player")) {
 
-		SistemaDejuego.instance.recibirTroll(this.gameObject);
+			SistemaDejuego.instance.ObtenerEnemigoActual (this.gameObject.transform);
 
-		Walk();
-
-		if (other.gameObject.tag == "Player") {
+			Walk();
 
 			SistemaDejuego.instance.ActivarBotonRespuestas();
 
@@ -113,18 +158,7 @@ public class EnemyScript : MonoBehaviour {
 	}
 		
 
-	public void Walk(){
-		move = true;
-		anim.SetBool ("walk",move);
 
-	}
-
-	public void Idle(){
-		move = false;
-		anim.SetBool ("walk",move);
-
-	}
-		
 	void OnTriggerExit2D(Collider2D other)
 	{
 		if (other.gameObject.tag == "Player") {
@@ -149,7 +183,7 @@ public class EnemyScript : MonoBehaviour {
 	
 		if (coll.gameObject.tag == "Player")
 			Atacar();
-			respuestas.SetActive (false);
+			//respuestas.SetActive (false);
 	
 	}
 
@@ -157,8 +191,6 @@ public class EnemyScript : MonoBehaviour {
 
 
 	IEnumerator tiempoDecambio(){
-
-			
 
 			restaurarValoresTiempo ();
 
@@ -190,15 +222,16 @@ public class EnemyScript : MonoBehaviour {
 		tablas.SetActive(true);
 
 		//Muestros las respuestas
-		respuestas.SetActive(true);
+		//respuestas.SetActive(true);
 
 		//Espero
 		yield return new WaitForSeconds(maxtime);
 
+
 		//Si pasan los 10 segundos ataco al personaje
 		ok = true;
 
-		attack = SistemaDejuego.instance.AtaqueEnemigo();
+		attack = SistemaDejuego.instance.obtenerAttack ();
 
 	
 	}
@@ -245,7 +278,7 @@ public class EnemyScript : MonoBehaviour {
 		ui.texttimeOp.text = "";
 		opHabilitada = false;
 		tablas.SetActive(false);
-		respuestas.SetActive (false);
+		//respuestas.SetActive (false);
 
 	}
 

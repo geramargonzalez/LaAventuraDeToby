@@ -8,38 +8,40 @@ using System.Runtime.Serialization.Formatters.Binary;	 // SRFB helps to work Ser
 
 public class SistemaDejuego : MonoBehaviour {
 
-	//Instancias y tramas
+	//Instancias y Tramas
 	public static SistemaDejuego instance;
 
-
-	//Numeros minimos y maximos para las tablas
+	//Numeros minimos y maximos para las tablas, respuestas
 	public int min, max;
 	int numero1, numero2, resultado;
-
 	List<int> respuestas = new List<int>();
 
+
 	//Todos los enemigos por Pantalla o Operaciones a derrotar
-	GameObject[] enemies;
-
 	GameObject[] goRespuestas;
-
-	int signo;
-
-	private List<Transform> posiciones = new List<Transform>();
-	public List<Text> txtOpciones = new List<Text>();
-
-
 	Transform tmp;
+	public GameObject[] posicionesEnemigos;
+	Transform  posEnemigoActual;
+	public List<Text> txtOpciones = new List<Text>();
+	private List<Transform> posiciones = new List<Transform>();
+	int signo;
+	public float posicionXActual;
 
-	public bool attack = false;
-		   bool generar = false;
-		   bool die = false;
+	// Variables que le dicen al enemigo que ataque.
+    bool attack;
+    bool generar = false;
+	bool die;
 
 	//Variables con la data
 	public GameData gData;
 
+	// GAMEOVER
 	public GameObject pnMenuJuegoTerminado;
 
+
+	GameObject camera;
+
+	// DataBase variables
 	string dataFilePath;
 	BinaryFormatter bf;  				
 
@@ -57,30 +59,31 @@ public class SistemaDejuego : MonoBehaviour {
 	GameObject enemy;
 	EnemyScript gnScript;	
 
-	// CameraActual  ActivarYCamera
-	GameObject camera;
-	MainCamera mainCamera;
+	//Enemigo prefab
+	public GameObject trollActual;
 
-	GameObject activarYCamera;
-
-	//Enemigo derrotado
-	GameObject trollActual;
-	Animator trollDeath; 
 
 	//Interface Grafica
 	public UI ui;
 
-	int numeroUsuaio;
-
+	int pos;
 	float restartdevel;
 
+
+
+	// Los diferentes puntaje....
 	int bigBoneValue = 10;
 	int orquitosValues = 500;
 	int enemyValue = 1000;
-
 	int enemigosActivos;
 
+
+
+	// OPERACIONES CONCRETADAS Y QUE SE CREE UN NUEVO ENEMIGO
 	bool operacionConcretada;
+	bool crearnuevoTroll;
+
+
 
 	public enum Item {
 		Enemigos,
@@ -88,7 +91,9 @@ public class SistemaDejuego : MonoBehaviour {
 		Bone
 	}
 
-		void Awake(){
+		
+
+	void Awake(){
 
 		if(instance == null){
 			
@@ -106,15 +111,15 @@ public class SistemaDejuego : MonoBehaviour {
 	void Start () {
 
 		camera = GameObject.Find("Main Camera");
-		mainCamera = camera.GetComponent<MainCamera> ();
 
-		activarYCamera = GameObject.Find("ActivarYCamera");
 
 		player = GameObject.Find ("Dog");
 
 		persController = player.GetComponent<PlayerController>();
+	
+		attack = false;
+		die = false;
 
-		enemies = GameObject.FindGameObjectsWithTag("Enemigos");
 		goRespuestas = GameObject.FindGameObjectsWithTag("btnRespuesta");
 
 		Comenzar ();
@@ -123,6 +128,8 @@ public class SistemaDejuego : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+		
+		GenerarEnemigosPorAcierto ();
 
 		if(Input.GetKeyDown(KeyCode.Escape)){
 
@@ -148,7 +155,6 @@ public class SistemaDejuego : MonoBehaviour {
 		fs.Close (); 	
 
 
-
 	}
 
 
@@ -162,14 +168,17 @@ public class SistemaDejuego : MonoBehaviour {
 
 			gData = (GameData)bf.Deserialize (fs);
 
-			//gData.tiempoActual = maxtime;
 	
 			ui.txMonedas.text = gData.monedas.ToString ();  				
 
 			ui.txtPuntos.text = gData.puntos.ToString ();
 
+			ui.txtCantEnemigos.text = gData.cantidadTrolls.ToString();
+
 			if(!gData.yaJugo){
 			
+				//Debug.Log ("Estoy guadando la posicion inicial, VALOR");
+					
 				gData.GuardarPosicionInicial ();
 		
 			}
@@ -205,11 +214,17 @@ public class SistemaDejuego : MonoBehaviour {
 
 		gData.puntos = 0;
 
+		gData.fallos = 0;
+
 		ui.txtPuntos.text = "0";
 
 		ui.txMonedas.text = "0";
 
+		gData.posActualEnemigo = 0;
+
 		gData.tiempoActual = gData.ResetTime ();
+
+		timeLeft = gData.tiempoActual;
 
 		gData.yaJugo = false;
 
@@ -226,11 +241,16 @@ public class SistemaDejuego : MonoBehaviour {
 
 	public void Comenzar(){
 
-		gData.yaJugo = false;
+		//gData.yaJugo = false;
+
+		//Debug.Log ( "Marco que nunca jugo " + gData.yaJugo);
+
+		crearnuevoTroll = false;
+
+	//	Debug.Log (gData.x +  gData.y + gData.z);
 
 		player.transform.position = new Vector3 (gData.x, gData.y, gData.z);
-		//Debug.Log ("Metodo: Comenzar");
-
+	
 		timeLeft = gData.tiempoActual;
 
 		if(!pnMenuJuegoTerminado.activeSelf){
@@ -238,17 +258,139 @@ public class SistemaDejuego : MonoBehaviour {
 			Time.timeScale = 1f;
 		
 		}
-			
-		MarcarOperacionesNoRealizadas ();
-		EnemigosDerrotados();
-		gData.cantidadTrolls = enemigosActivos;
 
-		mainCamera.QuitarYCamera ();
-		ui.txtCantEnemigos.text = gData.cantidadTrolls.ToString();
+		posicionXActual = gData.x;
+
+		MarcarOperacionesNoRealizadas ();
+		GenerarEnemigosPorComienzo ();
+
+
+
+	
+
 		RestaurarVidas ();
 	
 	}
+
+	//Genera los enemigos actuales
+	public void GenerarEnemigosPorComienzo(){
+
+		if(!gData.operaRealizadas[gData.posActualEnemigo] && gData.posActualEnemigo <= posicionesEnemigos.Length - 1){
+
+			///Debug.Log ("Se creo el primer GameObject" + posicionesEnemigos[gData.posActualEnemigo].name );
+
+			Instantiate (trollActual, posicionesEnemigos[gData.posActualEnemigo].transform.position, Quaternion.identity);
+
+			gData.posActualEnemigo = gData.posActualEnemigo + 1;
+
 		
+		} 
+	}
+
+
+
+	//Genera los enemigos actuales
+	public void GenerarEnemigosPorAcierto(){
+
+		if(crearnuevoTroll){
+
+
+			pos = gData.posActualEnemigo;	
+
+
+			if(!gData.operaRealizadas[pos] && pos <= posicionesEnemigos.Length - 1){
+
+				Instantiate (trollActual, posicionesEnemigos[pos].transform.position, Quaternion.identity);
+
+				crearnuevoTroll = false;
+
+			    gData.posActualEnemigo = gData.posActualEnemigo + 1;
+
+				//Debug.Log ("El proximo troll va a la pos "  + gData.posActualEnemigo);
+
+			} 
+
+		}
+	}
+
+
+	public void SetearCrearNuevoTroll(bool crear){
+		crearnuevoTroll = crear;
+	}
+
+
+
+	//Le paso la ultima cuenta realizada.
+	public void ObtenerEnemigoActual(Transform posActual){
+	
+		posEnemigoActual = posActual;
+	
+	}
+
+
+	// Setea la cantidad de operaciones a realizar
+	public void OperacionesAritmeticasCompletadas(){
+
+		//Debug.Log ("Entro: OperacionesAritmeticasCompletadas ");
+		float restaDePosiciones;
+
+		for (int i = 0; i < posicionesEnemigos.Length; i++) {
+
+
+			//Debug.Log (posEnemigoActual.transform.position.x + "  ahora la posicion de los enemigos en el sistema  " + posicionesEnemigos[i].transform.position.x);
+
+			restaDePosiciones =  posicionesEnemigos [i].transform.position.x - posEnemigoActual.transform.position.x;
+
+			Debug.Log (" La resta de las posiciones " + restaDePosiciones);
+
+			if ( (int)restaDePosiciones >= 0  && (int)restaDePosiciones <= 50) {
+
+				Debug.Log (" ENCONTRO LA UBICACION DEL ENEMIGO ");
+
+				gData.operaRealizadas [i] = true;
+
+				Debug.Log ("La posicion "+ i + " esta " + gData.operaRealizadas[i]);
+				 
+			}
+		}	
+
+	}
+	
+	// Poner Todas las operaciones no realizadas
+	public void MarcarOperacionesNoRealizadas (){
+
+		if (!gData.yaJugo) {
+
+			gData.posActualEnemigo = 0;
+
+			gData.operaRealizadas = new bool[posicionesEnemigos.Length];
+
+			for (int i = 0; i < gData.operaRealizadas.Length; i++) {
+
+				gData.operaRealizadas [i] = false;
+				enemigosActivos++;
+			}
+		
+		} else {
+
+			for (int i = 0; i < gData.operaRealizadas.Length; i++) {
+
+				if(!gData.operaRealizadas[i]){
+
+					enemigosActivos++;	
+				
+				}
+	
+			}
+		
+		}
+
+		gData.cantidadTrolls = enemigosActivos;
+		ui.txtCantEnemigos.text = gData.cantidadTrolls.ToString();
+
+	}
+
+
 
 	public int GenerarSignoUIRandom(){
 		
@@ -278,17 +420,17 @@ public class SistemaDejuego : MonoBehaviour {
 	//Nivel actual del jugador.
 	public void NivelDejuego(){
 
-		if(gData.nivel == 0){
+		if (gData.nivel == 0){
 
 			min = 0;
 			max = 3;
 		
-		} else if (gData.nivel == 1){
+		}  else if (gData.nivel == 1){
 
 			min = 3;
 			max = 6;
 		
-		}else if (gData.nivel == 2){
+		} else if (gData.nivel == 2){
 		
 			min = 6;
 			max = 9;
@@ -303,11 +445,12 @@ public class SistemaDejuego : MonoBehaviour {
 
 	public void EleccionTabla(){
 
-		if (!trollActual.activeSelf) {
+		//No se si esta bien.
+		//if (!trollActual.activeSelf) {
 		
-			trollActual.SetActive(true);
+		//	trollActual.SetActive(true);
 		
-		}
+		//}
 
 		OkGenerar();
 
@@ -323,36 +466,38 @@ public class SistemaDejuego : MonoBehaviour {
 
 	 public void ResultadoOperacion(int num){
 
+		//Deja la huella que ya jugo.
 		if(!gData.yaJugo){
 			gData.yaJugo = true;
 		}
 			
-		numeroUsuaio = num;
-
 
 			if (resultado == respuestas [num]) {
 
-				die = true;
+				
+
+				if(attack){
+					attack = false;
+				}
+
 				persController.AumentarJump();
 				
-				posiciones.Add(tmp);
+				
 				LimpiarRespuestas ();
 				DesactivarBotonRespuestas ();
-				
-				
-				trollDeath.SetBool("Die", die);
-				trollDeath.SetBool("Attack", false);
+
 				gData.cantidadTrolls--;
 				ui.txtCantEnemigos.text = gData.cantidadTrolls.ToString ();
 				
-				gnScript.detenerOperacion ();
+				//gnScript.detenerOperacion ();
 				
 				sumarPuntos (Item.Enemigos);
-				
 
-			    operacionConcretada = true;
-				OperacionesAritmeticasCompletadas ();
+				Debug.Log ("Voy a marcar las operaciones Aritmeticas");
+
+				OperacionesAritmeticasCompletadas();
 			    
+				die = true;
 
 				if(gData.cantidadTrolls == 1){
 					persController.QuedaUnSoloTroll ();
@@ -362,46 +507,32 @@ public class SistemaDejuego : MonoBehaviour {
 					persController.CeroTroll ();
 				}
 
-			} else {
 
+		  } else {
+			
+			    attack = true;
 				SumarFallos();
-				StartCoroutine(TiempoAtaqueEnemigo());
+	
 			}
 
 
 	}
 
-	public void OperacionesAritmeticasCompletadas(){
-		
-
-		for(int i=0; i < enemies.Length; i++){
-
-			if (trollActual.name == enemies [i].name && operacionConcretada) {
-
-				gData.operaRealizadas [i] = true;
-
-			}
-		}
-		
+	public bool obtenerAttack(){
+		return attack;
 	}
 
-
-
-	public void MarcarOperacionesNoRealizadas(){
-
-		if(!gData.yaJugo) {
-
-			gData.operaRealizadas = new bool[enemies.Length];
-
-			for(int i=0; i < gData.operaRealizadas .Length; i++){
-
-				gData.operaRealizadas [i] = false;
-			}
-		}
-
+	public bool matarTroll(){
+		return die;
 	}
-		
 
+	public void SetAttack(bool pAttack){
+		attack = false;
+	}
+
+	public void SetDie(bool pDie){
+		die = false;
+	}
 
 
 
@@ -480,29 +611,26 @@ public class SistemaDejuego : MonoBehaviour {
 
 	}
 
-	public bool obtenerAttack(){
-		return attack;
-	}
 
-	public bool AtaqueEnemigo(){
-		attack = true;
-		trollDeath.SetBool("Attack",true);
-		return attack;
+	//public bool AtaqueEnemigo(){
+	//	
+	//	trollDeath.SetBool("Attack",true);
+	//	return attack;
 	
-	}
+	//}
 
-	public void detenerAtaque(){
-		attack = false;
-		trollDeath.SetBool("Attack",false);
-	}
+	//public void detenerAtaque(){
+		//attack = false;
+		//trollDeath.SetBool("Attack",false);
+	//}
 
-	IEnumerator TiempoAtaqueEnemigo(){
-		attack = true;
-		trollDeath.SetBool("Attack",attack);
-		yield return new WaitForSeconds(5.0f);
-		attack = false;
-		trollDeath.SetBool("Attack",attack);
-	}
+	//IEnumerator TiempoAtaqueEnemigo(){
+	//	attack = true;
+	//	trollDeath.SetBool("Attack",attack);
+	//	yield return new WaitForSeconds(5.0f);
+	//	attack = false;
+	//	trollDeath.SetBool("Attack",attack);
+	//}
 
 
 
@@ -588,6 +716,8 @@ public class SistemaDejuego : MonoBehaviour {
 
 		for(int i=0;  i < goRespuestas.Length; i++){
 
+			Debug.Log ("Desactivando las respuestas");
+		
 			goRespuestas [i].SetActive (false);
 
 		}
@@ -597,7 +727,7 @@ public class SistemaDejuego : MonoBehaviour {
 	public void ActivarBotonRespuestas(){
 
 		for(int i=0;  i < goRespuestas.Length; i++){
-
+			
 			goRespuestas [i].SetActive (true);
 
 		}
@@ -606,13 +736,13 @@ public class SistemaDejuego : MonoBehaviour {
 
 
 
-	public void recibirTroll(GameObject untroll){
+//	public void recibirTroll(GameObject untroll){
 
-		trollActual = untroll;
-		trollDeath = trollActual.GetComponent<Animator>();
-		SetearActualEnemigos(trollActual);
+	//	trollActual = untroll;
+	//	trollDeath = trollActual.GetComponent<Animator>();
+	//	SetearActualEnemigos(trollActual);
 	
-	}
+	//}
 
 
 
@@ -754,21 +884,6 @@ public class SistemaDejuego : MonoBehaviour {
 	}
 
 
-	public void SetearActualEnemigos(GameObject pGO){
-
-		for(int i = 0; i <= enemies.Length-1; i++){
-
-			if(pGO.name == enemies[i].name){
-
-				enemy = pGO;
-
-				gnScript = enemy.GetComponent<EnemyScript>();
-			
-			}
-		
-		}
-	
-	}
 
 
 
@@ -820,10 +935,12 @@ public class SistemaDejuego : MonoBehaviour {
 
 		player.GetComponent<PlayerController> ().enabled = false;
 
+		// Busca el collider para desabilitarlo
 		foreach(Collider2D col in player.transform.GetComponents<Collider2D>()){
 			col.enabled = false;
 		}
 
+		// 
 		foreach(Transform tra in player.transform){
 			tra.gameObject.SetActive (true);
 		}
@@ -847,31 +964,16 @@ public class SistemaDejuego : MonoBehaviour {
 
 		gData.tiempoActual = timeLeft;
 
+		if(gData.posActualEnemigo > 0){
+			gData.posActualEnemigo = gData.posActualEnemigo - 1;
+		}
 
-		SaveData ();
-
+	
 		player.SetActive (false);
 
 		restarVidas();
 
-	}
-
-	public void EnemigosDerrotados(){
-
-		for(int i=0; i < gData.operaRealizadas.Length; i++){
-
-			if (gData.operaRealizadas [i] == true) {
-				
-				enemies [i].SetActive (false);
-			} 
-
-			else {
-				
-				enemigosActivos++;
-
-			}	
-		 
-		}
+		//SaveData ();
 
 	}
 
@@ -880,6 +982,8 @@ public class SistemaDejuego : MonoBehaviour {
 		gData.x = pos.position.x + 15f;
 		gData.y = pos.position.y;
 		gData.z = pos.position.z;
+		//Debug.Log (gData.x + gData.y + gData.z);
+		SaveData();
 	}
 
 
@@ -889,7 +993,6 @@ public class SistemaDejuego : MonoBehaviour {
 
 
 	IEnumerator MsjCheckpointAlcanzado(){
-		
 		ui.textCheckPoint.text = "Checkpoint ...";
 		yield return new WaitForSeconds(2.0f);
 		ui.textCheckPoint.text = " ";

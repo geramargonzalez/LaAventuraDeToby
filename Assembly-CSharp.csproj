@@ -52,7 +52,11 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\checkPointAlcanzado.cs" />
+     <Compile Include="Assets\Demigiant\DOTween\Examples\Basics.cs" />
+     <Compile Include="Assets\Demigiant\DOTween\Examples\Sequences.cs" />
      <Compile Include="Assets\followPlayerRespuestas.cs" />
+     <Compile Include="Assets\Myassets\Scripts\BeActivator.cs" />
+     <Compile Include="Assets\Myassets\Scripts\BomberBeAI.cs" />
      <Compile Include="Assets\Myassets\Scripts\Enemy\Enemy.cs" />
      <Compile Include="Assets\Myassets\Scripts\Enemy\EnemyHeadCtrl.cs" />
      <Compile Include="Assets\Myassets\Scripts\Enemy\EnemyPatrol.cs" />
@@ -80,6 +84,8 @@
      <Compile Include="Assets\Myassets\Scripts\Generales\SistemaDejuego.cs" />
      <Compile Include="Assets\Myassets\Scripts\Generales\UI.cs" />
      <Compile Include="Assets\Myassets\Scripts\Menu\MenuController.cs" />
+     <Compile Include="Assets\Myassets\Scripts\Plataformas\droppingPlataform.cs" />
+     <Compile Include="Assets\Myassets\Scripts\Plataformas\MovingPlataform.cs" />
      <Compile Include="Assets\Myassets\Scripts\Plataformas\PlataformaFalling.cs" />
      <Compile Include="Assets\Myassets\Scripts\Plataformas\platformaMovil.cs" />
      <Compile Include="Assets\Myassets\Scripts\Player\btnRespuestas.cs" />
@@ -92,11 +98,15 @@
      <Compile Include="Assets\Myassets\Sprites\Spooky Woods\Example\Scripts\BackgroundParallax.cs" />
      <Compile Include="Assets\Myassets\Sprites\Spooky Woods\Example\Scripts\CameraMove.cs" />
      <None Include="Assets\Myassets\Sprites\Actors\Enemies\monster_round\get more at bevouliin_dot_com.txt" />
+     <None Include="Assets\Demigiant\DOTween\readme.txt" />
+     <None Include="Assets\Demigiant\DOTween\DOTween43.xml" />
      <None Include="Assets\Myassets\Sprites\Mossy Woods\Readme.txt" />
      <None Include="Assets\Myassets\Sprites\Fantasy Character\_TXT\LICENSES.txt" />
      <None Include="Assets\Myassets\Sprites\FantasyTrolls\_TXT\readme.txt" />
      <None Include="Assets\Myassets\Sprites\craftpix-062999-2d-fantasy-knight-free-sprite-sheets\_TXT\LICENSES.txt" />
+     <None Include="Assets\Demigiant\DOTween\DOTween46.xml" />
      <None Include="Assets\Myassets\Sprites\craftpix-062999-2d-fantasy-knight-free-sprite-sheets\_TXT\Information.txt" />
+     <None Include="Assets\Demigiant\DOTween\DOTween50.xml" />
      <None Include="Assets\Myassets\Sprites\craftpix-062999-2d-fantasy-knight-free-sprite-sheets 1\_TXT\LICENSES.txt" />
      <None Include="Assets\Myassets\Sprites\FantasyTrolls\_TXT\LICENSES.txt" />
      <None Include="Assets\Myassets\Sprites\craftpix-062999-2d-fantasy-knight-free-sprite-sheets 1\_TXT\readme.txt" />
@@ -201,6 +211,21 @@
  </Reference>
  <Reference Include="AGDLevelDesigner">
  <HintPath>/Users/gerardogonzalez/Documents/Udemy/Unity/UdemyPlataformMobile2D/LaBatallasDelasTablas/Assets/AbleGamesDev/LevelDesigner/AGDLevelDesigner.dll</HintPath>
+ </Reference>
+ <Reference Include="DOTween">
+ <HintPath>/Users/gerardogonzalez/Documents/Udemy/Unity/UdemyPlataformMobile2D/LaBatallasDelasTablas/Assets/Demigiant/DOTween/DOTween.dll</HintPath>
+ </Reference>
+ <Reference Include="DOTween43">
+ <HintPath>/Users/gerardogonzalez/Documents/Udemy/Unity/UdemyPlataformMobile2D/LaBatallasDelasTablas/Assets/Demigiant/DOTween/DOTween43.dll</HintPath>
+ </Reference>
+ <Reference Include="DOTween46">
+ <HintPath>/Users/gerardogonzalez/Documents/Udemy/Unity/UdemyPlataformMobile2D/LaBatallasDelasTablas/Assets/Demigiant/DOTween/DOTween46.dll</HintPath>
+ </Reference>
+ <Reference Include="DOTween50">
+ <HintPath>/Users/gerardogonzalez/Documents/Udemy/Unity/UdemyPlataformMobile2D/LaBatallasDelasTablas/Assets/Demigiant/DOTween/DOTween50.dll</HintPath>
+ </Reference>
+ <Reference Include="DOTweenEditor">
+ <HintPath>/Users/gerardogonzalez/Documents/Udemy/Unity/UdemyPlataformMobile2D/LaBatallasDelasTablas/Assets/Demigiant/DOTween/Editor/DOTweenEditor.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.Advertisements">
  <HintPath>/Users/gerardogonzalez/Library/Unity/cache/packages/packages.unity.com/com.unity.ads@2.0.3/UnityEngine.Advertisements.dll</HintPath>

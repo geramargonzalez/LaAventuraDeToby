@@ -143,10 +143,10 @@ public class PlayerController : MonoBehaviour {
 
 	void OnCollisionEnter2D(Collision2D other){
 		if(other.gameObject.CompareTag("GROUND")){
+
 			isJumping = false;
-		}
-		//Orquito
-		if (other.gameObject.tag == "Enemigos" || other.gameObject.tag == "Orquito" || other.gameObject.tag == "Spike") {
+
+		} else if (other.gameObject.tag == "Enemigos" || other.gameObject.tag == "Orquito" || other.gameObject.tag == "Spike") {
 			SistemaDejuego.instance.PlayerDiedAnimaton (gameObject);
 		}
 	}
@@ -243,16 +243,6 @@ public class PlayerController : MonoBehaviour {
 	
 	}
 
-
-
-	public void TrasladarPersonaje(Vector3 trasladar){
-		StartCoroutine (TiempoTrasladoPersonaje(trasladar));
-	}
-
-	IEnumerator TiempoTrasladoPersonaje(Vector3 trasladar){
-		yield return new WaitForSeconds(1.0f);
-		transform.position = trasladar;
-	}
 
 
 /*public void OnTriggerEnter2D(Collider2D other){

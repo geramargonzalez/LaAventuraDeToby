@@ -17,7 +17,8 @@ public class GameData
 	public int nivel;
 	public int monedas;
 	public int cantidadTrolls;
-	public float tiempoActual = 300f;
+	public float tiempoActual = 600f;
+	public int posActualEnemigo = 0;
 
 
 	//Contador global y por cada cuenta aritmetica
@@ -48,7 +49,7 @@ public class GameData
 	public float ResetTime(){
 		if(nivel == 0){
 
-			tiempoActual = 300f;
+			tiempoActual = 600f;
 
 		
 		} else if(nivel == 1){
@@ -58,7 +59,7 @@ public class GameData
 
 		} else if(nivel == 2){
 			
-			tiempoActual = 600f;
+			tiempoActual = 400f;
 
 
 		}

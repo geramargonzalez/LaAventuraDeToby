@@ -25,7 +25,7 @@ public class HonguitoCtrl : MonoBehaviour {
 
 			ps = other.gameObject.GetComponent<PlayerController> ();
 
-			ps.TrasladarPersonaje (trasladar);
+			//ps.TrasladarPersonaje (trasladar);
 
 			this.gameObject.SetActive(false);
 	

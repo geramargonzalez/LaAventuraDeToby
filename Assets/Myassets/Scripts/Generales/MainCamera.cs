@@ -17,9 +17,17 @@ public class MainCamera : MonoBehaviour {
 	public float yOff;
 
 	void Start(){
-		agreY = false;
-		yPos = this.transform.position.y;
+
 		objetivoCamara = GameObject.Find ("Dog").transform;
+
+		if (SistemaDejuego.instance.posicionXActual < 3283.7) {
+			agreY = false;
+		} else {
+			agreY = true;
+		}
+
+		yPos = this.transform.position.y;
+
 
 	}
 

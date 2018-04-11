@@ -14,8 +14,11 @@ public class checkPointAlcanzado : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D other) {
 		if(other.gameObject.CompareTag("Player")){
-			SistemaDejuego.instance.CheckPointReached (position);
-			SistemaDejuego.instance.checkPointTXT ();
+
+			Debug.Log (position.position.x + position.position.y);
+			SistemaDejuego.instance.CheckPointReached(position);
+			SistemaDejuego.instance.checkPointTXT();
+		
 		}
 	}
 
