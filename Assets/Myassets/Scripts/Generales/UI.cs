@@ -16,7 +16,7 @@ public class UI  {
 
 	public Text txtPuntos;
 
-	public Text txMonedas;
+	public Text txtBones;
 
 	public Text txtCantEnemigos;
 

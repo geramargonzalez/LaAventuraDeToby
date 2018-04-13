@@ -59,6 +59,9 @@ public class SistemaDejuego : MonoBehaviour {
 	GameObject enemy;
 	EnemyScript gnScript;	
 
+	public GameObject big_coin;
+	public GameObject orquito;
+
 	//Enemigo prefab
 	public GameObject trollActual;
 
@@ -83,6 +86,9 @@ public class SistemaDejuego : MonoBehaviour {
 	bool operacionConcretada;
 	bool crearnuevoTroll;
 
+
+	//Orquitos y Animales
+	public GameObject[] posOrcosAnimales;
 
 
 	public enum Item {
@@ -111,8 +117,7 @@ public class SistemaDejuego : MonoBehaviour {
 	void Start () {
 
 		camera = GameObject.Find("Main Camera");
-
-
+	
 		player = GameObject.Find ("Dog");
 
 		persController = player.GetComponent<PlayerController>();
@@ -121,6 +126,8 @@ public class SistemaDejuego : MonoBehaviour {
 		die = false;
 
 		goRespuestas = GameObject.FindGameObjectsWithTag("btnRespuesta");
+
+		//posOrcosAnimales = GameObject.FindGameObjectsWithTag("orcosAnimales");
 
 		Comenzar ();
 
@@ -169,17 +176,22 @@ public class SistemaDejuego : MonoBehaviour {
 			gData = (GameData)bf.Deserialize (fs);
 
 	
-			ui.txMonedas.text = gData.monedas.ToString ();  				
+			ui.txtBones.text = gData.bones.ToString ();  				
 
 			ui.txtPuntos.text = gData.puntos.ToString ();
 
 			ui.txtCantEnemigos.text = gData.cantidadTrolls.ToString();
 
+
 			if(!gData.yaJugo){
-			
-				//Debug.Log ("Estoy guadando la posicion inicial, VALOR");
-					
+
+				gData.jumpSpeed = 900f;
+
+				gData.speedBoost = 20f;
+
 				gData.GuardarPosicionInicial ();
+
+				//MarcarOrquitosEnEscena();
 		
 			}
 
@@ -210,7 +222,7 @@ public class SistemaDejuego : MonoBehaviour {
 
 		gData.vidas = 5;
 	
-		gData.monedas = 0;
+		gData.bones = 0;
 
 		gData.puntos = 0;
 
@@ -218,7 +230,7 @@ public class SistemaDejuego : MonoBehaviour {
 
 		ui.txtPuntos.text = "0";
 
-		ui.txMonedas.text = "0";
+		ui.txtBones.text = "0";
 
 		gData.posActualEnemigo = 0;
 
@@ -228,7 +240,32 @@ public class SistemaDejuego : MonoBehaviour {
 
 		gData.yaJugo = false;
 
+		gData.jumpSpeed = 900f;
+
+		gData.speedBoost = 20f;
+
+
+		gData.fallosMultiplicacion = 0;
+
+		gData.fallosSuma = 0;
+
+		gData.fallosResta = 0;
+	
+		gData.fallosDivision = 0;
+
+		gData.aciertosMultiplicacion = 0;
+
+		gData.aciertosSuma = 0;
+
+		gData.aciertosResta = 0;
+
+		gData.aciertosDivision = 0;
+
+
+		MarcarOrquitosEnEscena();
+
 		RestaurarVidas ();
+	
 
 		bf.Serialize (fs, gData);
 
@@ -236,18 +273,11 @@ public class SistemaDejuego : MonoBehaviour {
 
 	}
 
-
-
-
 	public void Comenzar(){
-
-		//gData.yaJugo = false;
-
-		//Debug.Log ( "Marco que nunca jugo " + gData.yaJugo);
 
 		crearnuevoTroll = false;
 
-	//	Debug.Log (gData.x +  gData.y + gData.z);
+		OrcosAnimales ();
 
 		player.transform.position = new Vector3 (gData.x, gData.y, gData.z);
 	
@@ -264,10 +294,6 @@ public class SistemaDejuego : MonoBehaviour {
 		MarcarOperacionesNoRealizadas ();
 		GenerarEnemigosPorComienzo ();
 
-
-
-	
-
 		RestaurarVidas ();
 	
 	}
@@ -277,7 +303,6 @@ public class SistemaDejuego : MonoBehaviour {
 
 		if(!gData.operaRealizadas[gData.posActualEnemigo] && gData.posActualEnemigo <= posicionesEnemigos.Length - 1){
 
-			///Debug.Log ("Se creo el primer GameObject" + posicionesEnemigos[gData.posActualEnemigo].name );
 
 			Instantiate (trollActual, posicionesEnemigos[gData.posActualEnemigo].transform.position, Quaternion.identity);
 
@@ -306,7 +331,6 @@ public class SistemaDejuego : MonoBehaviour {
 
 			    gData.posActualEnemigo = gData.posActualEnemigo + 1;
 
-				//Debug.Log ("El proximo troll va a la pos "  + gData.posActualEnemigo);
 
 			} 
 
@@ -336,21 +360,15 @@ public class SistemaDejuego : MonoBehaviour {
 
 		for (int i = 0; i < posicionesEnemigos.Length; i++) {
 
-
-			//Debug.Log (posEnemigoActual.transform.position.x + "  ahora la posicion de los enemigos en el sistema  " + posicionesEnemigos[i].transform.position.x);
-
 			restaDePosiciones =  posicionesEnemigos [i].transform.position.x - posEnemigoActual.transform.position.x;
 
-			Debug.Log (" La resta de las posiciones " + restaDePosiciones);
 
 			if ( (int)restaDePosiciones >= 0  && (int)restaDePosiciones <= 50) {
 
-				Debug.Log (" ENCONTRO LA UBICACION DEL ENEMIGO ");
-
+			
 				gData.operaRealizadas [i] = true;
 
-				Debug.Log ("La posicion "+ i + " esta " + gData.operaRealizadas[i]);
-				 
+			
 			}
 		}	
 
@@ -394,7 +412,7 @@ public class SistemaDejuego : MonoBehaviour {
 
 	public int GenerarSignoUIRandom(){
 		
-		float random = Random.Range(0f,3f);
+		float random = Random.Range(0f,4f);
 
 		return (int)random;
 	}
@@ -427,31 +445,24 @@ public class SistemaDejuego : MonoBehaviour {
 		
 		}  else if (gData.nivel == 1){
 
-			min = 3;
+			min = 0;
 			max = 6;
 		
 		} else if (gData.nivel == 2){
 		
-			min = 6;
-			max = 9;
-		
-		} else if (gData.nivel == 2){
-
 			min = 0;
 			max = 9;
+		
+		} else if (gData.nivel == 3){
+
+			min = 0;
+			max = 15;
 		}
 
 	}
 
 	public void EleccionTabla(){
-
-		//No se si esta bien.
-		//if (!trollActual.activeSelf) {
 		
-		//	trollActual.SetActive(true);
-		
-		//}
-
 		OkGenerar();
 
 		if(generar){
@@ -489,14 +500,9 @@ public class SistemaDejuego : MonoBehaviour {
 				gData.cantidadTrolls--;
 				ui.txtCantEnemigos.text = gData.cantidadTrolls.ToString ();
 				
-				//gnScript.detenerOperacion ();
-				
+				SumarAciertosPorCuentas ();
 				sumarPuntos (Item.Enemigos);
-
-				Debug.Log ("Voy a marcar las operaciones Aritmeticas");
-
 				OperacionesAritmeticasCompletadas();
-			    
 				die = true;
 
 				if(gData.cantidadTrolls == 1){
@@ -611,26 +617,6 @@ public class SistemaDejuego : MonoBehaviour {
 
 	}
 
-
-	//public bool AtaqueEnemigo(){
-	//	
-	//	trollDeath.SetBool("Attack",true);
-	//	return attack;
-	
-	//}
-
-	//public void detenerAtaque(){
-		//attack = false;
-		//trollDeath.SetBool("Attack",false);
-	//}
-
-	//IEnumerator TiempoAtaqueEnemigo(){
-	//	attack = true;
-	//	trollDeath.SetBool("Attack",attack);
-	//	yield return new WaitForSeconds(5.0f);
-	//	attack = false;
-	//	trollDeath.SetBool("Attack",attack);
-	//}
 
 
 
@@ -774,12 +760,15 @@ public class SistemaDejuego : MonoBehaviour {
 
 		gData.puntos += itemValue ;
 		ui.txtPuntos.text = gData.puntos.ToString ();
+
+
 	}
 
 	public void SumarFallos(){
 		
 		gData.fallos++;
 		txtFallos ();
+		SumarFallosPorCuentas ();
 		persController.DisminuirJump ();
 	
 	}
@@ -790,6 +779,63 @@ public class SistemaDejuego : MonoBehaviour {
 		if(gData.fallos == 5){
 			restarVidas ();
 		}
+	}
+
+	public void SumarAciertosPorCuentas(){
+
+		if(signo == 0){
+
+			gData.aciertosMultiplicacion++;
+
+		} else if(signo == 1){
+
+			gData.aciertosSuma++;
+
+		}
+
+		else if(signo == 2){
+
+			gData.aciertosResta++;
+		}
+
+		else if(signo == 3){
+
+			gData.aciertosDivision++;
+
+
+		}
+
+
+	}
+
+
+	public void SumarFallosPorCuentas (){
+		if(signo == 0){
+
+
+
+			gData.fallosMultiplicacion++;
+
+		} else if(signo == 1){
+
+
+			gData.fallosSuma++;
+
+		}
+
+		else if(signo == 2){
+
+
+			gData.fallosResta++;
+		}
+
+		else if(signo == 3){
+
+			gData.fallosDivision++;
+
+		}
+
+	
 	}
 
 	public void restarVidas(){
@@ -837,14 +883,14 @@ public class SistemaDejuego : MonoBehaviour {
 
 	public void SumarBone(){
 
-		gData.monedas++;
+		gData.bones++;
 		gData.puntos += bigBoneValue;
 		ui.txtPuntos.text = gData.puntos.ToString();
-		ui.txMonedas.text = gData.monedas.ToString();
+		ui.txtBones.text = gData.bones.ToString();
 
-		if(gData.monedas == 100){
-			gData.monedas = 0;
-			ui.txMonedas.text = gData.monedas.ToString();
+		if(gData.bones == 100){
+			gData.bones = 0;
+			ui.txtBones.text = gData.bones.ToString();
 		
 		}
 	
@@ -911,12 +957,21 @@ public class SistemaDejuego : MonoBehaviour {
 
 	public void EnemyStompsEnemy(GameObject enemy){
 
-		// Change the enemy tag
+		gData.cantAnimalesConvertidos++;
+
 		enemy.tag = "Untagged";
 
-		//Destroy the enemy
+		Vector3 posNew = enemy.transform.position;
+
+		posNew.z = 20f;
+
+		Instantiate(big_coin, posNew, Quaternion.identity);
+
+		SFXCtrl.instance.EnemyExplosion(posNew);
+
 		Destroy(enemy);
 	
+		ConvertirAnimal(enemy.transform);
 
 		sumarPuntos (Item.Orquitos);
 
@@ -926,7 +981,6 @@ public class SistemaDejuego : MonoBehaviour {
 
 	public void PlayerDiedAnimaton (GameObject player){
 
-		//Tomamos el Rigibody
 		Rigidbody2D rb = player.GetComponent<Rigidbody2D>();
 
 		rb.AddForce (new Vector2(-150f,900f));
@@ -965,38 +1019,125 @@ public class SistemaDejuego : MonoBehaviour {
 		gData.tiempoActual = timeLeft;
 
 		if(gData.posActualEnemigo > 0){
+		
 			gData.posActualEnemigo = gData.posActualEnemigo - 1;
+		
 		}
+			
 
-	
 		player.SetActive (false);
-
 		restarVidas();
-
-		//SaveData ();
 
 	}
 
 
 	public void CheckPointReached(Transform pos){
+
 		gData.x = pos.position.x + 15f;
 		gData.y = pos.position.y;
 		gData.z = pos.position.z;
-		//Debug.Log (gData.x + gData.y + gData.z);
 		SaveData();
+	
 	}
 
 
 	public void checkPointTXT(){
+
 		StartCoroutine (MsjCheckpointAlcanzado());
+	
 	}
 
 
 	IEnumerator MsjCheckpointAlcanzado(){
+
 		ui.textCheckPoint.text = "Checkpoint ...";
 		yield return new WaitForSeconds(2.0f);
 		ui.textCheckPoint.text = " ";
 	
 	}
+
+	public void GuardarEvolucionDeSaltoDePersonaje(float pJump, float pSpeed){
+		
+		gData.jumpSpeed = pJump;
+		//Debug.Log ("GuardarEvolucionDeSaltoDePersonaje: El salto esta en  " + gData.jumpSpeed );
+		gData.speedBoost = pSpeed;
+		//Debug.Log ("GuardarEvolucionDeSaltoDePersonaje: El salto esta en  " + gData.speedBoost );
+	}
+
+	public float DevolverJump(){
+
+		return gData.jumpSpeed;
+	
+	
+	}
+
+	public float DevolverSpeed(){
+
+		return gData.speedBoost;
+	
+	
+	}
+
+
+	// Poner los orquitos en escena
+	public void MarcarOrquitosEnEscena(){
+		
+		gData.orcosPorAnimales = new bool[posOrcosAnimales.Length];
+
+		for (int i = 0; i < gData.orcosPorAnimales.Length; i++) {
+				
+			Debug.Log ("La posicion " + i + " esta " + gData.orcosPorAnimales[i] );
+
+			gData.orcosPorAnimales[i] = false;
+				
+
+		}
+
+	}
+
+	public void OrcosAnimales(){
+	
+		Debug.Log (" Instanciando orcos/animales ");
+
+
+		for (int i = 0; i < gData.orcosPorAnimales.Length; i++) {
+
+			if (gData.orcosPorAnimales[i]) {
+
+				Instantiate (big_coin, posOrcosAnimales[i].transform.position, Quaternion.identity);
+			
+			} else {
+
+				Instantiate (orquito, posOrcosAnimales [i].transform.position, Quaternion.identity);
+			
+			}
+
+		}
+
+	
+	}
+
+	public void ConvertirAnimal(Transform pos){
+
+		float restadepos;
+
+		for (int i = 0; i < posOrcosAnimales.Length; i++) {
+
+		
+			restadepos = posOrcosAnimales [i].transform.position.x - pos.position.x;
+
+
+			if((int)restadepos >= -30 && (int)restadepos <= 30){
+
+				gData.orcosPorAnimales [i] = true;
+
+						
+			}
+		}
+
+	}
+
+
+
 
 }

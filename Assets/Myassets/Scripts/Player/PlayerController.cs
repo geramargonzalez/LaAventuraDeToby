@@ -44,19 +44,15 @@ public class PlayerController : MonoBehaviour {
 
 	bool cantfall;
 
-
-
-
 	// Use this for initialization
 	void Start () {
 		
-	
 		rg = GetComponent<Rigidbody2D>();
 		sp = GetComponent<SpriteRenderer>();
 		anim = GetComponent<Animator>();
 		Habilidadestatico.SetActive(false);
 		animTxtMsjHabilidad = ui.txtMsjgrlHabilidad.GetComponent<Animator> ();
-		//animTxtHabilidad = ui.txtHabilidad.GetComponent<Animator> ();
+		SetearVelocidadAndJump ();
 
 	}
 		
@@ -67,19 +63,28 @@ public class PlayerController : MonoBehaviour {
 		speed *= speedBoost;
 
 		if (speed != 0) {
+
 			MoverHaciaAdelante (speed);
+		
 		} else {
+
 			PararMovimiento (); 
+		
 		}
 		if(Input.GetButtonDown("Jump")){
+
 			Jump ();
+		
 		}
 		Falling ();
 
 		if(leftpressed){
+
 			MoverHaciaAdelante(-speedBoost);
+		
 		}
 		if (rightpressed) {
+
 			MoverHaciaAdelante (speedBoost);
 		
 		}
@@ -91,7 +96,13 @@ public class PlayerController : MonoBehaviour {
 		
 	} 
 		
+	public void SetearVelocidadAndJump(){
+		jumpSpeed = SistemaDejuego.instance.DevolverJump ();
+		speedBoost = SistemaDejuego.instance.DevolverSpeed ();
+	}
+
 	public void MoverHaciaAdelante (float playerSpeed) {
+
 		rg.velocity = new Vector2(playerSpeed,rg.velocity.y);
 		Flip (playerSpeed);
 
@@ -111,19 +122,26 @@ public class PlayerController : MonoBehaviour {
 
 	public void Flip(float playerSpeed){
 		if(playerSpeed < 0){
+
 			sp.flipX = true;
+		
 		} else if(playerSpeed > 0){
+
 			sp.flipX = false;
+		
 		}
+	
 	}
 
 	public void Jump () {
 
 		if(isGrounded){
+
+			Debug.Log ("Jump: El salto esta en  " + jumpSpeed );
+
 			rg.AddForce (new Vector2 (0, jumpSpeed)); // Solo hace saltar al personaje.
 			isJumping = true;
 			anim.SetInteger ("state",2);
-			//Invoke("EnableDoubleJump",delayDoubleJump);
 		}
 	}
 
@@ -178,26 +196,33 @@ public class PlayerController : MonoBehaviour {
 
 	//Mejora/Empeora velocidad y salto
 	public void AumentarJump(){
-		if (jumpSpeed < 1400) {
+	
+		jumpSpeed = jumpSpeed + 20f; 
 
-			jumpSpeed = jumpSpeed + 20f;
+		if (jumpSpeed < 1400) {
 			ui.txtMsjgrlHabilidad.text = "Mejora: Salto";
 			//ui.txtHabilidad.text = "SALTO ";
+			SistemaDejuego.instance.GuardarEvolucionDeSaltoDePersonaje(jumpSpeed,speedBoost);
 			StartCoroutine(mostrarHabilidad());
 		
 		} else if(jumpSpeed == 1400) {
+
 			ui.txtMsjgrlHabilidad.text = "Mayor capacidad alcanzada de salto";
 			//txtHabilidad.text = " SALTO";
+			SistemaDejuego.instance.GuardarEvolucionDeSaltoDePersonaje(jumpSpeed,speedBoost);
 			StartCoroutine(mostrarHabilidad());
 		}
 	}
 
 	public void AumentarSpeed(){
+
+		speedBoost = speedBoost + 0.1f;
+
 		if (speedBoost < 21) {
 
-			speedBoost = speedBoost + 0.1f;
 			ui.txtMsjgrlHabilidad.text = "Mejora: Velocidad";
 			//ui.txtHabilidad.text = "Velocidad ";
+			SistemaDejuego.instance.GuardarEvolucionDeSaltoDePersonaje(jumpSpeed,speedBoost);
 			StartCoroutine(mostrarHabilidad());
 		
 		} else if(speedBoost == 17) {
@@ -211,10 +236,11 @@ public class PlayerController : MonoBehaviour {
 
 	public void DisminuirJump(){
 
+		jumpSpeed = jumpSpeed - 0.3f;
+
 		if(jumpSpeed >= 7){
-			jumpSpeed = jumpSpeed - 0.3f;
+			
 			ui.txtMsjgrlHabilidad.text = "Disminuyo: Salto";
-			//ui.txtHabilidad.text = " Salto";
 			StartCoroutine(mostrarHabilidad());
 		
 		} 

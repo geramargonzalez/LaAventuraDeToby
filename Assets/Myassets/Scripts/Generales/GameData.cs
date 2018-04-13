@@ -15,7 +15,7 @@ public class GameData
 	public int puntos;
 	public int vidas;
 	public int nivel;
-	public int monedas;
+	public int bones;
 	public int cantidadTrolls;
 	public float tiempoActual = 600f;
 	public int posActualEnemigo = 0;
@@ -27,6 +27,11 @@ public class GameData
 	public int fallosSuma;
 	public int fallosResta;
 	public int fallosDivision;
+
+	public int aciertosMultiplicacion;
+	public int aciertosSuma;
+	public int aciertosResta;
+	public int aciertosDivision;
 
 
 	//Valida si el usurio ya jugo
@@ -40,6 +45,24 @@ public class GameData
 	public float z = 0f;
 
 
+
+	// Personaje, guardo los incrementos
+	public float jumpSpeed = 900f;
+	public float speedBoost = 20f;
+
+
+
+	// Orquitos/Animales
+	public bool[] orcosPorAnimales;
+	public int cantAnimalesConvertidos;
+
+
+
+
+	// METODOS
+
+
+
 	public void GuardarPosicionInicial(){
 		x = 3.3f;
 		y = -26.5f;
@@ -47,6 +70,7 @@ public class GameData
 	}
 
 	public float ResetTime(){
+
 		if(nivel == 0){
 
 			tiempoActual = 600f;

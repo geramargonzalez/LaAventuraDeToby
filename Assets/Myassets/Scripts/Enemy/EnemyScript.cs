@@ -169,12 +169,6 @@ public class EnemyScript : MonoBehaviour {
 
 		   detenerOperacion();
 
-			//ok = true;
-
-			//if(attack == true){
-				//attack = false;
-				//anim.SetBool("Attack", attack);
-			//}
 		}
 	}
 

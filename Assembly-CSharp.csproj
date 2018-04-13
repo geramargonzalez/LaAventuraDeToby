@@ -51,17 +51,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\checkPointAlcanzado.cs" />
      <Compile Include="Assets\Demigiant\DOTween\Examples\Basics.cs" />
      <Compile Include="Assets\Demigiant\DOTween\Examples\Sequences.cs" />
-     <Compile Include="Assets\followPlayerRespuestas.cs" />
      <Compile Include="Assets\Myassets\Scripts\BeActivator.cs" />
      <Compile Include="Assets\Myassets\Scripts\BomberBeAI.cs" />
+     <Compile Include="Assets\Myassets\Scripts\checkPointAlcanzado.cs" />
      <Compile Include="Assets\Myassets\Scripts\Enemy\Enemy.cs" />
      <Compile Include="Assets\Myassets\Scripts\Enemy\EnemyHeadCtrl.cs" />
      <Compile Include="Assets\Myassets\Scripts\Enemy\EnemyPatrol.cs" />
      <Compile Include="Assets\Myassets\Scripts\Enemy\EnemyScript.cs" />
      <Compile Include="Assets\Myassets\Scripts\Enemy\HeadCtrl.cs" />
+     <Compile Include="Assets\Myassets\Scripts\Enemy\OrquitosEnemy.cs" />
+     <Compile Include="Assets\Myassets\Scripts\followPlayerRespuestas.cs" />
      <Compile Include="Assets\Myassets\Scripts\Generales\ActivarYCamera.cs" />
      <Compile Include="Assets\Myassets\Scripts\Generales\CameraFollow.cs" />
      <Compile Include="Assets\Myassets\Scripts\Generales\CoinCollector.cs" />

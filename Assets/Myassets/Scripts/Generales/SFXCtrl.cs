@@ -80,4 +80,9 @@ public class SFXCtrl : MonoBehaviour {
 		//Instantiate(sfx.sfx_splash,pos,Quaternion.identity);
 	}
 
+
+	public void EnemyExplosion(Vector3 pos){
+		Instantiate(sfx.sfx_explosion, pos, Quaternion.identity);
+	}
+
 }

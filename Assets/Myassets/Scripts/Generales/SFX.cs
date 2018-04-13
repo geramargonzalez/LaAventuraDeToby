@@ -14,6 +14,6 @@ public class SFX {
 
 	//public GameObject sfx_splash; // when plays falls over water;
 
-
+	public GameObject sfx_explosion; // when plays hit enemy;
 
 }
