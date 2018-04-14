@@ -11,19 +11,19 @@ public class EnemyScript : MonoBehaviour {
 
 	//public GameObject gameManager;
 	//private GameObject player;
-    public GameObject respuestas;
+   // public GameObject respuestas;
 
 	public bool attack;
 	bool move;
 
-	public GameObject numeroUno;
-		   Numero gameScript;
+	//public GameObject numeroUno;
+		 //  Numero gameScript;
 
-	public GameObject numeroDos;
-		   Numero2 gameScript2;
+	//public GameObject numeroDos;
+		 //  Numero2 gameScript2;
 
-	public GameObject signo;
-		   setearOperacion scriptTipoOp;
+	//public GameObject signo;
+		   //setearOperacion scriptTipoOp;
 
 	bool ok = true;
 
@@ -39,6 +39,14 @@ public class EnemyScript : MonoBehaviour {
 
 	int pos;
 
+	public Text respuesta1;
+	public Text respuesta2;
+	public Text signoTroll;
+	public Text resultado;
+	public Text equal;
+
+
+
 	// Use this for initialization
 	void Start () {
 
@@ -46,17 +54,22 @@ public class EnemyScript : MonoBehaviour {
 		move = false;
 		attack = false;
 
-
-		respuestas = GameObject.Find ("Respuestas");
-
+		//respuestas = GameObject.Find ("Respuestas");  txtequals
 		ui.texttimeOp = GameObject.Find ("ResetOperacion").GetComponent<Text>();
 
-		//respuestas.SetActive (false);
+		//ui.respuesta1 = GameObject.Find ("txtrespuesta1").GetComponent<Text>();
+		//ui.respuesta2 = GameObject.Find ("txtrespuesta2").GetComponent<Text>();
+		//ui.signoTroll = GameObject.Find ("txtsigno").GetComponent<Text>();
+		//ui.equal = GameObject.Find ("txtequals").GetComponent<Text>();
+		//ui.resultado =  GameObject.Find ("txtresultado").GetComponent<Text>();
+
 		tablas.SetActive (false);
 
-		gameScript = numeroUno.GetComponent<Numero> ();
-		gameScript2 = numeroDos.GetComponent<Numero2> ();
-		scriptTipoOp =   signo.GetComponent<setearOperacion> ();
+		//respuestas.SetActive (false);
+		//gameScript = numeroUno.GetComponent<Numero> ();
+		//gameScript2 = numeroDos.GetComponent<Numero2> ();
+		//scriptTipoOp =   signo.GetComponent<setearOperacion> ();
+
 		anim = GetComponent<Animator> ();
 
 	}
@@ -65,13 +78,10 @@ public class EnemyScript : MonoBehaviour {
 	void Update () {
 		
 		if(SistemaDejuego.instance.matarTroll()){
-			//Debug.Log ("Matar troll esta en true");
-
+			
 			detenerOperacion ();
 			Death ();
-
-
-			//SistemaDejuego.instance.SetDie (false);
+	
 		}
 
 		if(SistemaDejuego.instance.obtenerAttack()){
@@ -105,10 +115,7 @@ public class EnemyScript : MonoBehaviour {
 
 	IEnumerator DestruirTroll(){
 		
-		//anim.SetBool("Die", SistemaDejuego.instance.matarTroll());
-
 		SistemaDejuego.instance.SetDie(false);
-		//SistemaDejuego.instance.SetAttack(false);
 		SistemaDejuego.instance.SetearCrearNuevoTroll (true);
 
 		yield return new WaitForSeconds(0.05f);
@@ -186,31 +193,24 @@ public class EnemyScript : MonoBehaviour {
 
 	IEnumerator tiempoDecambio(){
 
-			restaurarValoresTiempo ();
+		restaurarValoresTiempo ();
 
-			//Desactivo los numeros.
-			gameScript.desactivarObjetos();
-			gameScript2.desactivarObjetos();
-			scriptTipoOp.desactivarObjetos();
-
-
-	
-		//Muestro los numeros seleccionados para la operacion
-		scriptTipoOp.setearSigno(SistemaDejuego.instance.ObtenerSigno());
-
-		//Numero de la Izquiera
-		gameScript.setearNumero(SistemaDejuego.instance.pasarNumeroIzquierda());
-
-		//Numero de la Derecha
-		gameScript2.setearNumero(SistemaDejuego.instance.pasarNumeroDerecha());
-
-
+		//Desactivo los numeros.
+		//gameScript.desactivarObjetos();
+		//gameScript2.desactivarObjetos();
+		//.desactivarObjetos();
 
 		//Multiplico las operaciones
 		SistemaDejuego.instance.OperacionAritmetica();
 
 		//seteo las tablas
 		SistemaDejuego.instance.EleccionTabla();
+
+		respuesta1.text = SistemaDejuego.instance.devolverNumero1();
+		signoTroll.text = SistemaDejuego.instance.devolverSigno();
+		respuesta2.text = SistemaDejuego.instance.devolverNumero2();
+		resultado.text  = SistemaDejuego.instance.devolverResultado();
+
 
 		//Activo las tablas
 		tablas.SetActive(true);
@@ -270,10 +270,20 @@ public class EnemyScript : MonoBehaviour {
 	public void detenerOperacion(){
 		StopCoroutine (tiempoDecambio ());
 		ui.texttimeOp.text = "";
+		limpiarTextosDelasOperaciones ();
 		opHabilitada = false;
-		tablas.SetActive(false);
+		//tablas.SetActive(false);
 		//respuestas.SetActive (false);
 
+	}
+
+
+	public void limpiarTextosDelasOperaciones(){
+		respuesta1.text = " ";
+		signoTroll.text = " ";
+		respuesta2.text = " ";
+		resultado.text  = " ";
+		equal.text =  " ";
 	}
 
 

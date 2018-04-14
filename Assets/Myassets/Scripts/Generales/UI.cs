@@ -30,7 +30,6 @@ public class UI  {
 
 	public Text textCheckPoint;
 
-
 	[Header("Textos de Habilidades")]
 
 	public Text txtMsjgrlHabilidad;
@@ -39,7 +38,7 @@ public class UI  {
 
 	public GameObject[] vidasGo;
 
+	[Header("Textos de Operaciones Aritmetica")]
 
-	//public Text txtHabilidad;
 
 }

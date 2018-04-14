@@ -14,25 +14,36 @@ public class SistemaDejuego : MonoBehaviour {
 	//Numeros minimos y maximos para las tablas, respuestas
 	public int min, max;
 	int numero1, numero2, resultado;
-	List<int> respuestas = new List<int>();
-
+	List<string> respuestas = new List<string>();
+	string resulString;
 
 	//Todos los enemigos por Pantalla o Operaciones a derrotar
 	GameObject[] goRespuestas;
 	Transform tmp;
 	public GameObject[] posicionesEnemigos;
 	Transform  posEnemigoActual;
+
 	public List<Text> txtOpciones = new List<Text>();
 	private List<Transform> posiciones = new List<Transform>();
+
+
 	int signo;
+	int posiDelaTablaAcultar;
+
+
+
+
 	public float posicionXActual;
+
+
 
 	// Variables que le dicen al enemigo que ataque.
     bool attack;
     bool generar = false;
 	bool die;
 
-	//Variables con la data
+
+	//Variables con la data del juego
 	public GameData gData;
 
 	// GAMEOVER
@@ -435,6 +446,33 @@ public class SistemaDejuego : MonoBehaviour {
 	}
 
 
+	public string GenerarSignoParaRespuestas(){
+
+		float random = Random.Range(0.0f,4.0f);
+		string psigno = "";
+
+		if((int)random == 0){
+
+			psigno = "X";
+
+		}else if((int)random == 1){
+
+			psigno = "+";
+
+		}if((int)random == 2){
+
+			psigno = "-";
+
+		} if((int)random == 3){
+
+			psigno = "/";
+
+		}
+
+		return psigno;
+
+	}
+
 	//Nivel actual del jugador.
 	public void NivelDejuego(){
 
@@ -462,7 +500,9 @@ public class SistemaDejuego : MonoBehaviour {
 	}
 
 	public void EleccionTabla(){
-		
+
+		ElegirElementoDelaOperacionaOcultar ();
+
 		OkGenerar();
 
 		if(generar){
@@ -483,16 +523,15 @@ public class SistemaDejuego : MonoBehaviour {
 		}
 			
 
-			if (resultado == respuestas [num]) {
-
-				
+		if (resulString == respuestas [num]) {
 
 				if(attack){
+
 					attack = false;
+
 				}
 
 				persController.AumentarJump();
-				
 				
 				LimpiarRespuestas ();
 				DesactivarBotonRespuestas ();
@@ -542,31 +581,36 @@ public class SistemaDejuego : MonoBehaviour {
 
 
 
-	public int pasarNumeroDerecha(){
+	public void pasarNumeroDerecha(){
 		
 		numero1 = GeneradorNumeroRandom();
 
-		return numero1 ;
-	
+		Debug.Log ("El numero 1 es " + numero1);
+
 	}
 
-	public int pasarNumeroIzquierda(){
+	public void pasarNumeroIzquierda(){
 
 		numero2 = GeneradorNumeroRandomIzquierda();
+
+		//Debug.Log ("El numero 2 es " + numero2);
 	
-		return numero2;
 	
 	}
 
-	public int ObtenerSigno(){
+	// Primero eligo el signo
+	public void ObtenerSigno(){
 
 		signo = GenerarSignoUIRandom ();
-	
-		return signo;
-	
+
 	}
 
+	// Segundo realizo la operacion 
 	public void OperacionAritmetica(){
+
+		pasarNumeroDerecha ();
+		pasarNumeroIzquierda ();
+		ObtenerSigno ();
 
 		if(signo == 0){
 			
@@ -613,30 +657,175 @@ public class SistemaDejuego : MonoBehaviour {
 	void operacionDividir(){
 
 		float entera = numero2 / numero1;
+
+		if (numero1 > numero2) {
+
+			resultado = numero2 / numero1;
+
+
+		} else if (numero2 > numero1) {
+
+			resultado = numero1 / numero2;
+
+		} else {
+
+			resultado = numero1 / numero2;
+		
+		}
+			
+
+	
 		resultado = (int)entera;
 
 	}
 
+	// Tercero eligo la operacion a ocultar
+	public void ElegirElementoDelaOperacionaOcultar(){
+
+		float posElemento = Random.Range (0f,4f);
+		posiDelaTablaAcultar = (int)posElemento;
+
+		if(posiDelaTablaAcultar == 0){
+
+			resulString = numero1.ToString();
+		
+		} else if(posiDelaTablaAcultar == 1){
+		
+			resulString = elegirElSigno();
+		
+		}else if(posiDelaTablaAcultar == 2){
+		
+			resulString = numero2.ToString();
+
+		} else if(posiDelaTablaAcultar == 3){
+
+			resulString = resultado.ToString();
+		} 
+
+	}
 
 
+	public string elegirElSigno(){
+
+	    string psigno = " ";
+
+		if(signo == 0){
+		   
+			psigno = "X";
+		
+		}else if(signo == 1){
+
+			psigno = "+";
+	
+		}if(signo == 2){
+		
+			psigno = "-";
+		
+		} if(signo == 3){
+		
+			psigno = "/";
+		
+		}
+	
+		return psigno;
+	}
+
+
+	public string devolverNumero1(){
+
+		string tmp = "_"; 
+
+		if (posiDelaTablaAcultar != 0) {
+
+			tmp = numero1.ToString ();
+
+			return tmp;
+
+		} 
+
+		return tmp;
+	}
+
+
+
+	public string devolverSigno(){
+
+		string tmp = "_"; 
+	
+		if (posiDelaTablaAcultar != 1) {
+
+			tmp = elegirElSigno();
+
+			return tmp;
+
+		} 
+
+		return tmp;
+	}
+
+
+
+	public string devolverNumero2(){
+
+		string tmp = "_"; 
+
+		if (posiDelaTablaAcultar != 2) {
+
+			tmp = numero2.ToString ();
+
+			return tmp;
+
+		} 
+
+		return tmp;
+	}
+
+
+	public string devolverResultado(){
+
+		string tmp = "_"; 
+
+		if (posiDelaTablaAcultar != 3) {
+
+			tmp = resultado.ToString ();
+			return tmp;
+
+		} 
+
+		return tmp;
+	}
 
 	//Eligo dos respuestas al azar y agrego el resultado de la operacion
 	public void IngresarRespuestas(){
 
-		List<int> arrDes = new List<int>();
+		List<string> arrDes = new List<string>();
 
 		int tmp = 0;		
+		string tmpS = "";
 
 		for(int i = 0;  i < 3; i++){
 
 			if(i < 2){
 
-				tmp = GeneradorNumeroRandomRespuesta();
-				arrDes.Add(tmp);
+				Debug.Log ("posiDelaTablaAcultar " + posiDelaTablaAcultar);
+
+				if (posiDelaTablaAcultar == 1) {
+
+					Debug.Log ("Busco los signos para las respuestas");
+
+					tmpS = GenerarSignoParaRespuestas ();
+					arrDes.Add(tmpS);
+				
+				} else {
+					
+					tmp = GeneradorNumeroRandomRespuesta();
+					arrDes.Add(tmp.ToString());
+				}
+
 
 			} else if(i == 2){
 				
-				arrDes.Add(resultado);
+				arrDes.Add(resulString);
 
 			}
 
@@ -665,26 +854,35 @@ public class SistemaDejuego : MonoBehaviour {
 		
 
 	public void cargarPosiciones(Transform position){
+
 		tmp = position;
+
 		OkGenerar ();
 
 	}
 
 
 	public void OkGenerar(){
+
 		for(int i = 0;  i < posiciones.Count; i++){
+
 			if(tmp == posiciones[i]){
+			
 				generar = false;
+		
 			}
+		
 		}
+	
 		generar = true;
+	
 	}
 
 	public void BotonRespuestas(){
 
 		for(int i=0;  i < respuestas.Count; i++){
 		
-			txtOpciones[i].text = respuestas[i].ToString();
+			txtOpciones[i].text = respuestas[i];
 		}
 	}
 
@@ -701,9 +899,7 @@ public class SistemaDejuego : MonoBehaviour {
 	public void DesactivarBotonRespuestas(){
 
 		for(int i=0;  i < goRespuestas.Length; i++){
-
-			Debug.Log ("Desactivando las respuestas");
-		
+			
 			goRespuestas [i].SetActive (false);
 
 		}
@@ -720,16 +916,9 @@ public class SistemaDejuego : MonoBehaviour {
 	}
 
 
-
-
-//	public void recibirTroll(GameObject untroll){
-
-	//	trollActual = untroll;
-	//	trollDeath = trollActual.GetComponent<Animator>();
-	//	SetearActualEnemigos(trollActual);
-	
-	//}
-
+	public int obtonerResultado(){
+		return resultado;
+	}
 
 
 	// Todo sobre las vidas, fallos puntajes
@@ -810,21 +999,18 @@ public class SistemaDejuego : MonoBehaviour {
 
 
 	public void SumarFallosPorCuentas (){
+
 		if(signo == 0){
-
-
 
 			gData.fallosMultiplicacion++;
 
 		} else if(signo == 1){
-
 
 			gData.fallosSuma++;
 
 		}
 
 		else if(signo == 2){
-
 
 			gData.fallosResta++;
 		}
@@ -889,6 +1075,7 @@ public class SistemaDejuego : MonoBehaviour {
 		ui.txtBones.text = gData.bones.ToString();
 
 		if(gData.bones == 100){
+		
 			gData.bones = 0;
 			ui.txtBones.text = gData.bones.ToString();
 		
@@ -904,7 +1091,6 @@ public class SistemaDejuego : MonoBehaviour {
 
 
 	public void RestartLevel(){
-
 		SceneManager.LoadScene (gData.nivel.ToString());
 
 	}
@@ -919,14 +1105,15 @@ public class SistemaDejuego : MonoBehaviour {
 	}
 
 	public void PantallaTerminada(){
+		gData.subirNivel ();
+		SaveData();
 		Cambiarescena();
 	}
 
 
 
 	public void Cambiarescena(){
-
-
+		SceneManager.LoadScene (gData.nivel.ToString());
 	}
 
 
@@ -1059,9 +1246,8 @@ public class SistemaDejuego : MonoBehaviour {
 	public void GuardarEvolucionDeSaltoDePersonaje(float pJump, float pSpeed){
 		
 		gData.jumpSpeed = pJump;
-		//Debug.Log ("GuardarEvolucionDeSaltoDePersonaje: El salto esta en  " + gData.jumpSpeed );
 		gData.speedBoost = pSpeed;
-		//Debug.Log ("GuardarEvolucionDeSaltoDePersonaje: El salto esta en  " + gData.speedBoost );
+
 	}
 
 	public float DevolverJump(){
@@ -1086,8 +1272,6 @@ public class SistemaDejuego : MonoBehaviour {
 
 		for (int i = 0; i < gData.orcosPorAnimales.Length; i++) {
 				
-			Debug.Log ("La posicion " + i + " esta " + gData.orcosPorAnimales[i] );
-
 			gData.orcosPorAnimales[i] = false;
 				
 
@@ -1096,9 +1280,6 @@ public class SistemaDejuego : MonoBehaviour {
 	}
 
 	public void OrcosAnimales(){
-	
-		Debug.Log (" Instanciando orcos/animales ");
-
 
 		for (int i = 0; i < gData.orcosPorAnimales.Length; i++) {
 

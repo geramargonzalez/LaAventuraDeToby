@@ -59,9 +59,7 @@ public class GameData
 
 
 
-	// METODOS
-
-
+	// ***  METODOS *** //
 
 	public void GuardarPosicionInicial(){
 		x = 3.3f;
