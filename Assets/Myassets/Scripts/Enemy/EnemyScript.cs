@@ -170,7 +170,7 @@ public class EnemyScript : MonoBehaviour {
 	{
 		if (other.gameObject.tag == "Player") {
 
-			//SistemaDejuego.instance.DesactivarBotonRespuestas ();
+			SistemaDejuego.instance.DesactivarBotonRespuestas();
 
 			Idle ();
 
@@ -184,7 +184,6 @@ public class EnemyScript : MonoBehaviour {
 	
 		if (coll.gameObject.tag == "Player")
 			Atacar();
-			//respuestas.SetActive (false);
 	
 	}
 
@@ -195,10 +194,6 @@ public class EnemyScript : MonoBehaviour {
 
 		restaurarValoresTiempo ();
 
-		//Desactivo los numeros.
-		//gameScript.desactivarObjetos();
-		//gameScript2.desactivarObjetos();
-		//.desactivarObjetos();
 
 		//Multiplico las operaciones
 		SistemaDejuego.instance.OperacionAritmetica();
@@ -214,9 +209,7 @@ public class EnemyScript : MonoBehaviour {
 
 		//Activo las tablas
 		tablas.SetActive(true);
-
-		//Muestros las respuestas
-		//respuestas.SetActive(true);
+	
 
 		//Espero
 		yield return new WaitForSeconds(maxtime);
@@ -272,8 +265,6 @@ public class EnemyScript : MonoBehaviour {
 		ui.texttimeOp.text = "";
 		limpiarTextosDelasOperaciones ();
 		opHabilitada = false;
-		//tablas.SetActive(false);
-		//respuestas.SetActive (false);
 
 	}
 

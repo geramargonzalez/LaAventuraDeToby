@@ -98,6 +98,7 @@
      <Compile Include="Assets\Myassets\Sprites\Orc Warrior\Scripts\MouseController.cs" />
      <Compile Include="Assets\Myassets\Sprites\Spooky Woods\Example\Scripts\BackgroundParallax.cs" />
      <Compile Include="Assets\Myassets\Sprites\Spooky Woods\Example\Scripts\CameraMove.cs" />
+     <Compile Include="Assets\NivelCompletado.cs" />
      <None Include="Assets\Myassets\Sprites\Actors\Enemies\monster_round\get more at bevouliin_dot_com.txt" />
      <None Include="Assets\Demigiant\DOTween\readme.txt" />
      <None Include="Assets\Demigiant\DOTween\DOTween43.xml" />

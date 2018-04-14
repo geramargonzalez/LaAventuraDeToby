@@ -12,8 +12,10 @@ public class SistemaDejuego : MonoBehaviour {
 	public static SistemaDejuego instance;
 
 	//Numeros minimos y maximos para las tablas, respuestas
-	public int min, max;
+	public int min, max, minIzq, maxIzq, minResp, maxResp;
+
 	int numero1, numero2, resultado;
+
 	List<string> respuestas = new List<string>();
 	string resulString;
 
@@ -314,7 +316,6 @@ public class SistemaDejuego : MonoBehaviour {
 
 		if(!gData.operaRealizadas[gData.posActualEnemigo] && gData.posActualEnemigo <= posicionesEnemigos.Length - 1){
 
-
 			Instantiate (trollActual, posicionesEnemigos[gData.posActualEnemigo].transform.position, Quaternion.identity);
 
 			gData.posActualEnemigo = gData.posActualEnemigo + 1;
@@ -435,13 +436,13 @@ public class SistemaDejuego : MonoBehaviour {
 	}
 
 	public int GeneradorNumeroRandomIzquierda(){
-		float random = Random.Range(0.0f,9.0f);
+		float random = Random.Range((float)minIzq,(float)maxIzq);
 		return (int)random;
 	
 	}
 
 	public int GeneradorNumeroRandomRespuesta(){
-		float random = Random.Range(0.0f,90.0f);
+		float random = Random.Range((float)minResp,(float)maxResp);
 		return (int)random;
 	}
 
@@ -478,23 +479,31 @@ public class SistemaDejuego : MonoBehaviour {
 
 		if (gData.nivel == 0){
 
-			min = 0;
-			max = 3;
+			min = 1;
+			max = 4;
+			minIzq = 1;
+			maxIzq = 11;
+			minResp = 1;
+			maxResp = 50;
 		
 		}  else if (gData.nivel == 1){
-
-			min = 0;
-			max = 6;
+			
+			max = 7;
+			maxIzq = 21;
+			maxResp = 100;
 		
 		} else if (gData.nivel == 2){
 		
-			min = 0;
-			max = 9;
+
+			max = 11;
+			maxIzq = 21;
+			maxResp = 150;
 		
 		} else if (gData.nivel == 3){
-
-			min = 0;
-			max = 15;
+			
+			max = 21;
+			maxIzq = 31;
+			maxResp = 200;
 		}
 
 	}
@@ -519,7 +528,9 @@ public class SistemaDejuego : MonoBehaviour {
 
 		//Deja la huella que ya jugo.
 		if(!gData.yaJugo){
+		
 			gData.yaJugo = true;
+		
 		}
 			
 
@@ -559,9 +570,8 @@ public class SistemaDejuego : MonoBehaviour {
 				SumarFallos();
 	
 			}
-
-
 	}
+
 
 	public bool obtenerAttack(){
 		return attack;
@@ -585,7 +595,7 @@ public class SistemaDejuego : MonoBehaviour {
 		
 		numero1 = GeneradorNumeroRandom();
 
-		Debug.Log ("El numero 1 es " + numero1);
+	//	Debug.Log ("El numero 1 es " + numero1);
 
 	}
 
@@ -600,8 +610,9 @@ public class SistemaDejuego : MonoBehaviour {
 
 	// Primero eligo el signo
 	public void ObtenerSigno(){
-
+		
 		signo = GenerarSignoUIRandom ();
+	
 
 	}
 
@@ -660,12 +671,12 @@ public class SistemaDejuego : MonoBehaviour {
 
 		if (numero1 > numero2) {
 
-			resultado = numero2 / numero1;
+			resultado = numero1 / numero2;
 
 
 		} else if (numero2 > numero1) {
 
-			resultado = numero1 / numero2;
+			resultado = numero2 / numero1;
 
 		} else {
 
@@ -739,8 +750,6 @@ public class SistemaDejuego : MonoBehaviour {
 
 			tmp = numero1.ToString ();
 
-			return tmp;
-
 		} 
 
 		return tmp;
@@ -755,8 +764,6 @@ public class SistemaDejuego : MonoBehaviour {
 		if (posiDelaTablaAcultar != 1) {
 
 			tmp = elegirElSigno();
-
-			return tmp;
 
 		} 
 
@@ -773,8 +780,6 @@ public class SistemaDejuego : MonoBehaviour {
 
 			tmp = numero2.ToString ();
 
-			return tmp;
-
 		} 
 
 		return tmp;
@@ -788,7 +793,6 @@ public class SistemaDejuego : MonoBehaviour {
 		if (posiDelaTablaAcultar != 3) {
 
 			tmp = resultado.ToString ();
-			return tmp;
 
 		} 
 
@@ -807,12 +811,8 @@ public class SistemaDejuego : MonoBehaviour {
 
 			if(i < 2){
 
-				Debug.Log ("posiDelaTablaAcultar " + posiDelaTablaAcultar);
-
 				if (posiDelaTablaAcultar == 1) {
-
-					Debug.Log ("Busco los signos para las respuestas");
-
+					
 					tmpS = GenerarSignoParaRespuestas ();
 					arrDes.Add(tmpS);
 				
@@ -1097,9 +1097,14 @@ public class SistemaDejuego : MonoBehaviour {
 
 	public void EnemigosVencidos(){
 
-		if(gData.cantidadTrolls == 1){
+		if (gData.cantidadTrolls == 0) {
 		
-			PantallaTerminada();
+
+			persController.PantallaTerminada ();
+		
+		} else {
+		
+			persController.PantallaNoTerminada ();
 		
 		}
 	}
@@ -1109,13 +1114,15 @@ public class SistemaDejuego : MonoBehaviour {
 		SaveData();
 		Cambiarescena();
 	}
-
-
-
+		
 	public void Cambiarescena(){
-		SceneManager.LoadScene (gData.nivel.ToString());
+		StartCoroutine (CambioDePantalla());
 	}
 
+	IEnumerator CambioDePantalla(){
+		yield return new WaitForSeconds(2.20f);
+		SceneManager.LoadScene (gData.nivel.ToString());
+	}
 
 
 
@@ -1267,7 +1274,9 @@ public class SistemaDejuego : MonoBehaviour {
 
 	// Poner los orquitos en escena
 	public void MarcarOrquitosEnEscena(){
-		
+
+		Debug.Log ("Marcar Orquitos para ponerlos todos");
+
 		gData.orcosPorAnimales = new bool[posOrcosAnimales.Length];
 
 		for (int i = 0; i < gData.orcosPorAnimales.Length; i++) {
@@ -1280,6 +1289,8 @@ public class SistemaDejuego : MonoBehaviour {
 	}
 
 	public void OrcosAnimales(){
+
+		Debug.Log ("OrcosAnimales: Cargo los animales/orcos");
 
 		for (int i = 0; i < gData.orcosPorAnimales.Length; i++) {
 

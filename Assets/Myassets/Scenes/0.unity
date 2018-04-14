@@ -3720,6 +3720,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   min: 1
   max: 4
+  minIzq: 0
+  maxIzq: 0
+  minResp: 0
+  maxResp: 0
   posicionesEnemigos:
   - {fileID: 871956466}
   - {fileID: 630594081}
@@ -3780,11 +3784,6 @@ MonoBehaviour:
     - {fileID: 185072688}
     - {fileID: 1295184115}
     - {fileID: 806219932}
-    respuesta1: {fileID: 0}
-    respuesta2: {fileID: 0}
-    signoTroll: {fileID: 0}
-    resultado: {fileID: 0}
-    equal: {fileID: 0}
   posOrcosAnimales:
   - {fileID: 1821435008}
   - {fileID: 668266571}
@@ -4785,7 +4784,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 216472691}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -545.5, y: -29.7, z: 0}
+  m_LocalPosition: {x: -472.3, y: -29.7, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1159929584}
@@ -6802,6 +6801,72 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 35e070b87334de349925973666825950, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &403896940
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 403896941}
+  - component: {fileID: 403896942}
+  - component: {fileID: 403896943}
+  m_Layer: 0
+  m_Name: "LLegoAlaMonta\xF1a"
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &403896941
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 403896940}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 3520, y: 515.3, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1253244281}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &403896942
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 403896940}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 1.6141663}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 48.72223}
+  m_EdgeRadius: 0
+--- !u!114 &403896943
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 403896940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b58b79b7107d54da7adc6df38c95e0ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &406242750
 GameObject:
   m_ObjectHideFlags: 0
@@ -8048,7 +8113,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 443972992}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -163.5, y: -29.7, z: 0}
+  m_LocalPosition: {x: -107.7, y: -29.7, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1159929584}
@@ -14933,11 +14998,6 @@ MonoBehaviour:
     textCheckPoint: {fileID: 0}
     txtMsjgrlHabilidad: {fileID: 1913375218}
     vidasGo: []
-    respuesta1: {fileID: 0}
-    respuesta2: {fileID: 0}
-    signoTroll: {fileID: 0}
-    resultado: {fileID: 0}
-    equal: {fileID: 0}
 --- !u!61 &799116138
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -15886,7 +15946,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 871956466}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 288.1, y: -24.49258, z: 0}
+  m_LocalPosition: {x: 321.9, y: -24.49258, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1940583107}
@@ -21155,6 +21215,7 @@ Transform:
   - {fileID: 1310368769}
   - {fileID: 1940583107}
   - {fileID: 1159929584}
+  - {fileID: 403896941}
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -28123,7 +28184,6 @@ GameObject:
   - component: {fileID: 1647808623}
   - component: {fileID: 1647808622}
   - component: {fileID: 1647808621}
-  - component: {fileID: 1647808624}
   - component: {fileID: 1647808625}
   m_Layer: 5
   m_Name: 'Respuestas '
@@ -28214,17 +28274,6 @@ Canvas:
   m_SortingLayerID: 1958873779
   m_SortingOrder: 1000
   m_TargetDisplay: 0
---- !u!114 &1647808624
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1647808619}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f7015f05a40741cc8ef5251ab5d662c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1647808625
 MonoBehaviour:
   m_ObjectHideFlags: 0

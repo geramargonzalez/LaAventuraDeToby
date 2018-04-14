@@ -22,7 +22,6 @@ public class PlayerController : MonoBehaviour {
 
 	bool isJumping = false;
 
-//	bool canDoublejump;
 	public float delayDoubleJump;
 
 	public bool isGrounded;
@@ -136,10 +135,8 @@ public class PlayerController : MonoBehaviour {
 	public void Jump () {
 
 		if(isGrounded){
-
-			Debug.Log ("Jump: El salto esta en  " + jumpSpeed );
-
-			rg.AddForce (new Vector2 (0, jumpSpeed)); // Solo hace saltar al personaje.
+			
+			rg.AddForce (new Vector2 (0, jumpSpeed)); 
 			isJumping = true;
 			anim.SetInteger ("state",2);
 		}
@@ -201,14 +198,12 @@ public class PlayerController : MonoBehaviour {
 
 		if (jumpSpeed < 1400) {
 			ui.txtMsjgrlHabilidad.text = "Mejora: Salto";
-			//ui.txtHabilidad.text = "SALTO ";
 			SistemaDejuego.instance.GuardarEvolucionDeSaltoDePersonaje(jumpSpeed,speedBoost);
 			StartCoroutine(mostrarHabilidad());
 		
 		} else if(jumpSpeed == 1400) {
 
 			ui.txtMsjgrlHabilidad.text = "Mayor capacidad alcanzada de salto";
-			//txtHabilidad.text = " SALTO";
 			SistemaDejuego.instance.GuardarEvolucionDeSaltoDePersonaje(jumpSpeed,speedBoost);
 			StartCoroutine(mostrarHabilidad());
 		}
@@ -221,14 +216,12 @@ public class PlayerController : MonoBehaviour {
 		if (speedBoost < 21) {
 
 			ui.txtMsjgrlHabilidad.text = "Mejora: Velocidad";
-			//ui.txtHabilidad.text = "Velocidad ";
 			SistemaDejuego.instance.GuardarEvolucionDeSaltoDePersonaje(jumpSpeed,speedBoost);
 			StartCoroutine(mostrarHabilidad());
 		
 		} else if(speedBoost == 17) {
 			
 			ui.txtMsjgrlHabilidad.text = "Mayor capacidad alcanzada: Velocidad";
-			//txtHabilidad.text = " Velocidad";
 			StartCoroutine(mostrarHabilidad());
 
 		}
@@ -261,13 +254,26 @@ public class PlayerController : MonoBehaviour {
 	IEnumerator mostrarHabilidad()
 	{
 		Habilidadestatico.SetActive(true);
-		//animTxtHabilidad.SetBool ("entrar",true);
 		animTxtMsjHabilidad.SetBool ("entrar",true);
 		yield return new WaitForSeconds(2.20f);
 		Habilidadestatico.SetActive(false);
 		ui.txtMsjgrlHabilidad.fontSize = 300;
 	
 	}
+
+	public void PantallaTerminada(){
+		ui.txtMsjgrlHabilidad.fontSize = 200;
+		ui.txtMsjgrlHabilidad.text = "Completaste el nivel";
+		StartCoroutine(mostrarHabilidad());
+	}
+
+
+	public void PantallaNoTerminada(){
+		ui.txtMsjgrlHabilidad.fontSize = 150;
+		ui.txtMsjgrlHabilidad.text = "Te quedan operaciones por realizar";
+		StartCoroutine(mostrarHabilidad());
+	}
+
 
 
 

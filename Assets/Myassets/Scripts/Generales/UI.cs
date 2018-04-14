@@ -38,7 +38,5 @@ public class UI  {
 
 	public GameObject[] vidasGo;
 
-	[Header("Textos de Operaciones Aritmetica")]
-
 
 }
