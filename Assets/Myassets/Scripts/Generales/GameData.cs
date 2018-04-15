@@ -66,6 +66,7 @@ public class GameData
 		y = -26.5f;
 		z = 0f;
 	}
+		
 
 	public float ResetTime(){
 

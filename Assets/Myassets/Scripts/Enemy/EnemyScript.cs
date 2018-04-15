@@ -6,26 +6,12 @@ using UnityEngine.UI;
 public class EnemyScript : MonoBehaviour {
 
 	Animator anim;
-
 	float speed;
-
-	//public GameObject gameManager;
-	//private GameObject player;
-   // public GameObject respuestas;
 
 	public bool attack;
 	bool move;
-
-	//public GameObject numeroUno;
-		 //  Numero gameScript;
-
-	//public GameObject numeroDos;
-		 //  Numero2 gameScript2;
-
-	//public GameObject signo;
-		   //setearOperacion scriptTipoOp;
-
 	bool ok = true;
+
 
 	public GameObject tablas;
 
@@ -45,7 +31,7 @@ public class EnemyScript : MonoBehaviour {
 	public Text resultado;
 	public Text equal;
 
-
+	Text[] textosOperaciones;
 
 	// Use this for initialization
 	void Start () {
@@ -54,23 +40,10 @@ public class EnemyScript : MonoBehaviour {
 		move = false;
 		attack = false;
 
-		//respuestas = GameObject.Find ("Respuestas");  txtequals
 		ui.texttimeOp = GameObject.Find ("ResetOperacion").GetComponent<Text>();
-
-		//ui.respuesta1 = GameObject.Find ("txtrespuesta1").GetComponent<Text>();
-		//ui.respuesta2 = GameObject.Find ("txtrespuesta2").GetComponent<Text>();
-		//ui.signoTroll = GameObject.Find ("txtsigno").GetComponent<Text>();
-		//ui.equal = GameObject.Find ("txtequals").GetComponent<Text>();
-		//ui.resultado =  GameObject.Find ("txtresultado").GetComponent<Text>();
-
 		tablas.SetActive (false);
-
-		//respuestas.SetActive (false);
-		//gameScript = numeroUno.GetComponent<Numero> ();
-		//gameScript2 = numeroDos.GetComponent<Numero2> ();
-		//scriptTipoOp =   signo.GetComponent<setearOperacion> ();
-
 		anim = GetComponent<Animator> ();
+		agregarTextosParaRecorrerlos ();
 
 	}
 
@@ -102,9 +75,11 @@ public class EnemyScript : MonoBehaviour {
 	}
 
 	void Mover(){
+		
 		if(move){
 			transform.Translate(-5f * Time.deltaTime,0f, 0f);
 		}
+	
 	}
 
 	public void ocultarTroll(){
@@ -118,8 +93,7 @@ public class EnemyScript : MonoBehaviour {
 		SistemaDejuego.instance.SetDie(false);
 		SistemaDejuego.instance.SetearCrearNuevoTroll (true);
 
-		yield return new WaitForSeconds(0.05f);
-	
+		yield return new WaitForSeconds(0.1f);
 		Destroy (this.gameObject);
 	}
 		
@@ -152,7 +126,7 @@ public class EnemyScript : MonoBehaviour {
 
 		if (other.gameObject.CompareTag("Player")) {
 
-			SistemaDejuego.instance.ObtenerEnemigoActual (this.gameObject.transform);
+			SistemaDejuego.instance.ObtenerEnemigoActual (this.gameObject);
 
 			Walk();
 
@@ -263,7 +237,7 @@ public class EnemyScript : MonoBehaviour {
 	public void detenerOperacion(){
 		StopCoroutine (tiempoDecambio ());
 		ui.texttimeOp.text = "";
-		limpiarTextosDelasOperaciones ();
+		//limpiarTextosDelasOperaciones ();
 		opHabilitada = false;
 
 	}
@@ -275,8 +249,38 @@ public class EnemyScript : MonoBehaviour {
 		respuesta2.text = " ";
 		resultado.text  = " ";
 		equal.text =  " ";
+
 	}
 
+	public void agregarTextosParaRecorrerlos(){
+		textosOperaciones = new Text[5];
+
+		textosOperaciones[0] = respuesta1;
+		textosOperaciones[1] = signoTroll;
+		textosOperaciones[2] = respuesta2;
+		textosOperaciones[3] = equal;
+		textosOperaciones[4] = resultado;
+
+	}
+
+	public void RecibirResultado(string resultadoOperacion){
+		//for(int i = 0; i < textosOperaciones.Length; i++){
+			//if(textosOperaciones[i].text == "_"){
+		if (respuesta1.text == "_") {
+			respuesta1.text = resultadoOperacion;
+			SistemaDejuego.instance.SetDie (true);
+		} else if (respuesta2.text ==  "_") {
+			respuesta2.text = resultadoOperacion;
+			SistemaDejuego.instance.SetDie (true);
+		} else if (signoTroll.text ==  "_") {
+			signoTroll.text = resultadoOperacion;
+			SistemaDejuego.instance.SetDie (true);
+		}else if (resultado.text ==  "_") {
+			resultado.text = resultadoOperacion;
+			SistemaDejuego.instance.SetDie (true);
+		}
+
+	}
 
 
 }

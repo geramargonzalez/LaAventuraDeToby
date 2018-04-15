@@ -1,13 +1,13 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Myassets/Scripts/Player/PlayerController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Myassets/Scripts/Generales/SistemaDejuego.cs">
     <Files>
-      <File FileName="Assets/Myassets/Scripts/Generales/SistemaDejuego.cs" Line="1117" Column="3" />
+      <File FileName="Assets/Myassets/Scripts/Generales/SistemaDejuego.cs" Line="214" Column="5" />
       <File FileName="Assets/Myassets/Scripts/Generales/UI.cs" Line="41" Column="2" />
-      <File FileName="Assets/Myassets/Scripts/Enemy/EnemyScript.cs" Line="153" Column="47" />
-      <File FileName="Assets/Myassets/Scripts/Generales/GameData.cs" Line="1" Column="1" />
-      <File FileName="Assets/NivelCompletado.cs" Line="6" Column="2" />
-      <File FileName="Assets/Myassets/Scripts/Player/PlayerController.cs" Line="24" Column="1" />
+      <File FileName="Assets/Myassets/Scripts/Enemy/EnemyScript.cs" Line="184" Column="22" />
+      <File FileName="Assets/Myassets/Scripts/Generales/GameData.cs" Line="69" Column="3" />
+      <File FileName="Assets/NivelCompletado.cs" Line="18" Column="1" />
+      <File FileName="Assets/Myassets/Scripts/Enemy/EnemyPatrol.cs" Line="3" Column="26" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

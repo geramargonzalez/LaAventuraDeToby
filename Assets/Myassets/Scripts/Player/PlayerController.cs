@@ -35,11 +35,10 @@ public class PlayerController : MonoBehaviour {
 	bool rightpressed;
 
 
-	public GameObject Habilidadestatico;
+
 
 	public UI ui;
-	Animator animTxtHabilidad;
-	Animator animTxtMsjHabilidad;
+
 
 	bool cantfall;
 
@@ -49,8 +48,7 @@ public class PlayerController : MonoBehaviour {
 		rg = GetComponent<Rigidbody2D>();
 		sp = GetComponent<SpriteRenderer>();
 		anim = GetComponent<Animator>();
-		Habilidadestatico.SetActive(false);
-		animTxtMsjHabilidad = ui.txtMsjgrlHabilidad.GetComponent<Animator> ();
+
 		SetearVelocidadAndJump ();
 
 	}
@@ -87,7 +85,8 @@ public class PlayerController : MonoBehaviour {
 			MoverHaciaAdelante (speedBoost);
 		
 		}
-	
+	  
+		SetearVelocidadAndJump ();
 
 	}
 
@@ -96,6 +95,7 @@ public class PlayerController : MonoBehaviour {
 	} 
 		
 	public void SetearVelocidadAndJump(){
+		
 		jumpSpeed = SistemaDejuego.instance.DevolverJump ();
 		speedBoost = SistemaDejuego.instance.DevolverSpeed ();
 	}
@@ -190,89 +190,6 @@ public class PlayerController : MonoBehaviour {
 		Jump ();
 	}
 
-
-	//Mejora/Empeora velocidad y salto
-	public void AumentarJump(){
-	
-		jumpSpeed = jumpSpeed + 20f; 
-
-		if (jumpSpeed < 1400) {
-			ui.txtMsjgrlHabilidad.text = "Mejora: Salto";
-			SistemaDejuego.instance.GuardarEvolucionDeSaltoDePersonaje(jumpSpeed,speedBoost);
-			StartCoroutine(mostrarHabilidad());
-		
-		} else if(jumpSpeed == 1400) {
-
-			ui.txtMsjgrlHabilidad.text = "Mayor capacidad alcanzada de salto";
-			SistemaDejuego.instance.GuardarEvolucionDeSaltoDePersonaje(jumpSpeed,speedBoost);
-			StartCoroutine(mostrarHabilidad());
-		}
-	}
-
-	public void AumentarSpeed(){
-
-		speedBoost = speedBoost + 0.1f;
-
-		if (speedBoost < 21) {
-
-			ui.txtMsjgrlHabilidad.text = "Mejora: Velocidad";
-			SistemaDejuego.instance.GuardarEvolucionDeSaltoDePersonaje(jumpSpeed,speedBoost);
-			StartCoroutine(mostrarHabilidad());
-		
-		} else if(speedBoost == 17) {
-			
-			ui.txtMsjgrlHabilidad.text = "Mayor capacidad alcanzada: Velocidad";
-			StartCoroutine(mostrarHabilidad());
-
-		}
-	}
-
-	public void DisminuirJump(){
-
-		jumpSpeed = jumpSpeed - 0.3f;
-
-		if(jumpSpeed >= 7){
-			
-			ui.txtMsjgrlHabilidad.text = "Disminuyo: Salto";
-			StartCoroutine(mostrarHabilidad());
-		
-		} 
-	}
-
-	public void QuedaUnSoloTroll(){
-		ui.txtMsjgrlHabilidad.text = "Ultimo Troll";
-		StartCoroutine(mostrarHabilidad());
-	}
-
-	public void CeroTroll(){
-		ui.txtMsjgrlHabilidad.fontSize = 200;
-		ui.txtMsjgrlHabilidad.text = "Moverse hacia el castillo";
-		StartCoroutine(mostrarHabilidad());
-	}
-
-
-	IEnumerator mostrarHabilidad()
-	{
-		Habilidadestatico.SetActive(true);
-		animTxtMsjHabilidad.SetBool ("entrar",true);
-		yield return new WaitForSeconds(2.20f);
-		Habilidadestatico.SetActive(false);
-		ui.txtMsjgrlHabilidad.fontSize = 300;
-	
-	}
-
-	public void PantallaTerminada(){
-		ui.txtMsjgrlHabilidad.fontSize = 200;
-		ui.txtMsjgrlHabilidad.text = "Completaste el nivel";
-		StartCoroutine(mostrarHabilidad());
-	}
-
-
-	public void PantallaNoTerminada(){
-		ui.txtMsjgrlHabilidad.fontSize = 150;
-		ui.txtMsjgrlHabilidad.text = "Te quedan operaciones por realizar";
-		StartCoroutine(mostrarHabilidad());
-	}
 
 
 

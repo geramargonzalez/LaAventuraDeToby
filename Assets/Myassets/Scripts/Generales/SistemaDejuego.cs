@@ -104,6 +104,11 @@ public class SistemaDejuego : MonoBehaviour {
 	public GameObject[] posOrcosAnimales;
 
 
+	Animator animTxtHabilidad;
+	Animator animTxtMsjHabilidad;
+	public GameObject Habilidadestatico;
+
+
 	public enum Item {
 		Enemigos,
 		Orquitos,
@@ -141,6 +146,9 @@ public class SistemaDejuego : MonoBehaviour {
 		goRespuestas = GameObject.FindGameObjectsWithTag("btnRespuesta");
 
 		//posOrcosAnimales = GameObject.FindGameObjectsWithTag("orcosAnimales");
+
+		Habilidadestatico.SetActive(false);
+		animTxtMsjHabilidad = ui.txtMsjgrlHabilidad.GetComponent<Animator> ();
 
 		Comenzar ();
 
@@ -204,7 +212,6 @@ public class SistemaDejuego : MonoBehaviour {
 
 				gData.GuardarPosicionInicial ();
 
-				//MarcarOrquitosEnEscena();
 		
 			}
 
@@ -320,6 +327,8 @@ public class SistemaDejuego : MonoBehaviour {
 
 			gData.posActualEnemigo = gData.posActualEnemigo + 1;
 
+
+
 		
 		} 
 	}
@@ -357,9 +366,11 @@ public class SistemaDejuego : MonoBehaviour {
 
 
 	//Le paso la ultima cuenta realizada.
-	public void ObtenerEnemigoActual(Transform posActual){
+	public void ObtenerEnemigoActual(GameObject posActual){
 	
-		posEnemigoActual = posActual;
+		posEnemigoActual = posActual.transform;
+		enemy = posActual;
+		gnScript = enemy.GetComponent<EnemyScript> ();
 	
 	}
 
@@ -542,7 +553,7 @@ public class SistemaDejuego : MonoBehaviour {
 
 				}
 
-				persController.AumentarJump();
+				AumentarJump();
 				
 				LimpiarRespuestas ();
 				DesactivarBotonRespuestas ();
@@ -553,14 +564,14 @@ public class SistemaDejuego : MonoBehaviour {
 				SumarAciertosPorCuentas ();
 				sumarPuntos (Item.Enemigos);
 				OperacionesAritmeticasCompletadas();
-				die = true;
-
+				gnScript.RecibirResultado (resulString);
+				//die = true;
 				if(gData.cantidadTrolls == 1){
-					persController.QuedaUnSoloTroll ();
+					QuedaUnSoloTroll ();
 				}
 
 				if(gData.cantidadTrolls == 0){
-					persController.CeroTroll ();
+					CeroTroll ();
 				}
 
 
@@ -586,7 +597,7 @@ public class SistemaDejuego : MonoBehaviour {
 	}
 
 	public void SetDie(bool pDie){
-		die = false;
+		die = pDie;
 	}
 
 
@@ -621,6 +632,7 @@ public class SistemaDejuego : MonoBehaviour {
 
 		pasarNumeroDerecha ();
 		pasarNumeroIzquierda ();
+		OrdenarNum1YNumero2 ();
 		ObtenerSigno ();
 
 		if(signo == 0){
@@ -742,6 +754,18 @@ public class SistemaDejuego : MonoBehaviour {
 	}
 
 
+	public void OrdenarNum1YNumero2(){
+
+		int tmp;
+
+		if(numero1 < numero2){
+			tmp = numero1;
+			numero1 = numero2;
+			numero2 = tmp;
+		}
+
+	}
+
 	public string devolverNumero1(){
 
 		string tmp = "_"; 
@@ -761,7 +785,7 @@ public class SistemaDejuego : MonoBehaviour {
 
 		string tmp = "_"; 
 	
-		if (posiDelaTablaAcultar != 1) {
+		if (posiDelaTablaAcultar != 1 ) {
 
 			tmp = elegirElSigno();
 
@@ -958,7 +982,7 @@ public class SistemaDejuego : MonoBehaviour {
 		gData.fallos++;
 		txtFallos ();
 		SumarFallosPorCuentas ();
-		persController.DisminuirJump ();
+		DisminuirJump ();
 	
 	}
 
@@ -1100,11 +1124,11 @@ public class SistemaDejuego : MonoBehaviour {
 		if (gData.cantidadTrolls == 0) {
 		
 
-			persController.PantallaTerminada ();
+			MsjPantallaFinalizada ();
 		
 		} else {
 		
-			persController.PantallaNoTerminada ();
+			MsjPantallaNoFinalizada();
 		
 		}
 	}
@@ -1275,8 +1299,6 @@ public class SistemaDejuego : MonoBehaviour {
 	// Poner los orquitos en escena
 	public void MarcarOrquitosEnEscena(){
 
-		Debug.Log ("Marcar Orquitos para ponerlos todos");
-
 		gData.orcosPorAnimales = new bool[posOrcosAnimales.Length];
 
 		for (int i = 0; i < gData.orcosPorAnimales.Length; i++) {
@@ -1289,8 +1311,6 @@ public class SistemaDejuego : MonoBehaviour {
 	}
 
 	public void OrcosAnimales(){
-
-		Debug.Log ("OrcosAnimales: Cargo los animales/orcos");
 
 		for (int i = 0; i < gData.orcosPorAnimales.Length; i++) {
 
@@ -1328,6 +1348,100 @@ public class SistemaDejuego : MonoBehaviour {
 		}
 
 	}
+
+
+	//Mejora/Empeora velocidad y salto
+
+	public void AumentarJump(){
+
+		gData.jumpSpeed = gData.jumpSpeed + 20f; 
+
+		if (gData.jumpSpeed < 1400) {
+
+			ui.txtMsjgrlHabilidad.text = "Mejora: Salto";
+			StartCoroutine(mostrarHabilidad());
+
+		} else if(gData.jumpSpeed == 1400) {
+
+			ui.txtMsjgrlHabilidad.text = "Mayor capacidad alcanzada de salto";
+			persController.SetearVelocidadAndJump ();
+			StartCoroutine(mostrarHabilidad());
+		}
+	}
+
+
+
+
+
+	public void AumentarSpeed(){
+
+		gData.speedBoost = gData.speedBoost + 0.1f;
+
+		if (gData.speedBoost < 21) {
+
+			ui.txtMsjgrlHabilidad.text = "Mejora: Velocidad";
+			StartCoroutine(mostrarHabilidad());
+
+		} else if(gData.speedBoost == 17) {
+
+			ui.txtMsjgrlHabilidad.text = "Mayor capacidad alcanzada: Velocidad";
+			StartCoroutine(mostrarHabilidad());
+
+		}
+	}
+
+	public void DisminuirJump(){
+
+		gData.jumpSpeed = gData.jumpSpeed - 0.3f;
+
+		if (gData.jumpSpeed >= 7) {
+
+			ui.txtMsjgrlHabilidad.text = "Disminuyo: Salto";
+			StartCoroutine (mostrarHabilidad ());
+
+		} else {
+		
+			ui.txtMsjgrlHabilidad.text = "Minima capacidad de salto alcanzada";
+			persController.SetearVelocidadAndJump ();
+		
+		}
+	}
+
+	public void QuedaUnSoloTroll(){
+		ui.txtMsjgrlHabilidad.text = "Ultimo Troll";
+		StartCoroutine(mostrarHabilidad());
+	}
+
+	public void CeroTroll(){
+		ui.txtMsjgrlHabilidad.fontSize = 200;
+		ui.txtMsjgrlHabilidad.text = "Moverse hacia el castillo";
+		StartCoroutine(mostrarHabilidad());
+	}
+
+
+	IEnumerator mostrarHabilidad()
+	{
+		Habilidadestatico.SetActive(true);
+		animTxtMsjHabilidad.SetBool ("entrar",true);
+		yield return new WaitForSeconds(2.20f);
+		Habilidadestatico.SetActive(false);
+		ui.txtMsjgrlHabilidad.fontSize = 300;
+
+	}
+
+	public void MsjPantallaFinalizada(){
+		ui.txtMsjgrlHabilidad.fontSize = 200;
+		ui.txtMsjgrlHabilidad.text = "Completaste el nivel";
+		StartCoroutine(mostrarHabilidad());
+	}
+
+
+	public void MsjPantallaNoFinalizada(){
+		ui.txtMsjgrlHabilidad.fontSize = 150;
+		ui.txtMsjgrlHabilidad.text = "Te quedan operaciones por realizar";
+		StartCoroutine(mostrarHabilidad());
+	}
+
 
 
 
