@@ -310,10 +310,8 @@ public class SistemaDejuego : MonoBehaviour {
 		}
 
 		posicionXActual = gData.x;
-
 		MarcarOperacionesNoRealizadas ();
 		GenerarEnemigosPorComienzo ();
-
 		RestaurarVidas ();
 	
 	}
@@ -321,16 +319,13 @@ public class SistemaDejuego : MonoBehaviour {
 	//Genera los enemigos actuales
 	public void GenerarEnemigosPorComienzo(){
 
-		if(!gData.operaRealizadas[gData.posActualEnemigo] && gData.posActualEnemigo <= posicionesEnemigos.Length - 1){
+		if(!gData.operaRealizadas[gData.posActualEnemigo] && gData.posActualEnemigo <= posicionesEnemigos.Length-1){
 
 			Instantiate (trollActual, posicionesEnemigos[gData.posActualEnemigo].transform.position, Quaternion.identity);
 
-			gData.posActualEnemigo = gData.posActualEnemigo + 1;
-
-
-
 		
 		} 
+	
 	}
 
 
@@ -338,31 +333,34 @@ public class SistemaDejuego : MonoBehaviour {
 	//Genera los enemigos actuales
 	public void GenerarEnemigosPorAcierto(){
 
-		if(crearnuevoTroll){
+		if (crearnuevoTroll) {
 
+			gData.posActualEnemigo = gData.posActualEnemigo + 1;
 
 			pos = gData.posActualEnemigo;	
 
+			if (pos <= posicionesEnemigos.Length - 1) {
 
-			if(!gData.operaRealizadas[pos] && pos <= posicionesEnemigos.Length - 1){
-
-				Instantiate (trollActual, posicionesEnemigos[pos].transform.position, Quaternion.identity);
+				Instantiate (trollActual, posicionesEnemigos [pos].transform.position, Quaternion.identity);
 
 				crearnuevoTroll = false;
 
-			    gData.posActualEnemigo = gData.posActualEnemigo + 1;
+			} else {
+				
+				gData.posActualEnemigo = 0;
+			}
+
+		
+		} 
+
+	  }
 
 
-			} 
-
-		}
-	}
 
 
 	public void SetearCrearNuevoTroll(bool crear){
 		crearnuevoTroll = crear;
 	}
-
 
 
 	//Le paso la ultima cuenta realizada.
@@ -662,42 +660,16 @@ public class SistemaDejuego : MonoBehaviour {
 
 	void operacionRestar(){
 
-		if (numero1 > numero2) {
-
-			resultado = numero1 - numero2;
-		
-		} else if (numero2 > numero1) {
-
-			resultado = numero2 - numero1;
-		
-		} else {
-
-			resultado = numero1 - numero2;
-		}
-
+		resultado = numero1 - numero2;
+	
 	}
 
 	void operacionDividir(){
 
-		float entera = numero2 / numero1;
+		float entera = numero1 / numero2;
 
-		if (numero1 > numero2) {
+		//Debug.Log ("Division: " + numero2 + " / " + numero1 + " = " +  entera);
 
-			resultado = numero1 / numero2;
-
-
-		} else if (numero2 > numero1) {
-
-			resultado = numero2 / numero1;
-
-		} else {
-
-			resultado = numero1 / numero2;
-		
-		}
-			
-
-	
 		resultado = (int)entera;
 
 	}
@@ -757,7 +729,7 @@ public class SistemaDejuego : MonoBehaviour {
 	public void OrdenarNum1YNumero2(){
 
 		int tmp;
-
+		// Numero1 debe ser mayor que numero2
 		if(numero1 < numero2){
 			tmp = numero1;
 			numero1 = numero2;
@@ -1236,11 +1208,11 @@ public class SistemaDejuego : MonoBehaviour {
 
 		gData.tiempoActual = timeLeft;
 
-		if(gData.posActualEnemigo > 0){
+		//if(gData.posActualEnemigo > 0){
 		
-			gData.posActualEnemigo = gData.posActualEnemigo - 1;
+			//gData.posActualEnemigo = gData.posActualEnemigo - 1;
 		
-		}
+	//	}
 			
 
 		player.SetActive (false);
@@ -1254,6 +1226,7 @@ public class SistemaDejuego : MonoBehaviour {
 		gData.x = pos.position.x + 15f;
 		gData.y = pos.position.y;
 		gData.z = pos.position.z;
+		posicionXActual = gData.x; 
 		SaveData();
 	
 	}
