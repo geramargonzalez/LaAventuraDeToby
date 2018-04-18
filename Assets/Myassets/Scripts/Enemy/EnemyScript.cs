@@ -18,12 +18,18 @@ public class EnemyScript : MonoBehaviour {
 	//Tiempo entre cada operacion de la tabla
 	public float maxtime;
 	float timeLeft;
-	bool opHabilitada = false;
 
+	bool contarParaPromedio;
+	public float timeRealiseOperation;
+
+
+	bool opHabilitada = false;
 
 	public UI ui;
 
 	int pos;
+
+
 
 	public Text respuesta1;
 	public Text respuesta2;
@@ -72,6 +78,9 @@ public class EnemyScript : MonoBehaviour {
 			TimeOperaciones();
 
 		}
+
+
+		TimeParaPromedios ();
 	}
 
 	void Mover(){
@@ -92,11 +101,19 @@ public class EnemyScript : MonoBehaviour {
 		
 		SistemaDejuego.instance.SetDie(false);
 		SistemaDejuego.instance.SetearCrearNuevoTroll (true);
-
+		PararTiempoOperaciones();
 		yield return new WaitForSeconds(0.1f);
 		Destroy (this.gameObject);
 	}
 		
+
+	public void PararTiempoOperaciones (){
+		if(contarParaPromedio){
+			contarParaPromedio = false;
+			SistemaDejuego.instance.ReciboTiempoParaPromedios (timeRealiseOperation);
+		}
+	}
+
 
 	public void finAttack(){
 		anim.SetBool ("Attack", SistemaDejuego.instance.obtenerAttack());
@@ -126,6 +143,8 @@ public class EnemyScript : MonoBehaviour {
 
 		if (other.gameObject.CompareTag("Player")) {
 
+			contarParaPromedio = true;
+
 			SistemaDejuego.instance.ObtenerEnemigoActual (this.gameObject);
 
 			Walk();
@@ -133,7 +152,9 @@ public class EnemyScript : MonoBehaviour {
 			SistemaDejuego.instance.ActivarBotonRespuestas();
 
 			if (ok) {
+
 				StartCoroutine (tiempoDecambio());
+			
 			} 
 		}
 	}
@@ -160,6 +181,7 @@ public class EnemyScript : MonoBehaviour {
 			Atacar();
 	
 	}
+
 
 
 
@@ -234,6 +256,22 @@ public class EnemyScript : MonoBehaviour {
 		}
 	}
 
+
+	public void TimeParaPromedios(){
+
+		if(contarParaPromedio){
+		
+			timeRealiseOperation += Time.deltaTime;
+			//Debug.Log ("Tiempo de operaciones" + timeRealiseOperation);
+		
+		} 
+
+		
+
+	}
+
+
+
 	public void detenerOperacion(){
 		StopCoroutine (tiempoDecambio ());
 		ui.texttimeOp.text = "";
@@ -254,7 +292,6 @@ public class EnemyScript : MonoBehaviour {
 
 	public void agregarTextosParaRecorrerlos(){
 		textosOperaciones = new Text[5];
-
 		textosOperaciones[0] = respuesta1;
 		textosOperaciones[1] = signoTroll;
 		textosOperaciones[2] = respuesta2;
@@ -264,8 +301,7 @@ public class EnemyScript : MonoBehaviour {
 	}
 
 	public void RecibirResultado(string resultadoOperacion){
-		//for(int i = 0; i < textosOperaciones.Length; i++){
-			//if(textosOperaciones[i].text == "_"){
+
 		if (respuesta1.text == "_") {
 			respuesta1.text = resultadoOperacion;
 			SistemaDejuego.instance.SetDie (true);

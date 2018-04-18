@@ -16,23 +16,17 @@ public class GameData
 	public int vidas;
 	public int nivel;
 	public int bones;
+
 	public int cantidadTrolls;
 	public float tiempoActual = 600f;
 	public int posActualEnemigo = 0;
 
-
-	//Contador global y por cada cuenta aritmetica
 	public int fallos;
-	public int fallosMultiplicacion;
-	public int fallosSuma;
-	public int fallosResta;
-	public int fallosDivision;
 
-	public int aciertosMultiplicacion;
-	public int aciertosSuma;
-	public int aciertosResta;
-	public int aciertosDivision;
+	//Estadisticas de los niveles ...
+	//public List<>estadisticasTotales = new List<Estadisticas>();
 
+	public Nivel[] niveles;
 
 	//Valida si el usurio ya jugo
 	public bool[] operaRealizadas;
@@ -58,9 +52,15 @@ public class GameData
 
 
 
+	// Estadisticas
+	public int promedio;
+
+
+	// Crear una clase serializable sobre Estadisticas.
+
+
 
 	// ***  METODOS *** //
-
 	public void GuardarPosicionInicial(){
 		x = 3.3f;
 		y = -26.5f;
@@ -99,4 +99,23 @@ public class GameData
 	public void resetNivel(){
 		nivel = 0;
 	}
+
+
+	public int calcularPromedio(){
+
+		niveles[nivel].promedio = niveles[nivel].promedio / cantidadTrolls;
+		 
+		return niveles[nivel].promedio;
+	}
+
+
+
+	public void SetearNivelACtual(){
+		subirNivel ();
+		niveles [nivel].unlocked = true;
+	
+	}
+
+
+	 
 }

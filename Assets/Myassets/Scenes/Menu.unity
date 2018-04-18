@@ -797,6 +797,66 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1376924073}
+--- !u!1 &1465281056
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1465281058}
+  - component: {fileID: 1465281057}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1465281057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1465281056}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6ab9946da05e48ffaa6203def95565d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data:
+    puntos: 0
+    vidas: 0
+    nivel: 0
+    bones: 0
+    cantidadTrolls: 0
+    tiempoActual: 600
+    posActualEnemigo: 0
+    fallos: 0
+    niveles: []
+    operaRealizadas: 
+    yaJugo: 0
+    x: 3.3
+    y: -26.5
+    z: 0
+    jumpSpeed: 900
+    speedBoost: 20
+    orcosPorAnimales: 
+    cantAnimalesConvertidos: 0
+    promedio: 0
+--- !u!4 &1465281058
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1465281056}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.4, y: 1.4, z: 1.7168401}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1486446059
 GameObject:
   m_ObjectHideFlags: 0

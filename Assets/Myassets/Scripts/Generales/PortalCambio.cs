@@ -9,7 +9,7 @@ public class PortalCambio : MonoBehaviour {
 
 	void OnCollisionEnter2D(Collision2D col){
 		if(col.gameObject.CompareTag("Player")){
-			sisJuego.EnemigosVencidos();
+			//sisJuego.EnemigosVencidos();
 		}
 
 	}

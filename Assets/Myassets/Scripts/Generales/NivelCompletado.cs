@@ -8,7 +8,7 @@ public class NivelCompletado : MonoBehaviour {
 	
 		if (other.gameObject.CompareTag ("Player")) {
 				
-			SistemaDejuego.instance.EnemigosVencidos();
+			SistemaDejuego.instance.PantallaTerminada ();
 
 		}
 

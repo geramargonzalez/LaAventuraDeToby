@@ -50,6 +50,8 @@ public class SistemaDejuego : MonoBehaviour {
 
 	// GAMEOVER
 	public GameObject pnMenuJuegoTerminado;
+	public GameObject levelComplete;
+
 
 
 	GameObject camera;
@@ -92,6 +94,7 @@ public class SistemaDejuego : MonoBehaviour {
 	int orquitosValues = 500;
 	int enemyValue = 1000;
 	int enemigosActivos;
+	int promedioTotalDeOpeciones;
 
 
 
@@ -126,6 +129,7 @@ public class SistemaDejuego : MonoBehaviour {
 
 		bf = new BinaryFormatter ();
 		dataFilePath = Application.persistentDataPath + "/game.dat";
+		Debug.Log (dataFilePath);
 
 	}
 
@@ -149,6 +153,8 @@ public class SistemaDejuego : MonoBehaviour {
 
 		Habilidadestatico.SetActive(false);
 		animTxtMsjHabilidad = ui.txtMsjgrlHabilidad.GetComponent<Animator> ();
+
+
 
 		Comenzar ();
 
@@ -212,6 +218,10 @@ public class SistemaDejuego : MonoBehaviour {
 
 				gData.GuardarPosicionInicial ();
 
+				gData.promedio = 0;
+
+
+
 		
 			}
 
@@ -240,6 +250,8 @@ public class SistemaDejuego : MonoBehaviour {
 
 		FileStream fs = new FileStream (dataFilePath, FileMode.Create);
 
+		gData.nivel = 0;
+
 		gData.vidas = 5;
 	
 		gData.bones = 0;
@@ -264,22 +276,23 @@ public class SistemaDejuego : MonoBehaviour {
 
 		gData.speedBoost = 20f;
 
+		gData.niveles[gData.nivel].fallosMultiplicacion = 0;
 
-		gData.fallosMultiplicacion = 0;
+		gData.niveles[gData.nivel].fallosSuma = 0;
 
-		gData.fallosSuma = 0;
-
-		gData.fallosResta = 0;
+		gData.niveles[gData.nivel].fallosResta = 0;
 	
-		gData.fallosDivision = 0;
+		gData.niveles[gData.nivel].fallosDivision = 0;
 
-		gData.aciertosMultiplicacion = 0;
+		gData.niveles[gData.nivel].aciertosMultiplicacion = 0;
 
-		gData.aciertosSuma = 0;
+		gData.niveles[gData.nivel].aciertosSuma = 0;
 
-		gData.aciertosResta = 0;
+		gData.niveles[gData.nivel].aciertosResta = 0;
 
-		gData.aciertosDivision = 0;
+		gData.niveles[gData.nivel].aciertosDivision = 0;
+
+		gData.niveles[gData.nivel].promedio = 0;
 
 
 		MarcarOrquitosEnEscena();
@@ -329,7 +342,23 @@ public class SistemaDejuego : MonoBehaviour {
 	}
 
 
+	public int NivelActual(){
+		return gData.nivel;
+	}
+		
+	public int GetScore () {
+		return gData.puntos;
+	}
 
+	public int GetFallos() {
+		return gData.fallos;
+	}
+
+
+	public void ProximoNivel(){
+		gData.SetearNivelACtual ();
+	}
+		
 	//Genera los enemigos actuales
 	public void GenerarEnemigosPorAcierto(){
 
@@ -563,13 +592,13 @@ public class SistemaDejuego : MonoBehaviour {
 				sumarPuntos (Item.Enemigos);
 				OperacionesAritmeticasCompletadas();
 				gnScript.RecibirResultado (resulString);
-				//die = true;
 				if(gData.cantidadTrolls == 1){
 					QuedaUnSoloTroll ();
 				}
 
 				if(gData.cantidadTrolls == 0){
 					CeroTroll ();
+
 				}
 
 
@@ -961,6 +990,7 @@ public class SistemaDejuego : MonoBehaviour {
 	public void txtFallos(){
 
 		ui.textFallos.text = "Fallos: " + gData.fallos.ToString();
+
 		if(gData.fallos == 5){
 			restarVidas ();
 		}
@@ -970,22 +1000,22 @@ public class SistemaDejuego : MonoBehaviour {
 
 		if(signo == 0){
 
-			gData.aciertosMultiplicacion++;
+			gData.niveles[gData.nivel].aciertosMultiplicacion++;
 
 		} else if(signo == 1){
 
-			gData.aciertosSuma++;
+			gData.niveles[gData.nivel].aciertosSuma++;
 
 		}
 
 		else if(signo == 2){
 
-			gData.aciertosResta++;
+			gData.niveles[gData.nivel].aciertosResta++;
 		}
 
 		else if(signo == 3){
 
-			gData.aciertosDivision++;
+			gData.niveles[gData.nivel].aciertosDivision++;
 
 
 		}
@@ -998,27 +1028,41 @@ public class SistemaDejuego : MonoBehaviour {
 
 		if(signo == 0){
 
-			gData.fallosMultiplicacion++;
+			gData.niveles[gData.nivel].fallosMultiplicacion++;
 
 		} else if(signo == 1){
 
-			gData.fallosSuma++;
+			gData.niveles[gData.nivel].fallosSuma++;
 
 		}
 
 		else if(signo == 2){
 
-			gData.fallosResta++;
+			gData.niveles[gData.nivel].fallosResta++;
 		}
 
 		else if(signo == 3){
 
-			gData.fallosDivision++;
+			gData.niveles[gData.nivel].fallosDivision++;
 
 		}
 
 	
 	}
+
+	public void ReciboTiempoParaPromedios(float tiempoOperacion){
+		gData.niveles[gData.nivel].promedio += (int)tiempoOperacion;
+	}
+
+
+	public int PromedioPorNivel(){
+
+		return gData.calcularPromedio ();
+	}
+
+
+
+
 
 	public void restarVidas(){
 		CheckLives();
@@ -1081,6 +1125,7 @@ public class SistemaDejuego : MonoBehaviour {
 
 
 	public void GameOver(){
+		
 		ResetData ();
 		pnMenuJuegoTerminado.SetActive (true);
 	}
@@ -1091,26 +1136,27 @@ public class SistemaDejuego : MonoBehaviour {
 
 	}
 
-	public void EnemigosVencidos(){
-
-		if (gData.cantidadTrolls == 0) {
-		
-
-			MsjPantallaFinalizada ();
-		
-		} else {
-		
-			MsjPantallaNoFinalizada();
-		
-		}
-	}
 
 	public void PantallaTerminada(){
-		gData.subirNivel ();
-		SaveData();
-		Cambiarescena();
+
+		if (gData.cantidadTrolls == 0) {
+
+			levelComplete.SetActive (true);
+			//gData.SetearNivelACtual ();
+
+		} else {
+
+			FaltanEnemigos ();
+		
+		}
+
 	}
 		
+
+	/// <summary>
+	///  Metodos para cambiar de escena
+	/// </summary>
+
 	public void Cambiarescena(){
 		StartCoroutine (CambioDePantalla());
 	}
@@ -1208,12 +1254,9 @@ public class SistemaDejuego : MonoBehaviour {
 
 		gData.tiempoActual = timeLeft;
 
-		//if(gData.posActualEnemigo > 0){
-		
-			//gData.posActualEnemigo = gData.posActualEnemigo - 1;
-		
-	//	}
-			
+		if(gnScript != null){
+			gnScript.PararTiempoOperaciones ();
+		}
 
 		player.SetActive (false);
 		restarVidas();
@@ -1381,13 +1424,20 @@ public class SistemaDejuego : MonoBehaviour {
 	}
 
 	public void QuedaUnSoloTroll(){
-		ui.txtMsjgrlHabilidad.text = "Ultimo Troll";
+		ui.txtMsjgrlHabilidad.fontSize = 200;
+		ui.txtMsjgrlHabilidad.text = "Ultimo Enemigo";
 		StartCoroutine(mostrarHabilidad());
 	}
 
 	public void CeroTroll(){
-		ui.txtMsjgrlHabilidad.fontSize = 200;
-		ui.txtMsjgrlHabilidad.text = "Moverse hacia el castillo";
+		ui.txtMsjgrlHabilidad.fontSize = 160;
+		ui.txtMsjgrlHabilidad.text = "Excelente!, ir al castillo";
+		StartCoroutine(mostrarHabilidad());
+	}
+
+	public void FaltanEnemigos(){
+		ui.txtMsjgrlHabilidad.fontSize = 160;
+		ui.txtMsjgrlHabilidad.text = "Faltan enemigos";
 		StartCoroutine(mostrarHabilidad());
 	}
 
@@ -1399,6 +1449,7 @@ public class SistemaDejuego : MonoBehaviour {
 		yield return new WaitForSeconds(2.20f);
 		Habilidadestatico.SetActive(false);
 		ui.txtMsjgrlHabilidad.fontSize = 300;
+
 
 	}
 
@@ -1417,6 +1468,18 @@ public class SistemaDejuego : MonoBehaviour {
 
 
 
+
+
+	public int SetStarsAwarded (int levelNumber, int stars){
+		
+		return gData.niveles[levelNumber].bonesStars = stars;
+
+	}
+
+	public void Unlocked(int levelNumber){
+	
+		gData.niveles[levelNumber].unlocked = true ;
+	}
 
 
 }
