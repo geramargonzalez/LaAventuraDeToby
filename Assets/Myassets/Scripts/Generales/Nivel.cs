@@ -16,7 +16,6 @@ public class Nivel{
 	public int bonesStars;
 
 
-
 	//Contador global y por cada cuenta aritmetica
 	public int promedio;
 	public int fallosPorNivel;

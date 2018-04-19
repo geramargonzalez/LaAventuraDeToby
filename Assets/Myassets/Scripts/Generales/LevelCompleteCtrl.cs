@@ -18,7 +18,9 @@ public class LevelCompleteCtrl : MonoBehaviour {
 	public Text txtFallos;
 
 
-	public int levelNumber;
+	int promedio;
+
+		   int levelNumber;
 		   int score;
 
 
@@ -42,22 +44,22 @@ public class LevelCompleteCtrl : MonoBehaviour {
 		score = SistemaDejuego.instance.GetScore ();
 		txtScore.text = "" + score;
 	
-		txtPromedio.text = SistemaDejuego.instance.PromedioPorNivel ().ToString ();
+		promedio = SistemaDejuego.instance.PromedioPorNivel ();
+
+		txtPromedio.text = promedio.ToString ();
 
 		txtFallos.text = SistemaDejuego.instance.GetFallos().ToString ();
 
 
-		if(score >= scoreForThreeStars){
+		if(promedio <= scoreForThreeStars){
 
 			showThreeStars = true;
 
 			SistemaDejuego.instance.SetStarsAwarded (levelNumber, 3);
 
-
-
 			Invoke ("ShowGoldenStars", animDelay);
 			
-		} else if(score >= scoreForTwoStars && score < scoreForThreeStars){
+		} else if(promedio <= scoreForTwoStars && promedio > scoreForThreeStars){
 
 			showTwoStars = true;
 
@@ -65,16 +67,14 @@ public class LevelCompleteCtrl : MonoBehaviour {
 
 			Invoke ("ShowGoldenStars", animDelay);
 		
-		} else if(score <= scoreForOneStars && score != 0){
+		} else if(promedio >= scoreForOneStars){
 			
 			SistemaDejuego.instance.SetStarsAwarded (levelNumber, 1);
 
 			Invoke ("ShowGoldenStars", animDelay);
 
 		}
-
-
-
+			
 	}
 	
 	// Update is called once per frame

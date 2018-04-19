@@ -138,8 +138,11 @@ public class SistemaDejuego : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
+		DataCtrl.instance.RefreshData ();
+		gData = DataCtrl.instance.data;
+		RefreshUI ();
+
 		camera = GameObject.Find("Main Camera");
-	
 		player = GameObject.Find ("Dog");
 
 		persController = player.GetComponent<PlayerController>();
@@ -149,12 +152,8 @@ public class SistemaDejuego : MonoBehaviour {
 
 		goRespuestas = GameObject.FindGameObjectsWithTag("btnRespuesta");
 
-		//posOrcosAnimales = GameObject.FindGameObjectsWithTag("orcosAnimales");
-
 		Habilidadestatico.SetActive(false);
 		animTxtMsjHabilidad = ui.txtMsjgrlHabilidad.GetComponent<Animator> ();
-
-
 
 		Comenzar ();
 
@@ -165,13 +164,6 @@ public class SistemaDejuego : MonoBehaviour {
 		
 		GenerarEnemigosPorAcierto ();
 
-		if(Input.GetKeyDown(KeyCode.Escape)){
-
-			ResetData ();
-
-		}
-
-
 		if(timeLeft > 0){
 
 			UpdateTime();
@@ -180,29 +172,10 @@ public class SistemaDejuego : MonoBehaviour {
 	}
 
 
-	public void SaveData () {
-
-		FileStream fs = new FileStream (dataFilePath, FileMode.Create);
-	
-		bf.Serialize (fs, gData);
-
-		fs.Close (); 	
 
 
-	}
+	public void RefreshUI () {
 
-
-	public void LoadData () {
-
-
-
-		if (File.Exists (dataFilePath)) {
-
-			FileStream fs = new FileStream (dataFilePath, FileMode.Open);
-
-			gData = (GameData)bf.Deserialize (fs);
-
-	
 			ui.txtBones.text = gData.bones.ToString ();  				
 
 			ui.txtPuntos.text = gData.puntos.ToString ();
@@ -224,23 +197,20 @@ public class SistemaDejuego : MonoBehaviour {
 
 		
 			}
-
-		
-		} 
-	
+			
 	}
 
 
 
 	void OnEnable(){
 
-		LoadData();
+		RefreshUI ();
 
 	}
 
 	void OnDisable(){
 
-		SaveData ();
+		DataCtrl.instance.SaveData (gData);
 
 	}
 
@@ -1092,7 +1062,7 @@ public class SistemaDejuego : MonoBehaviour {
 		if (gData.vidas == 0) {
 			
 			gData.vidas = 5;
-			SaveData();
+			DataCtrl.instance.SaveData (gData);
 			Invoke ("GameOver", restartdevel);
 		
 		} else {
@@ -1100,7 +1070,8 @@ public class SistemaDejuego : MonoBehaviour {
 
 			//SaveData ();
 			ActualizarUIVidas();
-			SaveData ();
+			DataCtrl.instance.SaveData (gData);
+
 			Invoke ("RestartLevel", restartdevel);
 			
 		}
@@ -1270,7 +1241,8 @@ public class SistemaDejuego : MonoBehaviour {
 		gData.y = pos.position.y;
 		gData.z = pos.position.z;
 		posicionXActual = gData.x; 
-		SaveData();
+		DataCtrl.instance.SaveData (gData);
+
 	
 	}
 

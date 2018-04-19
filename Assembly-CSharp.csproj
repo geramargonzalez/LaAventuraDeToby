@@ -53,6 +53,7 @@
   <ItemGroup>
      <Compile Include="Assets\Demigiant\DOTween\Examples\Basics.cs" />
      <Compile Include="Assets\Demigiant\DOTween\Examples\Sequences.cs" />
+     <Compile Include="Assets\Myassets\Scripts\DataCtrl.cs" />
      <Compile Include="Assets\Myassets\Scripts\Enemy\BeActivator.cs" />
      <Compile Include="Assets\Myassets\Scripts\Enemy\BomberBeAI.cs" />
      <Compile Include="Assets\Myassets\Scripts\Enemy\checkPointAlcanzado.cs" />
@@ -66,7 +67,6 @@
      <Compile Include="Assets\Myassets\Scripts\Generales\CameraFollow.cs" />
      <Compile Include="Assets\Myassets\Scripts\Generales\CoinCollector.cs" />
      <Compile Include="Assets\Myassets\Scripts\Generales\CoinCtrl.cs" />
-     <Compile Include="Assets\Myassets\Scripts\Generales\DataCtrl.cs" />
      <Compile Include="Assets\Myassets\Scripts\Generales\DestroyWithDelay.cs" />
      <Compile Include="Assets\Myassets\Scripts\Generales\GameData.cs" />
      <Compile Include="Assets\Myassets\Scripts\Generales\GeneradorTablas.cs" />
@@ -102,6 +102,7 @@
      <Compile Include="Assets\Myassets\Scripts\Player\PersonajeController.cs" />
      <Compile Include="Assets\Myassets\Scripts\Player\PlayerController.cs" />
      <Compile Include="Assets\Myassets\Scripts\Player\seguimientoPuntero.cs" />
+     <Compile Include="Assets\Myassets\Scripts\SceneChanger.cs" />
      <Compile Include="Assets\Myassets\Sprites\Orc Warrior\Scripts\MouseController.cs" />
      <Compile Include="Assets\Myassets\Sprites\Spooky Woods\Example\Scripts\BackgroundParallax.cs" />
      <Compile Include="Assets\Myassets\Sprites\Spooky Woods\Example\Scripts\CameraMove.cs" />

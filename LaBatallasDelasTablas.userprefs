@@ -1,10 +1,8 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="../Super Plataformer/Assets/Scripts/Controllers/GameCtrl.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Myassets/Scripts/Generales/SistemaDejuego.cs">
     <Files>
-      <File FileName="Assets/Myassets/Scripts/Generales/SistemaDejuego.cs" Line="1471" Column="2" />
-      <File FileName="Assets/Myassets/Scripts/Generales/GameData.cs" Line="50" Column="32" />
-      <File FileName="../Super Plataformer/Assets/Scripts/Controllers/GameCtrl.cs" Line="478" Column="58" />
+      <File FileName="Assets/Myassets/Scripts/Generales/SistemaDejuego.cs" Line="166" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
