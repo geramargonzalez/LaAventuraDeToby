@@ -98,8 +98,6 @@ public class BtnCtrl : MonoBehaviour {
 			start2.gameObject.SetActive (false);
 			start3.gameObject.SetActive (false);
 
-
-		
 		}
 		
 	}

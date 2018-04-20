@@ -33,26 +33,20 @@ public class SistemaDejuego : MonoBehaviour {
 	int posiDelaTablaAcultar;
 
 
-
-
 	public float posicionXActual;
-
 
 
 	// Variables que le dicen al enemigo que ataque.
     bool attack;
     bool generar = false;
 	bool die;
+	bool isPaused;
 
 
 	//Variables con la data del juego
+
+	[HideInInspector]
 	public GameData gData;
-
-	// GAMEOVER
-	public GameObject pnMenuJuegoTerminado;
-	public GameObject levelComplete;
-
-
 
 	GameObject camera;
 
@@ -149,6 +143,7 @@ public class SistemaDejuego : MonoBehaviour {
 	
 		attack = false;
 		die = false;
+		isPaused = false;
 
 		goRespuestas = GameObject.FindGameObjectsWithTag("btnRespuesta");
 
@@ -169,10 +164,25 @@ public class SistemaDejuego : MonoBehaviour {
 			UpdateTime();
 
 		}
+
+		if (isPaused) {
+
+			Time.timeScale = 0;
+		
+		} else {
+
+			Time.timeScale = 1;
+		
+		}
+
+		if(Input.GetKey(KeyCode.Escape)){
+			//ResetData ();
+			PausaSHow ();
+		
+		}
+
+
 	}
-
-
-
 
 	public void RefreshUI () {
 
@@ -185,6 +195,8 @@ public class SistemaDejuego : MonoBehaviour {
 
 			if(!gData.yaJugo){
 
+				MarcarOrquitosEnEscena ();
+
 				gData.jumpSpeed = 900f;
 
 				gData.speedBoost = 20f;
@@ -193,9 +205,6 @@ public class SistemaDejuego : MonoBehaviour {
 
 				gData.promedio = 0;
 
-
-
-		
 			}
 			
 	}
@@ -218,65 +227,20 @@ public class SistemaDejuego : MonoBehaviour {
 
 	public void ResetData () {
 
-		FileStream fs = new FileStream (dataFilePath, FileMode.Create);
-
-		gData.nivel = 0;
-
-		gData.vidas = 5;
-	
-		gData.bones = 0;
-
-		gData.puntos = 0;
-
-		gData.fallos = 0;
+		DataCtrl.instance.ResetData ();
 
 		ui.txtPuntos.text = "0";
-
 		ui.txtBones.text = "0";
-
-		gData.posActualEnemigo = 0;
-
-		gData.tiempoActual = gData.ResetTime ();
-
 		timeLeft = gData.tiempoActual;
-
-		gData.yaJugo = false;
-
-		gData.jumpSpeed = 900f;
-
-		gData.speedBoost = 20f;
-
-		gData.niveles[gData.nivel].fallosMultiplicacion = 0;
-
-		gData.niveles[gData.nivel].fallosSuma = 0;
-
-		gData.niveles[gData.nivel].fallosResta = 0;
-	
-		gData.niveles[gData.nivel].fallosDivision = 0;
-
-		gData.niveles[gData.nivel].aciertosMultiplicacion = 0;
-
-		gData.niveles[gData.nivel].aciertosSuma = 0;
-
-		gData.niveles[gData.nivel].aciertosResta = 0;
-
-		gData.niveles[gData.nivel].aciertosDivision = 0;
-
-		gData.niveles[gData.nivel].promedio = 0;
-
-
 		MarcarOrquitosEnEscena();
-
 		RestaurarVidas ();
-	
 
-		bf.Serialize (fs, gData);
-
-		fs.Close ();										 
 
 	}
 
 	public void Comenzar(){
+
+		Debug.Log (gData.yaJugo);
 
 		crearnuevoTroll = false;
 
@@ -286,7 +250,7 @@ public class SistemaDejuego : MonoBehaviour {
 	
 		timeLeft = gData.tiempoActual;
 
-		if(!pnMenuJuegoTerminado.activeSelf){
+		if(!ui.pnMenuJuegoTerminado.activeSelf){
 
 			Time.timeScale = 1f;
 		
@@ -1071,7 +1035,6 @@ public class SistemaDejuego : MonoBehaviour {
 			//SaveData ();
 			ActualizarUIVidas();
 			DataCtrl.instance.SaveData (gData);
-
 			Invoke ("RestartLevel", restartdevel);
 			
 		}
@@ -1098,7 +1061,7 @@ public class SistemaDejuego : MonoBehaviour {
 	public void GameOver(){
 		
 		ResetData ();
-		pnMenuJuegoTerminado.SetActive (true);
+		ui.pnMenuJuegoTerminado.SetActive (true);
 	}
 
 
@@ -1112,7 +1075,7 @@ public class SistemaDejuego : MonoBehaviour {
 
 		if (gData.cantidadTrolls == 0) {
 
-			levelComplete.SetActive (true);
+			ui.levelComplete.SetActive (true);
 			//gData.SetearNivelACtual ();
 
 		} else {
@@ -1438,10 +1401,6 @@ public class SistemaDejuego : MonoBehaviour {
 		StartCoroutine(mostrarHabilidad());
 	}
 
-
-
-
-
 	public int SetStarsAwarded (int levelNumber, int stars){
 		
 		return gData.niveles[levelNumber].bonesStars = stars;
@@ -1453,5 +1412,16 @@ public class SistemaDejuego : MonoBehaviour {
 		gData.niveles[levelNumber].unlocked = true ;
 	}
 
+
+	public void PausaSHow(){
+		isPaused = true;
+		ui.panelPausa.SetActive (true);	
+	}
+
+
+	public void PausaHide(){
+		isPaused = false;
+		ui.panelPausa.SetActive (false);	
+	}
 
 }

@@ -38,5 +38,11 @@ public class UI  {
 
 	public GameObject[] vidasGo;
 
+	[Header("Paneles de juego")]
+
+	public GameObject pnMenuJuegoTerminado;
+	public GameObject levelComplete;
+	public GameObject panelPausa;
+
 
 }
