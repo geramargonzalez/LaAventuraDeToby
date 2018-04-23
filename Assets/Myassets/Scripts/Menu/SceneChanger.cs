@@ -12,4 +12,9 @@ public class SceneChanger : MonoBehaviour {
 	public void CurrenteScene(){
 		SceneManager.LoadScene (SceneManager.GetActiveScene().buildIndex);
 	}
+
+	public void CurrenteSceneParaComenzarDeNuevo(){
+		DataCtrl.instance.ResetData();
+		SceneManager.LoadScene (SceneManager.GetActiveScene().buildIndex);
+	}
 }

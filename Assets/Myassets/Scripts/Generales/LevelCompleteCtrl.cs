@@ -18,16 +18,13 @@ public class LevelCompleteCtrl : MonoBehaviour {
 	public Text txtFallos;
 
 
-	int promedio;
-
+		   int promedio;
 		   int levelNumber;
 		   int score;
-
-
-	public int scoreForThreeStars;
-	public int scoreForTwoStars;
-	public int scoreForOneStars;
-	public int scoreForNextLevel;
+		   int scoreForThreeStars;
+		   int scoreForTwoStars;
+		   int scoreForOneStars;
+		   int scoreForNextLevel;
 
 
 	public float animStarsLevel;
@@ -39,23 +36,32 @@ public class LevelCompleteCtrl : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-		txtNivelActualCompletado.text = SistemaDejuego.instance.NivelActual ().ToString();
+		scoreForThreeStars = 3;
+		scoreForTwoStars = 4;
+		scoreForOneStars = 8;
+		animDelay = 1f;
+		animStarsLevel = 0.7f;
+
+		levelNumber = SistemaDejuego.instance.NivelLogrado();
+
+		txtNivelActualCompletado.text = levelNumber.ToString();
 
 		score = SistemaDejuego.instance.GetScore ();
+
 		txtScore.text = "" + score;
 	
-		promedio = SistemaDejuego.instance.PromedioPorNivel ();
+		promedio = SistemaDejuego.instance.obtenerPromedio();
 
-		txtPromedio.text = promedio.ToString ();
+		txtPromedio.text = promedio + " segundos ";
 
-		txtFallos.text = SistemaDejuego.instance.GetFallos().ToString ();
+		txtFallos.text = SistemaDejuego.instance.obtenerFallos().ToString ();
 
 
 		if(promedio <= scoreForThreeStars){
 
 			showThreeStars = true;
 
-			SistemaDejuego.instance.SetStarsAwarded (levelNumber, 3);
+			SistemaDejuego.instance.SetStarsAwarded (levelNumber-1, 3);
 
 			Invoke ("ShowGoldenStars", animDelay);
 			
@@ -63,14 +69,14 @@ public class LevelCompleteCtrl : MonoBehaviour {
 
 			showTwoStars = true;
 
-			SistemaDejuego.instance.SetStarsAwarded (levelNumber, 2);
+			SistemaDejuego.instance.SetStarsAwarded (levelNumber-1, 2);
 
 			Invoke ("ShowGoldenStars", animDelay);
 		
 		} else if(promedio >= scoreForOneStars){
 			
-			SistemaDejuego.instance.SetStarsAwarded (levelNumber, 1);
-
+			SistemaDejuego.instance.SetStarsAwarded (levelNumber-1, 1);
+		
 			Invoke ("ShowGoldenStars", animDelay);
 
 		}
@@ -82,8 +88,26 @@ public class LevelCompleteCtrl : MonoBehaviour {
 		
 	}
 
+	void DoAnim(Image pImage){
+
+		pImage.rectTransform.sizeDelta = new Vector2 (200f,200f);
+
+		pImage.sprite = goldenStar;
+
+
+		RectTransform t = pImage.rectTransform;
+
+		t.DOSizeDelta ( new Vector2 (150f,150f),0.5f,false);
+
+		// Efecto de audio
+
+		SFXCtrl.instance.showSparkle (pImage.gameObject.transform.position);
+
+	}
+
 
 	public void ShowGoldenStars(){
+
 		StartCoroutine ("HandleStarFirstAnim", star1);
 	}
 
@@ -105,21 +129,7 @@ public class LevelCompleteCtrl : MonoBehaviour {
 
 	}
 
-	void DoAnim(Image pImage){
 
-		pImage.rectTransform.sizeDelta = new Vector2 (100f,100f);
-
-		pImage.sprite = goldenStar;
-
-		RectTransform t = pImage.rectTransform;
-
-		t.DOSizeDelta ( new Vector2 (50f,50f),0.5f,false);
-
-		// Efecto de audio
-
-		SFXCtrl.instance.showSparkle (pImage.gameObject.transform.position);
-
-	}
 
 	IEnumerator HandleStarSecondAnim(Image pImage){
 
@@ -141,7 +151,7 @@ public class LevelCompleteCtrl : MonoBehaviour {
 	}
 
 	IEnumerator HandleStarThirdAnim(Image pImage){
-
+		
 		DoAnim (pImage);
 
 		showThreeStars = false;
@@ -154,17 +164,16 @@ public class LevelCompleteCtrl : MonoBehaviour {
 
 	void CheckLevelStatus(){
 
-			SistemaDejuego.instance.ProximoNivel ();
-	
 			nextLevel.interactable = true;
 
 			SFXCtrl.instance.showSparkle (nextLevel.gameObject.transform.position);
 
-			//Audio Ctrl
+			SistemaDejuego.instance.PausarPantalla ();
 
-			SistemaDejuego.instance.Unlocked (levelNumber);
+			//DataCtrl.instance.SaveData(SistemaDejuego.instance.DataActual());
 
-	
 	}
+
+
 
 }

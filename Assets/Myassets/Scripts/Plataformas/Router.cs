@@ -5,7 +5,7 @@ using UnityEngine;
 public class Router : MonoBehaviour {
 
 	public void ShowPanel(){
-		SistemaDejuego.instance.PausaSHow ();
+		SistemaDejuego.instance.PausaShow();
 	}
 
 	public void HidePanel(){

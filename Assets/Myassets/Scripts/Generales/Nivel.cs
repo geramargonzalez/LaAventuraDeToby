@@ -9,8 +9,7 @@ using System;
 
 [Serializable]
 public class Nivel{
-
-
+	
 	public int nivel;
 	public bool unlocked;
 	public int bonesStars;

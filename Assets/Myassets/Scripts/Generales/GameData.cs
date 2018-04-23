@@ -18,13 +18,14 @@ public class GameData
 	public int bones;
 
 	public int cantidadTrolls;
-	public float tiempoActual = 600f;
+	public int numParaPromedio;
+
+	public float tiempoActual;
 	public int posActualEnemigo = 0;
 
 	public int fallos;
 
 	//Estadisticas de los niveles ...
-	//public List<>estadisticasTotales = new List<Estadisticas>();
 
 	public Nivel[] niveles;
 
@@ -50,13 +51,6 @@ public class GameData
 	public bool[] orcosPorAnimales;
 	public int cantAnimalesConvertidos;
 
-
-
-	// Estadisticas
-	public int promedio;
-
-
-	// Crear una clase serializable sobre Estadisticas.
 
 
 
@@ -102,17 +96,39 @@ public class GameData
 
 
 	public int calcularPromedio(){
-
-		niveles[nivel].promedio = niveles[nivel].promedio / cantidadTrolls;
-		 
+	
+		niveles[nivel].promedio = niveles[nivel].promedio / numParaPromedio;
+	
 		return niveles[nivel].promedio;
 	}
 
 
 
 	public void SetearNivelACtual(){
+
+		yaJugo = false;
 		subirNivel ();
+		fallos = 0;
 		niveles [nivel].unlocked = true;
+		niveles [nivel].promedio = 0;
+		niveles [nivel].bonesStars = 0;
+		niveles[nivel].fallosMultiplicacion = 0;
+		niveles[nivel].fallosSuma = 0;
+		niveles[nivel].fallosResta = 0;
+		niveles[nivel].fallosDivision = 0;
+		niveles[nivel].aciertosMultiplicacion = 0;
+		niveles[nivel].aciertosSuma = 0;
+		niveles[nivel].aciertosResta = 0;
+		niveles[nivel].aciertosDivision = 0;
+
+
+	}
+
+
+	public void SetearNumeroDeNiveles(){
+		for (int i = 0; i < niveles.Length; i++) {
+			niveles [i].nivel = i;
+		}
 	
 	}
 

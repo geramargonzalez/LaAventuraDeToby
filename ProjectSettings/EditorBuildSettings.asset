@@ -12,8 +12,14 @@ EditorBuildSettings:
     path: Assets/Myassets/Scenes/World.unity
     guid: 5d3b3290b799b413ab2358e7f9f7bf61
   - enabled: 1
-    path: Assets/Myassets/Scenes/opciones.unity
+    path: Assets/Myassets/Scenes/Opciones.unity
     guid: fb30c932a6e7245088d7bf8e50ddfc1b
   - enabled: 1
     path: Assets/Myassets/Scenes/0.unity
     guid: 859d255e7ef9241ba8eb58bb4237ca66
+  - enabled: 1
+    path: Assets/Myassets/Scenes/1.unity
+    guid: 54a50934609014345b8ba714487a8471
+  - enabled: 1
+    path: Assets/Myassets/Scenes/2.unity
+    guid: 684c3bdf48dbb4f4b900644b314ccbf0

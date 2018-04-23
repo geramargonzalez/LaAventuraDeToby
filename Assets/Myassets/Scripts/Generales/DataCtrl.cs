@@ -10,10 +10,10 @@ public class DataCtrl : MonoBehaviour {
 
 	public static DataCtrl instance = null;
 	public GameData data;
+
 	public bool devMode;
 
 	string dataFilePath;	
-
 	BinaryFormatter bf;  	
 
 	void Awake(){
@@ -33,7 +33,7 @@ public class DataCtrl : MonoBehaviour {
 		bf = new BinaryFormatter ();
 		dataFilePath = Application.persistentDataPath + "/game.dat";
 
-		Debug.Log (dataFilePath);
+		//Debug.Log (dataFilePath);
 
 
 	}
@@ -44,11 +44,15 @@ public class DataCtrl : MonoBehaviour {
 		if(File.Exists(dataFilePath)){
 
 			FileStream fs = new FileStream (dataFilePath, FileMode.Open);
+
 			data = (GameData)bf.Deserialize (fs);
+
 			fs.Close ();
 
-			Debug.Log ("Refresh Data");
 		}
+
+
+		SetearNumeroNivel ();
 
 	
 	}
@@ -79,11 +83,11 @@ public class DataCtrl : MonoBehaviour {
 	}
 
 	// Copiar para la batallas de las tablas
-	public void SaveData(GameData gData){
+	public void SaveData(GameData data){
 
 		FileStream fs = new FileStream (dataFilePath, FileMode.Create);
 
-		bf.Serialize (fs, gData);
+		bf.Serialize (fs, data);
 
 		fs.Close (); 	
 
@@ -103,11 +107,11 @@ public class DataCtrl : MonoBehaviour {
 
 	public void CheckDB(){
 
-		if (File.Exists (dataFilePath)) {
+		if (!File.Exists (dataFilePath)) {
 
 			#if UNITY_ANDROID
-				
-				CopyDB ();
+
+				CopyDB();
 
 			#endif
 
@@ -115,6 +119,7 @@ public class DataCtrl : MonoBehaviour {
 
 			//Pregunta si es una apliacion de escritorio
 			if (SystemInfo.deviceType == DeviceType.Desktop) {
+
 				string dstFile = System.IO.Path.Combine(Application.streamingAssetsPath, "game.dat");
 				File.Delete (dstFile);
 				File.Copy (dataFilePath,dstFile);
@@ -123,9 +128,9 @@ public class DataCtrl : MonoBehaviour {
 
 
 			if(devMode){
+
 				// Pregunta si es una aplicacion movil
 				if (SystemInfo.deviceType == DeviceType.Handheld) {
-
 					File.Delete (dataFilePath);
 					CopyDB ();
 
@@ -140,7 +145,9 @@ public class DataCtrl : MonoBehaviour {
 	}
 
 	public void CopyDB(){
+
 		string srcFile = System.IO.Path.Combine(Application.streamingAssetsPath, "game.dat");
+
 		WWW downloader = new WWW(srcFile);
 
 		while(!downloader.isDone){
@@ -167,7 +174,7 @@ public class DataCtrl : MonoBehaviour {
 
 		data.fallos = 0;
 
-		data.posActualEnemigo = 0;
+		UnLockedNivel ();
 
 		data.tiempoActual = data.ResetTime ();
 
@@ -177,31 +184,53 @@ public class DataCtrl : MonoBehaviour {
 
 		data.speedBoost = 20f;
 
-		data.niveles[data.nivel].fallosMultiplicacion = 0;
+		data.posActualEnemigo = 0;
 
-		data.niveles[data.nivel].fallosSuma = 0;
-
-		data.niveles[data.nivel].fallosResta = 0;
-
-		data.niveles[data.nivel].fallosDivision = 0;
-
-		data.niveles[data.nivel].aciertosMultiplicacion = 0;
-
-		data.niveles[data.nivel].aciertosSuma = 0;
-
-		data.niveles[data.nivel].aciertosResta = 0;
-
-		data.niveles[data.nivel].aciertosDivision = 0;
-
-		data.niveles[data.nivel].promedio = 0;
-
-
-		bf.Serialize (fs,data);
+		bf.Serialize (fs, data);
 
 		fs.Close ();	
 
-	
 	}
 
 
+	public void UnLockedNivel(){
+
+		for(int i = 0; i < data.niveles.Length; i++){
+
+			if(data.niveles[i].nivel != 0){
+
+				Debug.Log (data.niveles[i].nivel + " "  + data.niveles[i].unlocked );
+
+				data.niveles [i].unlocked = false;
+			
+			}
+
+
+			data.niveles [i].bonesStars = 0;
+
+			data.niveles[i].fallosMultiplicacion = 0;
+
+			data.niveles[i].fallosSuma = 0;
+
+			data.niveles[i].fallosResta = 0;
+
+			data.niveles[i].fallosDivision = 0;
+
+			data.niveles[i].aciertosMultiplicacion = 0;
+
+			data.niveles[i].aciertosSuma = 0;
+
+			data.niveles[i].aciertosResta = 0;
+
+			data.niveles[i].aciertosDivision = 0;
+
+			data.niveles[i].promedio = 0;
+
+
+		}
+	}
+
+	public void SetearNumeroNivel(){
+		data.SetearNumeroDeNiveles();
+	}
 }

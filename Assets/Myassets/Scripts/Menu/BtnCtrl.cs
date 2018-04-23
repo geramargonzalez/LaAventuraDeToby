@@ -15,7 +15,6 @@ public class BtnCtrl : MonoBehaviour {
 
 	public Sprite lockedBtn;
 	public Sprite unlockedBtn;
-	public string sceneName;
 
 	// Use this for initialization
 	void Start () {
@@ -28,7 +27,6 @@ public class BtnCtrl : MonoBehaviour {
 		btnImage = btn.GetComponent<Image> ();
 		btnTxt = btn.gameObject.transform.GetChild(0).GetComponent<Text> ();
 
-
 		start1 = btn.gameObject.transform.GetChild (1);
 		start2 = btn.gameObject.transform.GetChild (2);
 		start3 = btn.gameObject.transform.GetChild (3);
@@ -39,17 +37,18 @@ public class BtnCtrl : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-
+		//BtnStatus ();
 	}
 
 	public void BtnStatus(){
-		
-		// getting the local status of button
+
+		// Getting the local status of button
 		bool unLocked = DataCtrl.instance.IsUnlocked (levelNumber);
 		int starsawarded = DataCtrl.instance.GetStars(levelNumber);
 
+
 		if (unLocked) {
-			
+
 			if (starsawarded == 3) {
 
 				start1.gameObject.SetActive (true);
@@ -81,6 +80,7 @@ public class BtnCtrl : MonoBehaviour {
 				start3.gameObject.SetActive (false);
 			}
 
+			//Agrego la funcionalidad de Click
 			btn.onClick.AddListener(LoadScene);
 
 
@@ -89,11 +89,11 @@ public class BtnCtrl : MonoBehaviour {
 			//Show the locked button image
 			btnImage.overrideSprite = lockedBtn;
 
-			//dont show any text on the button
+			//Dont show any text on the button
 			btnTxt.text = "";
 
 
-			//hide 3 stars
+			//Hide 3 stars..
 			start1.gameObject.SetActive (false);
 			start2.gameObject.SetActive (false);
 			start3.gameObject.SetActive (false);
@@ -103,6 +103,7 @@ public class BtnCtrl : MonoBehaviour {
 	}
 
 	public void LoadScene(){
-		SceneManager.LoadScene (sceneName);
+		//DataCtrl.instance.SetNivelRep(levelNumber);		
+		SceneManager.LoadScene (levelNumber.ToString());
 	}
 }
