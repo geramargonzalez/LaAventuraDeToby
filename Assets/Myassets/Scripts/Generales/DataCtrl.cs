@@ -160,6 +160,38 @@ public class DataCtrl : MonoBehaviour {
 	}
 
 
+	public void ResetData(int ultimoNivel){
+
+		FileStream fs = new FileStream (dataFilePath, FileMode.Create);
+
+		data.nivel = ultimoNivel;
+
+		data.vidas = 5;
+
+		data.bones = 0;
+
+		data.puntos = 0;
+
+		data.fallos = 0;
+
+		UnLockedNivel ();
+
+		data.tiempoActual = data.ResetTime ();
+
+		data.yaJugo = false;
+
+		data.jumpSpeed = 900f;
+
+		data.speedBoost = 20f;
+
+		data.posActualEnemigo = 0;
+
+		bf.Serialize (fs, data);
+
+		fs.Close ();	
+
+	}
+
 	public void ResetData(){
 
 		FileStream fs = new FileStream (dataFilePath, FileMode.Create);
@@ -193,38 +225,62 @@ public class DataCtrl : MonoBehaviour {
 	}
 
 
+
+
 	public void UnLockedNivel(){
 
 		for(int i = 0; i < data.niveles.Length; i++){
 
-			if(data.niveles[i].nivel != 0){
+			if (data.niveles [i].nivel == data.nivel) {
 
-				Debug.Log (data.niveles[i].nivel + " "  + data.niveles[i].unlocked );
+				data.niveles [i].unlocked = true;
 
-				data.niveles [i].unlocked = false;
+				data.niveles [i].bonesStars = 0;
+
+				data.niveles [i].fallosMultiplicacion = 0;
+
+				data.niveles [i].fallosSuma = 0;
+
+				data.niveles [i].fallosResta = 0;
+
+				data.niveles [i].fallosDivision = 0;
+
+				data.niveles [i].aciertosMultiplicacion = 0;
+
+				data.niveles [i].aciertosSuma = 0;
+
+				data.niveles [i].aciertosResta = 0;
+
+				data.niveles [i].aciertosDivision = 0;
+
+				data.niveles [i].promedio = 0;
 			
+			
+			} else if (data.niveles [i].nivel > data.nivel) {
+			
+				data.niveles [i].unlocked = false;
+
+				data.niveles [i].bonesStars = 0;
+
+				data.niveles [i].fallosMultiplicacion = 0;
+
+				data.niveles [i].fallosSuma = 0;
+
+				data.niveles [i].fallosResta = 0;
+
+				data.niveles [i].fallosDivision = 0;
+
+				data.niveles [i].aciertosMultiplicacion = 0;
+
+				data.niveles [i].aciertosSuma = 0;
+
+				data.niveles [i].aciertosResta = 0;
+
+				data.niveles [i].aciertosDivision = 0;
+
+				data.niveles [i].promedio = 0;
+
 			}
-
-
-			data.niveles [i].bonesStars = 0;
-
-			data.niveles[i].fallosMultiplicacion = 0;
-
-			data.niveles[i].fallosSuma = 0;
-
-			data.niveles[i].fallosResta = 0;
-
-			data.niveles[i].fallosDivision = 0;
-
-			data.niveles[i].aciertosMultiplicacion = 0;
-
-			data.niveles[i].aciertosSuma = 0;
-
-			data.niveles[i].aciertosResta = 0;
-
-			data.niveles[i].aciertosDivision = 0;
-
-			data.niveles[i].promedio = 0;
 
 
 		}

@@ -107,10 +107,14 @@ public class GameData
 	public void SetearNivelACtual(){
 
 		yaJugo = false;
-		subirNivel ();
+
+		subirNivel();
+
 		fallos = 0;
+
 		niveles [nivel].unlocked = true;
 		niveles [nivel].promedio = 0;
+		niveles [nivel].fallosPorNivel = 0;
 		niveles [nivel].bonesStars = 0;
 		niveles[nivel].fallosMultiplicacion = 0;
 		niveles[nivel].fallosSuma = 0;

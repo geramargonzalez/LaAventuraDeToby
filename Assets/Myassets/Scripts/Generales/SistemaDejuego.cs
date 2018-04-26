@@ -176,6 +176,7 @@ public class SistemaDejuego : MonoBehaviour {
 
 			gData.numParaPromedio = gData.cantidadTrolls;
 
+		
 
 		}
 
@@ -184,6 +185,8 @@ public class SistemaDejuego : MonoBehaviour {
 		ui.txtPuntos.text = gData.puntos.ToString ();
 
 		ui.txtCantEnemigos.text = gData.cantidadTrolls.ToString();
+
+		txtFallos ();
 
 	}
 
@@ -228,9 +231,7 @@ public class SistemaDejuego : MonoBehaviour {
 
 
 	public void ResetData () {
-
-		DataCtrl.instance.ResetData ();
-
+		DataCtrl.instance.ResetData(gData.nivel);
 		ui.txtPuntos.text = "0";
 		ui.txtBones.text = "0";
 		timeLeft = gData.tiempoActual;
@@ -565,6 +566,7 @@ public class SistemaDejuego : MonoBehaviour {
 					
 					CeroTroll ();
 					fallosDelNivel = gData.fallos;
+			
 					promedioPorNivel = gData.calcularPromedio ();
 					nivelLogrado = gData.nivel;
 					ProximoNivel ();
@@ -1050,7 +1052,6 @@ public class SistemaDejuego : MonoBehaviour {
 	
 
 		if (gData.vidas == 0) {
-			
 			gData.vidas = 5;
 			DataCtrl.instance.SaveData (gData);
 			Invoke ("GameOver", restartdevel);
@@ -1083,10 +1084,13 @@ public class SistemaDejuego : MonoBehaviour {
 
 
 	public void GameOver(){
-		
+
 		ResetData ();
+
 		if(timerOn){
+
 			timerOn = false;
+		
 		}
 		ui.pnMenuJuegoTerminado.gameObject.GetComponent<RectTransform> ().DOAnchorPosY (0, 0.7f, false);
 
@@ -1103,16 +1107,13 @@ public class SistemaDejuego : MonoBehaviour {
 		
 		if (gData.cantidadTrolls == 0) {
 
-
-
-
-			 if(timerOn){
+			gData.vidas = 5;
+			 
+			if(timerOn){
 				timerOn = false;
 			}
-
+				
 			ui.levelComplete.SetActive (true);
-
-			//StartCoroutine(SetPaused());
 
 		} else {
 

@@ -170,9 +170,9 @@ public class LevelCompleteCtrl : MonoBehaviour {
 
 			SistemaDejuego.instance.PausarPantalla ();
 
-			//DataCtrl.instance.SaveData(SistemaDejuego.instance.DataActual());
 
 	}
+
 
 
 
