@@ -17,13 +17,15 @@ public class GameData
 	public int nivel;
 	public int bones;
 
+	// Cantidad de Trolls
 	public int cantidadTrolls;
 	public int numParaPromedio;
 
+	// Tiempo 
 	public float tiempoActual;
 	public int posActualEnemigo = 0;
-
 	public int fallos;
+
 
 	//Estadisticas de los niveles ...
 
@@ -33,8 +35,8 @@ public class GameData
 	public bool[] operaRealizadas;
 	public bool yaJugo = false;
 
-	//Posicion del personaje
 
+	//Posicion del personaje
 	public float x = 3.3f;
 	public float y = -26.5f;
 	public float z = 0f;
@@ -47,7 +49,7 @@ public class GameData
 
 
 
-	// Orquitos/Animales
+	//Orquitos/Animales
 	public bool[] orcosPorAnimales;
 	public int cantAnimalesConvertidos;
 
@@ -137,5 +139,148 @@ public class GameData
 	}
 
 
+	public void UnLockedNivel(){
+
+		for(int i = 0; i <niveles.Length; i++){
+
+			if (niveles [i].nivel == nivel) {
+
+				niveles [i].unlocked = true;
+
+				niveles [i].bonesStars = 0;
+
+				niveles [i].fallosMultiplicacion = 0;
+
+				niveles [i].fallosSuma = 0;
+
+				niveles [i].fallosResta = 0;
+
+				niveles [i].fallosDivision = 0;
+
+				niveles [i].aciertosMultiplicacion = 0;
+
+				niveles [i].aciertosSuma = 0;
+
+				niveles [i].aciertosResta = 0;
+
+				niveles [i].aciertosDivision = 0;
+
+				niveles [i].promedio = 0;
+
+
+			} else if (niveles [i].nivel > nivel) {
+
+				niveles [i].unlocked = false;
+
+				niveles [i].bonesStars = 0;
+
+				niveles [i].fallosMultiplicacion = 0;
+
+				niveles [i].fallosSuma = 0;
+
+				niveles [i].fallosResta = 0;
+
+				niveles [i].fallosDivision = 0;
+
+				niveles [i].aciertosMultiplicacion = 0;
+
+				niveles [i].aciertosSuma = 0;
+
+				niveles [i].aciertosResta = 0;
+
+				niveles [i].aciertosDivision = 0;
+
+				niveles [i].promedio = 0;
+
+			}
+
+
+		}
+	}
+
+
+	public void ResetNivelActual(int ultimoNivel){
+
+		nivel = ultimoNivel;
+
+		vidas = 5;
+
+		bones = 0;
+
+		puntos = 0;
+
+		fallos = 0;
+
+		UnLockedNivel ();
+
+		tiempoActual = ResetTime ();
+
+		yaJugo = false;
+
+		jumpSpeed = 900f;
+
+		speedBoost = 20f;
+
+		posActualEnemigo = 0;
+	}
 	 
+	public void ResetData(){
+
+		nivel = 0;
+
+		vidas = 5;
+
+		bones = 0;
+
+		puntos = 0;
+
+		fallos = 0;
+
+		UnLockedNivel ();
+
+		tiempoActual = ResetTime ();
+
+		yaJugo = false;
+
+		jumpSpeed = 900f;
+
+		speedBoost = 20f;
+
+		posActualEnemigo = 0;
+
+	}
+
+
+	public int cantidadEnemigoPorNivel(){
+		
+		int cantEnem = 0;
+
+		if (nivel == 0) {
+
+			cantEnem = 6;
+		
+		} 
+		if (nivel == 1) {
+			cantEnem = 9;
+		
+		} 
+		if (nivel == 2) {
+			cantEnem = 12;
+		} 
+		if (nivel == 3) {
+			cantEnem = 13;
+		} 
+		if (nivel == 4) {
+			cantEnem = 14;
+		} 
+		if (nivel == 5) {
+			cantEnem = 15;
+		} 
+
+		return cantEnem;
+	
+	}
+
+
+	
 }

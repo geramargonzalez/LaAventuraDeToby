@@ -100,7 +100,6 @@ public class LevelCompleteCtrl : MonoBehaviour {
 		t.DOSizeDelta ( new Vector2 (150f,150f),0.5f,false);
 
 		// Efecto de audio
-
 		SFXCtrl.instance.showSparkle (pImage.gameObject.transform.position);
 
 	}

@@ -23,11 +23,15 @@ public class SistemaDejuego : MonoBehaviour {
 	//Todos los enemigos por Pantalla o Operaciones a derrotar
 	GameObject[] goRespuestas;
 	Transform tmp;
-	public GameObject[] posicionesEnemigos;
+	GameObject[] posicionesEnemigos;
 	Transform  posEnemigoActual;
 
 	public List<Text> txtOpciones = new List<Text>();
 	private List<Transform> posiciones = new List<Transform>();
+
+	// Vector con todos los prefabs de los animales
+	public GameObject[] animals;
+
 
 
 	int signo;
@@ -107,7 +111,7 @@ public class SistemaDejuego : MonoBehaviour {
 
 
 	//Orquitos y Animales
-	public GameObject[] posOrcosAnimales;
+    GameObject[] posOrcosAnimales;
 
 
 	Animator animTxtHabilidad;
@@ -140,6 +144,11 @@ public class SistemaDejuego : MonoBehaviour {
 
 		DataCtrl.instance.RefreshData ();
 		gData = DataCtrl.instance.data;
+
+		// Cargo en los arrays los Enemigos y los orquitos
+		SeleccionarPosEnemigosPorPantalla ();
+		SeleccionarPosOrquitosPorPantalla ();
+
 		RefreshUI ();
 
 		camera = GameObject.Find("Main Camera");
@@ -163,8 +172,7 @@ public class SistemaDejuego : MonoBehaviour {
 
 	public void RefreshUI () {
 
-
-		if(gData.yaJugo == false){
+		if (gData.yaJugo == false) {
 
 			MarcarOrquitosEnEscena ();
 
@@ -178,7 +186,7 @@ public class SistemaDejuego : MonoBehaviour {
 
 		
 
-		}
+		} 
 
 		ui.txtBones.text = gData.bones.ToString ();  				
 
@@ -234,15 +242,16 @@ public class SistemaDejuego : MonoBehaviour {
 		DataCtrl.instance.ResetData(gData.nivel);
 		ui.txtPuntos.text = "0";
 		ui.txtBones.text = "0";
-		timeLeft = gData.tiempoActual;
+		timeLeft = gData.ResetTime();
 		MarcarOrquitosEnEscena();
 		RestaurarVidas ();
 
 	}
 
 	public void Comenzar(){
-
+		
 		if(gData.yaJugo == false){
+			
 			MsjNivelDeJuego();
 		}
 
@@ -252,14 +261,14 @@ public class SistemaDejuego : MonoBehaviour {
 
 		player.transform.position = new Vector3 (gData.x, gData.y, gData.z);
 	
-		timeLeft = gData.ResetTime();
+		timeLeft = gData.tiempoActual;
 
 		if(Time.timeScale == 0){
 
 			Time.timeScale = 1f;
 
 		}
-
+			
 		posicionXActual = gData.x;
 		MarcarOperacionesNoRealizadas ();
 		GenerarEnemigosPorComienzo ();
@@ -267,25 +276,59 @@ public class SistemaDejuego : MonoBehaviour {
 	
 	}
 
+	public void SeleccionarPosEnemigosPorPantalla(){
+
+		posicionesEnemigos = new GameObject[gData.cantidadEnemigoPorNivel()];
+
+		for(int i = 0; i < posicionesEnemigos.Length; i++){
+
+			int tmp = i + 1;
+
+			posicionesEnemigos[i] = GameObject.Find ("Pos" + tmp);
+		
+		}
+
+	}
+
+	public void SeleccionarPosOrquitosPorPantalla(){
+
+		posOrcosAnimales = new GameObject[21];
+
+		for(int i = 0; i < posOrcosAnimales.Length; i++){
+
+			int tmp = i + 1;
+		
+			posOrcosAnimales[i] = GameObject.Find ("posO" + tmp);
+		
+		}
+
+	}
+
+
 	//Genera los enemigos actuales
 	public void GenerarEnemigosPorComienzo(){
 
 		if(!gData.operaRealizadas[gData.posActualEnemigo] && gData.posActualEnemigo <= posicionesEnemigos.Length-1){
 
+		
 			Instantiate (trollActual, posicionesEnemigos[gData.posActualEnemigo].transform.position, Quaternion.identity);
 
+		
 		} 
 
 	}
 
 
 	public int NivelActual(){
+
 		return gData.nivel;
 
 	}
 		
 	public int NivelLogrado (){
+	
 		return nivelLogrado + 1;
+	
 	}
 
 	public int GetScore () {
@@ -294,17 +337,22 @@ public class SistemaDejuego : MonoBehaviour {
 
 
 	public void SetNoJugo() {
+	
 		gData.yaJugo = false;
+	
 	}
 
 
 	public void ProximoNivel(){
+	
 		gData.SetearNivelACtual ();
+	
 	}
 
 	public void SetNivelRep(int levelNumber){
+	
 		gData.nivel = levelNumber;
-		//DataCtrl.instance.SaveData (gData);
+	
 	}
 
 	public GameData DataActual(){
@@ -342,9 +390,6 @@ public class SistemaDejuego : MonoBehaviour {
 		 } 
 
 	  }
-
-
-
 
 	public void SetearCrearNuevoTroll(bool crear){
 		crearnuevoTroll = crear;
@@ -452,7 +497,7 @@ public class SistemaDejuego : MonoBehaviour {
 
 		if((int)random == 0){
 
-			psigno = "X";
+			psigno = "x";
 
 		}else if((int)random == 1){
 
@@ -1223,13 +1268,20 @@ public class SistemaDejuego : MonoBehaviour {
 		
 	public void PlayerDies(GameObject player){
 
+
+
 		gData.tiempoActual = timeLeft;
+		//Debug.Log ("El tiempo quedo en" + timeLeft);
 
 		if(gnScript != null){
+			
+			
 			gnScript.PararTiempoOperaciones ();
+		
 		}
 
 		player.SetActive (false);
+
 		restarVidas();
 
 	}
@@ -1318,6 +1370,18 @@ public class SistemaDejuego : MonoBehaviour {
 	
 	}
 
+
+	//Eligo de los prefabs de los animales uno al azar para intercambiarlo con el orco
+	public GameObject RandomAnimals(){
+
+		float ram = Random.Range(0f,animals.Length-1);
+
+		GameObject animal = animals [(int)ram];
+
+		return animal;
+	}
+
+
 	public void ConvertirAnimal(Transform pos){
 
 		float restadepos;
@@ -1340,7 +1404,6 @@ public class SistemaDejuego : MonoBehaviour {
 
 
 	//Mejora/Empeora velocidad y salto
-
 	public void AumentarJump(){
 
 		gData.jumpSpeed = gData.jumpSpeed + 20f; 
