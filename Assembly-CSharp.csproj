@@ -68,6 +68,7 @@
      <Compile Include="Assets\Myassets\Scripts\Generales\CoinCtrl.cs" />
      <Compile Include="Assets\Myassets\Scripts\Generales\DataCtrl.cs" />
      <Compile Include="Assets\Myassets\Scripts\Generales\DestroyWithDelay.cs" />
+     <Compile Include="Assets\Myassets\Scripts\Generales\EstadisticasCtrl.cs" />
      <Compile Include="Assets\Myassets\Scripts\Generales\GameData.cs" />
      <Compile Include="Assets\Myassets\Scripts\Generales\GeneradorTablas.cs" />
      <Compile Include="Assets\Myassets\Scripts\Generales\GuardarPuntoInicial.cs" />

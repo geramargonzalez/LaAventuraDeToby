@@ -89,7 +89,7 @@ public class SistemaDejuego : MonoBehaviour {
 	public UI ui;
 
 	int pos;
-	float restartdevel;
+	float restartdevel = 0;
 
 	 int promedioPorNivel;
 	 int fallosDelNivel;
@@ -153,9 +153,8 @@ public class SistemaDejuego : MonoBehaviour {
 
 		camera = GameObject.Find("Main Camera");
 		player = GameObject.Find ("Dog");
-
 		persController = player.GetComponent<PlayerController>();
-	
+
 		attack = false;
 		die = false;
 		isPaused = false;
@@ -278,7 +277,7 @@ public class SistemaDejuego : MonoBehaviour {
 
 	public void SeleccionarPosEnemigosPorPantalla(){
 
-		posicionesEnemigos = new GameObject[gData.cantidadEnemigoPorNivel()];
+		posicionesEnemigos = new GameObject[6];
 
 		for(int i = 0; i < posicionesEnemigos.Length; i++){
 
@@ -305,7 +304,7 @@ public class SistemaDejuego : MonoBehaviour {
 	}
 
 
-	//Genera los enemigos actuales
+	//Genera los Enemigos Actuales
 	public void GenerarEnemigosPorComienzo(){
 
 		if(!gData.operaRealizadas[gData.posActualEnemigo] && gData.posActualEnemigo <= posicionesEnemigos.Length-1){
@@ -367,7 +366,7 @@ public class SistemaDejuego : MonoBehaviour {
 		return fallosDelNivel;
 	}
 
-	//Genera los enemigos actuales
+	//Genera los Enemigos Actuales
 	public void GenerarEnemigosPorAcierto(){
 
 		if (crearnuevoTroll) {
@@ -396,7 +395,7 @@ public class SistemaDejuego : MonoBehaviour {
 	}
 
 
-	//Le paso la ultima cuenta realizada.
+	//Le Paso la Ultima Cuenta Realizada.
 	public void ObtenerEnemigoActual(GameObject posActual){
 		
 		posEnemigoActual = posActual.transform;
@@ -407,7 +406,7 @@ public class SistemaDejuego : MonoBehaviour {
 	}
 
 
-	// Setea la cantidad de operaciones a realizar
+	// Setea la Cantidad de Operaciones a Realizar
 	public void OperacionesAritmeticasCompletadas(){
 
 		float restaDePosiciones;
@@ -419,10 +418,8 @@ public class SistemaDejuego : MonoBehaviour {
 
 			if ( (int)restaDePosiciones >= 0  && (int)restaDePosiciones <= 50) {
 
-			
 				gData.operaRealizadas [i] = true;
 
-			
 			}
 		}	
 
@@ -995,6 +992,7 @@ public class SistemaDejuego : MonoBehaviour {
 	public void SumarFallos(){
 		
 		gData.fallos++;
+
 		txtFallos ();
 		SumarFallosPorCuentas ();
 		DisminuirJump ();
@@ -1011,6 +1009,9 @@ public class SistemaDejuego : MonoBehaviour {
 	}
 
 	public void SumarAciertosPorCuentas(){
+
+
+		gData.niveles [gData.nivel].aciertosPorNivel++;
 
 		if(signo == 0){
 
@@ -1039,6 +1040,8 @@ public class SistemaDejuego : MonoBehaviour {
 
 
 	public void SumarFallosPorCuentas (){
+
+		gData.niveles [gData.nivel].fallosPorNivel++;
 
 		if(signo == 0){
 
@@ -1170,9 +1173,8 @@ public class SistemaDejuego : MonoBehaviour {
 		
 
 	/// <summary>
-	///  Metodos para cambiar de escena
+	///     Metodos para cambiar de escena
 	/// </summary>
-
 	public void Cambiarescena(){
 		StartCoroutine (CambioDePantalla());
 	}
@@ -1268,14 +1270,10 @@ public class SistemaDejuego : MonoBehaviour {
 		
 	public void PlayerDies(GameObject player){
 
-
-
 		gData.tiempoActual = timeLeft;
-		//Debug.Log ("El tiempo quedo en" + timeLeft);
 
 		if(gnScript != null){
-			
-			
+
 			gnScript.PararTiempoOperaciones ();
 		
 		}
@@ -1293,7 +1291,6 @@ public class SistemaDejuego : MonoBehaviour {
 		gData.y = pos.position.y;
 		gData.z = pos.position.z;
 		posicionXActual = gData.x; 
-
 		DataCtrl.instance.SaveData (gData);
 
 	
@@ -1340,7 +1337,12 @@ public class SistemaDejuego : MonoBehaviour {
 	// Poner los orquitos en escena
 	public void MarcarOrquitosEnEscena(){
 
-		gData.orcosPorAnimales = new bool[posOrcosAnimales.Length];
+		if(gData.orcosPorAnimales == null){
+
+			gData.orcosPorAnimales = new bool[posOrcosAnimales.Length];
+		
+		}
+
 
 		for (int i = 0; i < gData.orcosPorAnimales.Length; i++) {
 				
@@ -1409,7 +1411,7 @@ public class SistemaDejuego : MonoBehaviour {
 		gData.jumpSpeed = gData.jumpSpeed + 20f; 
 
 		if (gData.jumpSpeed < 1400) {
-
+			ui.txtMsjgrlHabilidad.fontSize = 100;
 			ui.txtMsjgrlHabilidad.text = "Mejora: Salto";
 			StartCoroutine(mostrarHabilidad());
 
@@ -1430,12 +1432,10 @@ public class SistemaDejuego : MonoBehaviour {
 		gData.speedBoost = gData.speedBoost + 0.1f;
 
 		if (gData.speedBoost < 21) {
-			ui.txtMsjgrlHabilidad.fontSize = 200;
 			ui.txtMsjgrlHabilidad.text = "Mejora: Velocidad";
 			StartCoroutine(mostrarHabilidad());
 
 		} else if(gData.speedBoost == 17) {
-
 			ui.txtMsjgrlHabilidad.text = "Mayor capacidad alcanzada: Velocidad";
 			StartCoroutine(mostrarHabilidad());
 
@@ -1447,7 +1447,7 @@ public class SistemaDejuego : MonoBehaviour {
 		gData.jumpSpeed = gData.jumpSpeed - 0.3f;
 
 		if (gData.jumpSpeed >= 7) {
-			ui.txtMsjgrlHabilidad.fontSize = 200;
+			//ui.txtMsjgrlHabilidad.fontSize = 50;
 			ui.txtMsjgrlHabilidad.text = "Disminuyo: Salto";
 			StartCoroutine (mostrarHabilidad ());
 
@@ -1460,19 +1460,19 @@ public class SistemaDejuego : MonoBehaviour {
 	}
 
 	public void QuedaUnSoloTroll(){
-		ui.txtMsjgrlHabilidad.fontSize = 300;
+		//ui.txtMsjgrlHabilidad.fontSize = 50;
 		ui.txtMsjgrlHabilidad.text = "Ultimo Enemigo";
 		StartCoroutine(mostrarHabilidad());
 	}
 
 	public void CeroTroll(){
-		ui.txtMsjgrlHabilidad.fontSize = 160;
+		//ui.txtMsjgrlHabilidad.fontSize = 50;
 		ui.txtMsjgrlHabilidad.text = "Excelente!, ir al castillo";
 		StartCoroutine(mostrarHabilidad());
 	}
 
 	public void FaltanEnemigos(){
-		ui.txtMsjgrlHabilidad.fontSize = 160;
+		//ui.txtMsjgrlHabilidad.fontSize = 50;
 		ui.txtMsjgrlHabilidad.text = "Faltan enemigos";
 		StartCoroutine(mostrarHabilidad());
 	}
@@ -1484,27 +1484,27 @@ public class SistemaDejuego : MonoBehaviour {
 		animTxtMsjHabilidad.SetBool ("entrar",true);
 		yield return new WaitForSeconds(2.20f);
 		Habilidadestatico.SetActive(false);
-		ui.txtMsjgrlHabilidad.fontSize = 300;
+
 
 
 	}
 
 	public void MsjPantallaFinalizada(){
-		ui.txtMsjgrlHabilidad.fontSize = 200;
+		//ui.txtMsjgrlHabilidad.fontSize = 50;
 		ui.txtMsjgrlHabilidad.text = "Completaste el nivel";
 		StartCoroutine(mostrarHabilidad());
 	}
 
 
 	public void MsjPantallaNoFinalizada(){
-		ui.txtMsjgrlHabilidad.fontSize = 150;
+		//ui.txtMsjgrlHabilidad.fontSize = 50;
 		ui.txtMsjgrlHabilidad.text = "Te quedan operaciones por realizar";
 		StartCoroutine(mostrarHabilidad());
 	}
 
 
 	public void MsjNivelDeJuego(){
-		ui.txtMsjgrlHabilidad.fontSize = 300;
+		//ui.txtMsjgrlHabilidad.fontSize = 50;
 		ui.txtMsjgrlHabilidad.color = Color.red;
 		int tmp = 1 + gData.nivel;
 		ui.txtMsjgrlHabilidad.text = "    Nivel actual:   " + tmp;

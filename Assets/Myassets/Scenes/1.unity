@@ -1991,7 +1991,7 @@ GameObject:
   m_Component:
   - component: {fileID: 89091727}
   m_Layer: 0
-  m_Name: pos4
+  m_Name: Pos4
   m_TagString: Posicion
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2080,7 +2080,7 @@ GameObject:
   m_Component:
   - component: {fileID: 100813371}
   m_Layer: 0
-  m_Name: pos19
+  m_Name: posO19
   m_TagString: orcosAnimales
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3432,7 +3432,7 @@ GameObject:
   m_Component:
   - component: {fileID: 158199358}
   m_Layer: 0
-  m_Name: pos10
+  m_Name: posO10
   m_TagString: orcosAnimales
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3737,7 +3737,7 @@ GameObject:
   m_Component:
   - component: {fileID: 173638508}
   m_Layer: 0
-  m_Name: pos8
+  m_Name: posO8
   m_TagString: orcosAnimales
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3802,17 +3802,11 @@ MonoBehaviour:
   maxIzq: 0
   minResp: 0
   maxResp: 0
-  posicionesEnemigos:
-  - {fileID: 871956466}
-  - {fileID: 630594081}
-  - {fileID: 1314854894}
-  - {fileID: 89091726}
-  - {fileID: 1671439976}
-  - {fileID: 1433093561}
   txtOpciones:
   - {fileID: 508807052}
   - {fileID: 990258810}
   - {fileID: 1285177779}
+  animals: []
   posicionXActual: 0
   gData:
     puntos: 0
@@ -3886,7 +3880,6 @@ MonoBehaviour:
     speedBoost: 0
     orcosPorAnimales: 
     cantAnimalesConvertidos: 0
-    promedio: 0
   maxtime: 300
   big_coin: {fileID: 1325556520899436, guid: 21f64b07f7ede40f694d76b285a2d005, type: 2}
   orquito: {fileID: 1710411910420800, guid: 2f108de4b65aa49a2b541d1b44ec6574, type: 2}
@@ -4899,7 +4892,7 @@ GameObject:
   m_Component:
   - component: {fileID: 216472692}
   m_Layer: 0
-  m_Name: pos3
+  m_Name: posO3
   m_TagString: orcosAnimales
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6709,7 +6702,7 @@ GameObject:
   m_Component:
   - component: {fileID: 378083880}
   m_Layer: 0
-  m_Name: pos21
+  m_Name: posO21
   m_TagString: orcosAnimales
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7483,7 +7476,7 @@ GameObject:
   m_Component:
   - component: {fileID: 418803138}
   m_Layer: 0
-  m_Name: pos6
+  m_Name: posO6
   m_TagString: orcosAnimales
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8275,7 +8268,7 @@ GameObject:
   m_Component:
   - component: {fileID: 443972993}
   m_Layer: 0
-  m_Name: pos4
+  m_Name: posO4
   m_TagString: orcosAnimales
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9268,7 +9261,7 @@ GameObject:
   m_Component:
   - component: {fileID: 458909633}
   m_Layer: 0
-  m_Name: pos13
+  m_Name: posO13
   m_TagString: orcosAnimales
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10668,7 +10661,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: Menu
+          m_StringArgument: World
           m_BoolArgument: 0
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
@@ -11862,7 +11855,7 @@ GameObject:
   m_Component:
   - component: {fileID: 571845531}
   m_Layer: 0
-  m_Name: pos20
+  m_Name: posO20
   m_TagString: orcosAnimales
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12465,7 +12458,7 @@ GameObject:
   m_Component:
   - component: {fileID: 656367965}
   m_Layer: 0
-  m_Name: pos12
+  m_Name: posO12
   m_TagString: orcosAnimales
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12575,7 +12568,7 @@ GameObject:
   m_Component:
   - component: {fileID: 668266572}
   m_Layer: 0
-  m_Name: pos2
+  m_Name: posO2
   m_TagString: orcosAnimales
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16863,7 +16856,7 @@ GameObject:
   m_Component:
   - component: {fileID: 928433574}
   m_Layer: 0
-  m_Name: pos18
+  m_Name: posO18
   m_TagString: orcosAnimales
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19734,7 +19727,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1103228088}
   m_Layer: 0
-  m_Name: pos9
+  m_Name: posO9
   m_TagString: orcosAnimales
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -24915,7 +24908,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1412588557}
   m_Layer: 0
-  m_Name: pos15
+  m_Name: posO15
   m_TagString: orcosAnimales
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -25349,7 +25342,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1433093562}
   m_Layer: 0
-  m_Name: pos6
+  m_Name: Pos6
   m_TagString: Posicion
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27806,7 +27799,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1559424943}
   m_Layer: 0
-  m_Name: pos5
+  m_Name: posO5
   m_TagString: orcosAnimales
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28281,7 +28274,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1623876536}
   m_Layer: 0
-  m_Name: pos11
+  m_Name: posO11
   m_TagString: orcosAnimales
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28845,7 +28838,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1671439977}
   m_Layer: 0
-  m_Name: pos5
+  m_Name: Pos5
   m_TagString: Posicion
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29438,7 +29431,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1721144978}
   m_Layer: 0
-  m_Name: pos16
+  m_Name: posO16
   m_TagString: orcosAnimales
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31125,7 +31118,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1775286603}
   m_Layer: 0
-  m_Name: pos17
+  m_Name: posO17
   m_TagString: orcosAnimales
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32713,7 +32706,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1821435009}
   m_Layer: 0
-  m_Name: pos1
+  m_Name: posO1
   m_TagString: orcosAnimales
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32741,7 +32734,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1823518685}
   m_Layer: 0
-  m_Name: pos14
+  m_Name: posO14
   m_TagString: orcosAnimales
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -38041,7 +38034,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2066593097}
   m_Layer: 0
-  m_Name: pos7
+  m_Name: posO7
   m_TagString: orcosAnimales
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

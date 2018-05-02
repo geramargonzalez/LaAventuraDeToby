@@ -6,7 +6,6 @@ using System;
 /// <summary>
 ///  	Los datos que se van a guardar del juego.
 /// </summary>
-
 [Serializable]
 public class GameData 
 {
@@ -28,32 +27,24 @@ public class GameData
 
 
 	//Estadisticas de los niveles ...
-
 	public Nivel[] niveles;
 
 	//Valida si el usurio ya jugo
 	public bool[] operaRealizadas;
 	public bool yaJugo = false;
 
-
 	//Posicion del personaje
 	public float x = 3.3f;
 	public float y = -26.5f;
 	public float z = 0f;
 
-
-
 	// Personaje, guardo los incrementos
 	public float jumpSpeed = 900f;
 	public float speedBoost = 20f;
 
-
-
 	//Orquitos/Animales
 	public bool[] orcosPorAnimales;
 	public int cantAnimalesConvertidos;
-
-
 
 
 	// ***  METODOS *** //
@@ -103,9 +94,7 @@ public class GameData
 	
 		return niveles[nivel].promedio;
 	}
-
-
-
+		
 	public void SetearNivelACtual(){
 
 		yaJugo = false;
@@ -126,6 +115,8 @@ public class GameData
 		niveles[nivel].aciertosSuma = 0;
 		niveles[nivel].aciertosResta = 0;
 		niveles[nivel].aciertosDivision = 0;
+		niveles [nivel].aciertosPorNivel = 0;
+		niveles [nivel].fallosPorNivel = 0;
 
 
 	}
@@ -141,11 +132,15 @@ public class GameData
 
 	public void UnLockedNivel(){
 
-		for(int i = 0; i <niveles.Length; i++){
+		for(int i = 0; i < niveles.Length; i++){
 
 			if (niveles [i].nivel == nivel) {
 
 				niveles [i].unlocked = true;
+
+				niveles [i].aciertosPorNivel = 0;
+
+				niveles [i].fallosPorNivel = 0;
 
 				niveles [i].bonesStars = 0;
 
@@ -173,6 +168,10 @@ public class GameData
 				niveles [i].unlocked = false;
 
 				niveles [i].bonesStars = 0;
+
+				niveles [i].aciertosPorNivel = 0;
+
+				niveles [i].fallosPorNivel = 0;
 
 				niveles [i].fallosMultiplicacion = 0;
 
@@ -261,20 +260,30 @@ public class GameData
 		
 		} 
 		if (nivel == 1) {
+
 			cantEnem = 9;
 		
 		} 
 		if (nivel == 2) {
+		
 			cantEnem = 12;
+		
 		} 
+
 		if (nivel == 3) {
+
 			cantEnem = 13;
+	
 		} 
 		if (nivel == 4) {
+		
 			cantEnem = 14;
+		
 		} 
 		if (nivel == 5) {
+
 			cantEnem = 15;
+		
 		} 
 
 		return cantEnem;

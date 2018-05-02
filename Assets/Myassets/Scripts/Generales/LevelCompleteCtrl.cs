@@ -169,7 +169,6 @@ public class LevelCompleteCtrl : MonoBehaviour {
 
 			SistemaDejuego.instance.PausarPantalla ();
 
-
 	}
 
 

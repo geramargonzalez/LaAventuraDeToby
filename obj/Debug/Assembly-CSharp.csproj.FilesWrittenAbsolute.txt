@@ -1,3 +1,7 @@
+/Users/gerardogonzalez/Documents/Udemy/Unity/UdemyPlataformMobile2D/LaBatallasDelasTablas/Temp/bin/Debug/Assembly-CSharp.dll.mdb
+/Users/gerardogonzalez/Documents/Udemy/Unity/UdemyPlataformMobile2D/LaBatallasDelasTablas/Temp/bin/Debug/Assembly-CSharp.dll
+/Users/gerardogonzalez/Documents/Udemy/Unity/UdemyPlataformMobile2D/LaBatallasDelasTablas/obj/Debug/Assembly-CSharp.dll
+/Users/gerardogonzalez/Documents/Udemy/Unity/UdemyPlataformMobile2D/LaBatallasDelasTablas/obj/Debug/Assembly-CSharp.dll.mdb
 /Users/gerardogonzalez/Documents/Udemy/Unity/UdemyPlataformMobile2D/LaBatallasDelasTablas/Temp/bin/Debug/UnityEngine.dll
 /Users/gerardogonzalez/Documents/Udemy/Unity/UdemyPlataformMobile2D/LaBatallasDelasTablas/Temp/bin/Debug/UnityEditor.dll
 /Users/gerardogonzalez/Documents/Udemy/Unity/UdemyPlataformMobile2D/LaBatallasDelasTablas/Temp/bin/Debug/Facebook.Unity.Settings.dll
