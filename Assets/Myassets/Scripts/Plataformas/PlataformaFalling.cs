@@ -19,14 +19,11 @@ public class PlataformaFalling : MonoBehaviour {
 	}
 	
 
-	void Update () {
-		
-	}
-
 	void OnCollisionEnter2D(Collision2D col){
 		if(col.gameObject.CompareTag("Player")){
 			Invoke("Fall",falldelay);
 			Invoke("Volver", falldelay + volver);
+			SistemaDejuego.instance.MsjRunRunRun ();
 		}
 	
 	}

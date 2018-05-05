@@ -183,7 +183,7 @@ public class SistemaDejuego : MonoBehaviour {
 
 			gData.numParaPromedio = gData.cantidadTrolls;
 
-		
+			gData.orcosPorAnimales = new bool[gData.cantidadOrquitosPorNivel()];
 
 		} 
 
@@ -277,13 +277,15 @@ public class SistemaDejuego : MonoBehaviour {
 
 	public void SeleccionarPosEnemigosPorPantalla(){
 
-		posicionesEnemigos = new GameObject[6];
+		posicionesEnemigos = new GameObject[gData.cantidadEnemigoPorNivel()];
 
 		for(int i = 0; i < posicionesEnemigos.Length; i++){
 
 			int tmp = i + 1;
 
 			posicionesEnemigos[i] = GameObject.Find ("Pos" + tmp);
+
+		
 		
 		}
 
@@ -291,17 +293,22 @@ public class SistemaDejuego : MonoBehaviour {
 
 	public void SeleccionarPosOrquitosPorPantalla(){
 
-		posOrcosAnimales = new GameObject[21];
+		posOrcosAnimales = new GameObject[gData.cantidadOrquitosPorNivel()];
 
 		for(int i = 0; i < posOrcosAnimales.Length; i++){
 
+
 			int tmp = i + 1;
-		
 			posOrcosAnimales[i] = GameObject.Find ("posO" + tmp);
-		
+
 		}
 
+
+	
+
 	}
+
+
 
 
 	//Genera los Enemigos Actuales
@@ -331,7 +338,27 @@ public class SistemaDejuego : MonoBehaviour {
 	}
 
 	public int GetScore () {
+
 		return gData.puntos;
+	
+	}
+
+	public void PuntosPorStars(int stars){
+
+		if(stars == 1){
+
+			gData.puntos += 2500;
+		
+		} else if(stars == 2){
+
+			gData.puntos += 5000;
+		
+		} else if(stars == 3){
+		
+			gData.puntos += 10000;
+		
+		}
+	
 	}
 
 
@@ -1337,13 +1364,6 @@ public class SistemaDejuego : MonoBehaviour {
 	// Poner los orquitos en escena
 	public void MarcarOrquitosEnEscena(){
 
-		if(gData.orcosPorAnimales == null){
-
-			gData.orcosPorAnimales = new bool[posOrcosAnimales.Length];
-		
-		}
-
-
 		for (int i = 0; i < gData.orcosPorAnimales.Length; i++) {
 				
 			gData.orcosPorAnimales[i] = false;
@@ -1363,7 +1383,9 @@ public class SistemaDejuego : MonoBehaviour {
 			
 			} else {
 
-				Instantiate (orquito, posOrcosAnimales [i].transform.position, Quaternion.identity);
+				//Debug.Log (posOrcosAnimales[i].name);
+
+				Instantiate (orquito, posOrcosAnimales[i].transform.position, Quaternion.identity);
 			
 			}
 
@@ -1407,12 +1429,13 @@ public class SistemaDejuego : MonoBehaviour {
 
 	//Mejora/Empeora velocidad y salto
 	public void AumentarJump(){
-
+		ui.txtMsjgrlHabilidad.fontSize = 100;
+		ui.txtMsjgrlHabilidad.color = Color.white;
 		gData.jumpSpeed = gData.jumpSpeed + 20f; 
 
 		if (gData.jumpSpeed < 1400) {
-			ui.txtMsjgrlHabilidad.fontSize = 100;
-			ui.txtMsjgrlHabilidad.text = "Mejora: Salto";
+			
+			ui.txtMsjgrlHabilidad.text = "JumpUp!";
 			StartCoroutine(mostrarHabilidad());
 
 		} else if(gData.jumpSpeed == 1400) {
@@ -1429,10 +1452,13 @@ public class SistemaDejuego : MonoBehaviour {
 
 	public void AumentarSpeed(){
 
+		ui.txtMsjgrlHabilidad.fontSize = 100;
+		ui.txtMsjgrlHabilidad.color = Color.white;
+
 		gData.speedBoost = gData.speedBoost + 0.1f;
 
 		if (gData.speedBoost < 21) {
-			ui.txtMsjgrlHabilidad.text = "Mejora: Velocidad";
+			ui.txtMsjgrlHabilidad.text = "SpeedUP!";
 			StartCoroutine(mostrarHabilidad());
 
 		} else if(gData.speedBoost == 17) {
@@ -1444,11 +1470,14 @@ public class SistemaDejuego : MonoBehaviour {
 
 	public void DisminuirJump(){
 
+		ui.txtMsjgrlHabilidad.fontSize = 100;
+		ui.txtMsjgrlHabilidad.color = Color.white;
+
 		gData.jumpSpeed = gData.jumpSpeed - 0.3f;
 
 		if (gData.jumpSpeed >= 7) {
-			//ui.txtMsjgrlHabilidad.fontSize = 50;
-			ui.txtMsjgrlHabilidad.text = "Disminuyo: Salto";
+			
+			ui.txtMsjgrlHabilidad.text = "JumpDown!";
 			StartCoroutine (mostrarHabilidad ());
 
 		} else {
@@ -1460,20 +1489,25 @@ public class SistemaDejuego : MonoBehaviour {
 	}
 
 	public void QuedaUnSoloTroll(){
-		//ui.txtMsjgrlHabilidad.fontSize = 50;
-		ui.txtMsjgrlHabilidad.text = "Ultimo Enemigo";
+		ui.txtMsjgrlHabilidad.fontSize = 100;
+		ui.txtMsjgrlHabilidad.color = Color.white;
+
+		ui.txtMsjgrlHabilidad.text = "LastEnemy!";
 		StartCoroutine(mostrarHabilidad());
 	}
 
 	public void CeroTroll(){
-		//ui.txtMsjgrlHabilidad.fontSize = 50;
-		ui.txtMsjgrlHabilidad.text = "Excelente!, ir al castillo";
+		ui.txtMsjgrlHabilidad.fontSize = 100;
+		ui.txtMsjgrlHabilidad.color = Color.red;
+
+		ui.txtMsjgrlHabilidad.text = "GO GO GO!";
 		StartCoroutine(mostrarHabilidad());
 	}
 
 	public void FaltanEnemigos(){
-		//ui.txtMsjgrlHabilidad.fontSize = 50;
-		ui.txtMsjgrlHabilidad.text = "Faltan enemigos";
+		ui.txtMsjgrlHabilidad.fontSize = 100;
+		ui.txtMsjgrlHabilidad.color = Color.red;
+		ui.txtMsjgrlHabilidad.text = "left remaing: " + gData.cantidadTrolls;
 		StartCoroutine(mostrarHabilidad());
 	}
 
@@ -1489,28 +1523,55 @@ public class SistemaDejuego : MonoBehaviour {
 
 	}
 
+	IEnumerator mostrarRun()
+	{
+		Habilidadestatico.SetActive(true);
+		animTxtMsjHabilidad.SetBool ("entrar",true);
+		yield return new WaitForSeconds(2.60f);
+		Habilidadestatico.SetActive(false);
+
+
+
+	}
+
+
 	public void MsjPantallaFinalizada(){
-		//ui.txtMsjgrlHabilidad.fontSize = 50;
-		ui.txtMsjgrlHabilidad.text = "Completaste el nivel";
+		ui.txtMsjgrlHabilidad.fontSize = 100;
+		ui.txtMsjgrlHabilidad.color = Color.yellow;
+		ui.txtMsjgrlHabilidad.text = "Level Complete!";
 		StartCoroutine(mostrarHabilidad());
 	}
 
 
 	public void MsjPantallaNoFinalizada(){
-		//ui.txtMsjgrlHabilidad.fontSize = 50;
-		ui.txtMsjgrlHabilidad.text = "Te quedan operaciones por realizar";
+		ui.txtMsjgrlHabilidad.fontSize = 100;
+		ui.txtMsjgrlHabilidad.color = Color.red;
+		ui.txtMsjgrlHabilidad.text = "left remaing: " + gData.cantidadTrolls;
 		StartCoroutine(mostrarHabilidad());
 	}
 
 
 	public void MsjNivelDeJuego(){
-		//ui.txtMsjgrlHabilidad.fontSize = 50;
-		ui.txtMsjgrlHabilidad.color = Color.red;
+		ui.txtMsjgrlHabilidad.fontSize = 300;
+		ui.txtMsjgrlHabilidad.color = Color.white;
 		int tmp = 1 + gData.nivel;
-		ui.txtMsjgrlHabilidad.text = "    Nivel actual:   " + tmp;
+		ui.txtMsjgrlHabilidad.text = "         Level: " + tmp;
 		StartCoroutine(mostrarHabilidad());
 	}
 
+	public void MsjRunRunRun(){
+		ui.txtMsjgrlHabilidad.fontSize = 100;
+		ui.txtMsjgrlHabilidad.color = Color.blue;
+		ui.txtMsjgrlHabilidad.text = " Run! ";
+		StartCoroutine(mostrarRun());
+	}
+
+	public void MsjJumpJump(){
+		ui.txtMsjgrlHabilidad.fontSize = 100;
+		ui.txtMsjgrlHabilidad.color = Color.cyan;
+		ui.txtMsjgrlHabilidad.text = " Jump! ";
+		StartCoroutine(mostrarRun());
+	}
 
 
 	public int SetStarsAwarded (int levelNumber, int stars){

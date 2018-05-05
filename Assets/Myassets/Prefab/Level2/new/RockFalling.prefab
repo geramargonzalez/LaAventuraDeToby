@@ -21,8 +21,8 @@ GameObject:
   - component: {fileID: 4068743439955958}
   - component: {fileID: 212135808592083378}
   - component: {fileID: 61792747601563898}
-  - component: {fileID: 114165406453156260}
   - component: {fileID: 50347421595303076}
+  - component: {fileID: 114766043389001190}
   m_Layer: 8
   m_Name: RockFalling
   m_TagString: GROUND
@@ -37,7 +37,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1834149361446246}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3559.8, y: 124.6, z: 9}
+  m_LocalPosition: {x: 2188, y: -256.0868, z: 18}
   m_LocalScale: {x: 2, y: -2, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -88,7 +88,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 11.417114, y: 0.39087296}
   m_EdgeRadius: 0
---- !u!114 &114165406453156260
+--- !u!114 &114766043389001190
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -96,10 +96,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1834149361446246}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f162350cb270745d6ba0c394b34dde87, type: 3}
+  m_Script: {fileID: 11500000, guid: d33fdfc5ed79d42b3aee8165f2840165, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  falldelay: 0.5
+  falldelay: 1
   volver: 5
 --- !u!212 &212135808592083378
 SpriteRenderer:

@@ -1,6 +1,13 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Myassets/Scripts/Generales/GameData.cs">
+    <Files>
+      <File FileName="Assets/Myassets/Scripts/Generales/LevelCompleteCtrl.cs" Line="56" Column="72" />
+      <File FileName="Assets/Myassets/Scripts/Generales/SistemaDejuego.cs" Line="1558" Column="42" />
+      <File FileName="Assets/Myassets/Scripts/Generales/DataCtrl.cs" Line="75" Column="17" />
+      <File FileName="Assets/Myassets/Scripts/Generales/GameData.cs" Line="10" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

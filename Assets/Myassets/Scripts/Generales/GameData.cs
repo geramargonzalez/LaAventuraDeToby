@@ -4,7 +4,7 @@ using System;
 
 
 /// <summary>
-///  	Los datos que se van a guardar del juego.
+///  Los datos que se van a guardar del juego.
 /// </summary>
 [Serializable]
 public class GameData 
@@ -256,7 +256,7 @@ public class GameData
 
 		if (nivel == 0) {
 
-			cantEnem = 6;
+			cantEnem = 7;
 		
 		} 
 		if (nivel == 1) {
@@ -290,6 +290,44 @@ public class GameData
 	
 	}
 
+	public int cantidadOrquitosPorNivel(){
+
+		int cantEnem = 0;
+
+		if (nivel == 0) {
+
+			cantEnem = 10;
+
+		} 
+		if (nivel == 1) {
+
+			cantEnem = 21;
+
+		} 
+		if (nivel == 2) {
+
+			cantEnem = 21;
+
+		} 
+
+		if (nivel == 3) {
+
+			cantEnem = 21;
+
+		} 
+		if (nivel == 4) {
+
+			cantEnem = 21;
+
+		} 
+		if (nivel == 5) {
+
+			cantEnem = 21;
+
+		} 
+
+		return cantEnem;
+	}
 
 	
 }

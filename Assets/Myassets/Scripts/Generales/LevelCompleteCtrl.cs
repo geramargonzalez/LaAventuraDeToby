@@ -45,8 +45,7 @@ public class LevelCompleteCtrl : MonoBehaviour {
 		levelNumber = SistemaDejuego.instance.NivelLogrado();
 
 		txtNivelActualCompletado.text = levelNumber.ToString();
-
-		score = SistemaDejuego.instance.GetScore ();
+	
 
 		txtScore.text = "" + score;
 	
@@ -61,6 +60,7 @@ public class LevelCompleteCtrl : MonoBehaviour {
 
 			showThreeStars = true;
 
+			SistemaDejuego.instance.PuntosPorStars (3);
 			SistemaDejuego.instance.SetStarsAwarded (levelNumber-1, 3);
 
 			Invoke ("ShowGoldenStars", animDelay);
@@ -69,17 +69,22 @@ public class LevelCompleteCtrl : MonoBehaviour {
 
 			showTwoStars = true;
 
+			SistemaDejuego.instance.PuntosPorStars (2);
+
 			SistemaDejuego.instance.SetStarsAwarded (levelNumber-1, 2);
 
 			Invoke ("ShowGoldenStars", animDelay);
 		
 		} else if(promedio >= scoreForOneStars){
-			
+
+			SistemaDejuego.instance.PuntosPorStars (2);
 			SistemaDejuego.instance.SetStarsAwarded (levelNumber-1, 1);
 		
 			Invoke ("ShowGoldenStars", animDelay);
 
 		}
+
+		score = SistemaDejuego.instance.GetScore ();
 			
 	}
 	

@@ -38,7 +38,7 @@ public class MovingPlataform : MonoBehaviour {
 		Gizmos.DrawLine(pos1.position, pos2.position);
 	}
 
-	void OnTriggerEnter2D(Collider2D other){
+	void OnCollisionEnter2D(Collision2D  other){
 
 		if (other.gameObject.CompareTag ("Player")) {
 			other.gameObject.transform.parent = this.transform;
@@ -46,7 +46,7 @@ public class MovingPlataform : MonoBehaviour {
 
 	}
 
-	void OnTriggerExit2D(Collider2D other){
+	void  OnCollisionExit2D(Collision2D other){
 
 		if (other.gameObject.CompareTag ("Player")) {
 			other.gameObject.transform.parent = null;

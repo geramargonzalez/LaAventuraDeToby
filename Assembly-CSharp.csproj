@@ -60,6 +60,8 @@
      <Compile Include="Assets\Myassets\Scripts\Enemy\EnemyHeadCtrl.cs" />
      <Compile Include="Assets\Myassets\Scripts\Enemy\EnemyPatrol.cs" />
      <Compile Include="Assets\Myassets\Scripts\Enemy\EnemyScript.cs" />
+     <Compile Include="Assets\Myassets\Scripts\Enemy\FishAI.cs" />
+     <Compile Include="Assets\Myassets\Scripts\Enemy\FishSpawner.cs" />
      <Compile Include="Assets\Myassets\Scripts\Enemy\HeadCtrl.cs" />
      <Compile Include="Assets\Myassets\Scripts\Enemy\OrquitosEnemy.cs" />
      <Compile Include="Assets\Myassets\Scripts\Generales\ActivarYCamera.cs" />
@@ -96,6 +98,7 @@
      <Compile Include="Assets\Myassets\Scripts\Plataformas\droppingPlataform.cs" />
      <Compile Include="Assets\Myassets\Scripts\Plataformas\MovingPlataform.cs" />
      <Compile Include="Assets\Myassets\Scripts\Plataformas\PlataformaFalling.cs" />
+     <Compile Include="Assets\Myassets\Scripts\Plataformas\PlataformFallingSmall.cs" />
      <Compile Include="Assets\Myassets\Scripts\Plataformas\platformaMovil.cs" />
      <Compile Include="Assets\Myassets\Scripts\Plataformas\Router.cs" />
      <Compile Include="Assets\Myassets\Scripts\Player\btnRespuestas.cs" />
