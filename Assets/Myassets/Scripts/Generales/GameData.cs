@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System;
 
-
 /// <summary>
 ///  Los datos que se van a guardar del juego.
 /// </summary>
@@ -261,7 +260,7 @@ public class GameData
 		} 
 		if (nivel == 1) {
 
-			cantEnem = 9;
+			cantEnem = 6;
 		
 		} 
 		if (nivel == 2) {
@@ -304,9 +303,9 @@ public class GameData
 			cantEnem = 21;
 
 		} 
-		if (nivel == 2) {
+		if (nivel == 3) {
 
-			cantEnem = 21;
+			cantEnem = 10;
 
 		} 
 

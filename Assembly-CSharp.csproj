@@ -130,6 +130,7 @@
      <None Include="Assets\Myassets\Audio\Audio Credits.txt" />
      <None Include="Assets\Myassets\Sprites\craftpix-062999-2d-fantasy-knight-free-sprite-sheets\_TXT\readme.txt" />
      <None Include="Assets\Myassets\Sounds\The Essential Retro Video Game Sound Effects Collection [512 sounds] By Juhani Junkala\INFO.txt" />
+     <None Include="Assets\FlatButtonIconPack\readme.txt" />
  <Reference Include="Facebook.Unity.Settings">
  <HintPath>/Users/gerardogonzalez/Documents/Udemy/Unity/UdemyPlataformMobile2D/LaBatallasDelasTablas/Library/FacebookSDK/Facebook.Unity.Settings.dll</HintPath>
  </Reference>

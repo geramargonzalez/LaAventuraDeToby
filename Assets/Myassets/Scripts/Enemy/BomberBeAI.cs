@@ -9,6 +9,8 @@ public class BomberBeAI : MonoBehaviour {
 	public float beeSpeed;
 
 
+
+
 	public void ActivatedBee(Vector3 playerpos){
 		transform.DOMove (playerpos, beeSpeed, false);
 	}

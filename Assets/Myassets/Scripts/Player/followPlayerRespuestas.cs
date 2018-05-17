@@ -29,17 +29,23 @@ public class followPlayerRespuestas : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		if (SistemaDejuego.instance.posicionXActual > 3283.7) {
+
+		// Es con el nivel 2 y no con el 0 acordarse de cambiar esto.
+		if (SistemaDejuego.instance.posicionXActual > 3283.7 || DataCtrl.instance.data.nivel == 0) {
 
 			agreY = true;
 
 		} 
-
-
+			
 		if (!agreY) {
+			
+
 			transform.position = new Vector3 (bar.position.x, yPos, transform.position.z);
+		
 		} else {
-			transform.position = new Vector3 (bar.position.x, bar.transform.position.y - yOff, transform.position.z);
+			
+			transform.position = new Vector3 (bar.position.x, bar.transform.position.y + yOff, transform.position.z);
+		
 		}
 
 	}

@@ -64,7 +64,7 @@ public class PersonajeController : MonoBehaviour
 		anim.SetFloat ("speed", Mathf.Abs (rb2d.velocity.x));
 
 		if(!crouch && Input.GetKey (KeyCode.D)){
-			Debug.Log (speed + " "  + grounded);
+			
 			spritePersonaje.flipX = false;
 			rb2d.AddForce (Vector2.right * speed * h);
 			//anim.SetBool ("Shoot", false);

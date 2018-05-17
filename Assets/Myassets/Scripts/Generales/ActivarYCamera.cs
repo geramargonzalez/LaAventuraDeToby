@@ -7,7 +7,7 @@ public class ActivarYCamera : MonoBehaviour {
 
 	GameObject camera;
 	MainCamera mainCamera;
-
+	bool ok = true;
 
 	// Use this for initialization
 	void Start () {
@@ -18,6 +18,10 @@ public class ActivarYCamera : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		
+		if(DataCtrl.instance.data.nivel == 0 && ok == true){
+			mainCamera.setearYCamera ();
+			ok = false;
+		}
 	}
 
 	void OnTriggerEnter2D(Collider2D other) {

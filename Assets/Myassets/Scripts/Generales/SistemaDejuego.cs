@@ -50,10 +50,7 @@ public class SistemaDejuego : MonoBehaviour {
 	bool timerOn;
 
 
-
-
 	//Variables con la data del juego
-
 	[HideInInspector]
 	public GameData gData;
 
@@ -292,23 +289,25 @@ public class SistemaDejuego : MonoBehaviour {
 	}
 
 	public void SeleccionarPosOrquitosPorPantalla(){
+		// Por prueba se elige el nivel 1 para no levantar los orcos, despues va hacer el nivel 2
+		if( gData.nivel > 0){
 
-		posOrcosAnimales = new GameObject[gData.cantidadOrquitosPorNivel()];
+			posOrcosAnimales = new GameObject[gData.cantidadOrquitosPorNivel()];
 
-		for(int i = 0; i < posOrcosAnimales.Length; i++){
+			for(int i = 0; i < posOrcosAnimales.Length; i++){
 
 
-			int tmp = i + 1;
-			posOrcosAnimales[i] = GameObject.Find ("posO" + tmp);
+				int tmp = i + 1;
+				posOrcosAnimales[i] = GameObject.Find ("posO" + tmp);
 
+			}	
 		}
+
 
 
 	
 
 	}
-
-
 
 
 	//Genera los Enemigos Actuales
@@ -1246,7 +1245,7 @@ public class SistemaDejuego : MonoBehaviour {
 
 		posNew.z = 20f;
 
-		Instantiate(big_coin, posNew, Quaternion.identity);
+		Instantiate(RandomAnimals(), posNew, Quaternion.identity);
 
 		SFXCtrl.instance.EnemyExplosion(posNew);
 
@@ -1363,11 +1362,14 @@ public class SistemaDejuego : MonoBehaviour {
 
 	// Poner los orquitos en escena
 	public void MarcarOrquitosEnEscena(){
+		if(gData.nivel > 0){
 
-		for (int i = 0; i < gData.orcosPorAnimales.Length; i++) {
-				
-			gData.orcosPorAnimales[i] = false;
-				
+			for (int i = 0; i < gData.orcosPorAnimales.Length; i++) {
+
+				gData.orcosPorAnimales[i] = false;
+
+
+			}
 
 		}
 
@@ -1375,18 +1377,22 @@ public class SistemaDejuego : MonoBehaviour {
 
 	public void OrcosAnimales(){
 
-		for (int i = 0; i < gData.orcosPorAnimales.Length; i++) {
+		if(gData.nivel > 0){
 
-			if (gData.orcosPorAnimales[i]) {
+			for (int i = 0; i < gData.orcosPorAnimales.Length; i++) {
 
-				Instantiate (big_coin, posOrcosAnimales[i].transform.position, Quaternion.identity);
-			
-			} else {
+				if (gData.orcosPorAnimales[i]) {
 
-				//Debug.Log (posOrcosAnimales[i].name);
+					Instantiate (RandomAnimals (), posOrcosAnimales[i].transform.position, Quaternion.identity);
 
-				Instantiate (orquito, posOrcosAnimales[i].transform.position, Quaternion.identity);
-			
+				} else {
+
+					//Debug.Log (posOrcosAnimales[i].name);
+
+					Instantiate (orquito, posOrcosAnimales[i].transform.position, Quaternion.identity);
+
+				}
+
 			}
 
 		}

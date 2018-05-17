@@ -3806,7 +3806,17 @@ MonoBehaviour:
   - {fileID: 508807052}
   - {fileID: 990258810}
   - {fileID: 1285177779}
-  animals: []
+  animals:
+  - {fileID: 1000010051298990, guid: a4c030fb9c42547149d12e675cafdf95, type: 2}
+  - {fileID: 1000014123060406, guid: c9d8fe863d3424d48bb5ecd57ca5e09b, type: 2}
+  - {fileID: 1000011255347474, guid: c60d7948ef67e416097c83ead303ca96, type: 2}
+  - {fileID: 1000010603158926, guid: 1bf1715e638ca492aaabbafdd20777ab, type: 2}
+  - {fileID: 1000014255326470, guid: 2a883da49051b44b28f3faf2625dde01, type: 2}
+  - {fileID: 1000012668337274, guid: 551825cb076674fbd8ac0d1b62e9ed8e, type: 2}
+  - {fileID: 1000010925574614, guid: 7bff9d4c7ffe34a2c96df24964851397, type: 2}
+  - {fileID: 1000013553104886, guid: 8547c5f6e3f3845019b43ac6d34a1ece, type: 2}
+  - {fileID: 1000014249205244, guid: e065f5fa86dcf49e1b03cf3d667a0d21, type: 2}
+  - {fileID: 1000013915614292, guid: b233b95e8dc824127b73a399e88ea492, type: 2}
   posicionXActual: 0
   gData:
     puntos: 0
