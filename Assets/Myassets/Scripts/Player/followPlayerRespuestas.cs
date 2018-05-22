@@ -9,18 +9,16 @@ public class followPlayerRespuestas : MonoBehaviour {
 
 	// ***********************************
 	bool agreY;
-
 	float tmp;
 	float yPos;
+
 	//	 Transform posInicial;
 	public float yOff;
 
 	void Start(){
 
 		bar = GameObject.Find ("Dog").transform;
-
 		agreY = false;
-
 		yPos = this.transform.position.y;
 
 
@@ -29,9 +27,8 @@ public class followPlayerRespuestas : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-
 		// Es con el nivel 2 y no con el 0 acordarse de cambiar esto.
-		if (SistemaDejuego.instance.posicionXActual > 3283.7 || DataCtrl.instance.data.nivel == 0) {
+		if (SistemaDejuego.instance.posicionXActual > 3283.7 || DataCtrl.instance.data.nivel == 2) {
 
 			agreY = true;
 

@@ -136,7 +136,9 @@ public class EnemyScript : MonoBehaviour {
 	}
 
 	public void Death(){
+	
 		anim.SetBool ("Die", SistemaDejuego.instance.matarTroll());
+	
 	}
 
 	void OnTriggerEnter2D(Collider2D other) {

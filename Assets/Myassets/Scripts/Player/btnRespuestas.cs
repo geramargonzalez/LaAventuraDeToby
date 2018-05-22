@@ -16,8 +16,6 @@ public class btnRespuestas : MonoBehaviour {
 
 		if (Input.GetMouseButtonDown (0)) {
 
-			Debug.Log ("Name: "+ gameObject.name);
-
 			SistemaDejuego.instance.ResultadoOperacion (numero);
 		
 		}

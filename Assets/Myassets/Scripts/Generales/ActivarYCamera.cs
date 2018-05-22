@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class ActivarYCamera : MonoBehaviour {
 
-
 	GameObject camera;
 	MainCamera mainCamera;
 	bool ok = true;
@@ -13,12 +12,13 @@ public class ActivarYCamera : MonoBehaviour {
 	void Start () {
 		camera = GameObject.Find("Main Camera");
 		mainCamera = camera.GetComponent<MainCamera> ();
+		bool ok = true;
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		
-		if(DataCtrl.instance.data.nivel == 0 && ok == true){
+		if(DataCtrl.instance.data.nivel == 2 && ok == true){
 			mainCamera.setearYCamera ();
 			ok = false;
 		}

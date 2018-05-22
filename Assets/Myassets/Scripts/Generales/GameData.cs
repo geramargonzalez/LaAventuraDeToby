@@ -255,7 +255,7 @@ public class GameData
 
 		if (nivel == 0) {
 
-			cantEnem = 7;
+			cantEnem = 8;
 		
 		} 
 		if (nivel == 1) {

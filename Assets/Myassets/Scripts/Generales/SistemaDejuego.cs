@@ -290,7 +290,7 @@ public class SistemaDejuego : MonoBehaviour {
 
 	public void SeleccionarPosOrquitosPorPantalla(){
 		// Por prueba se elige el nivel 1 para no levantar los orcos, despues va hacer el nivel 2
-		if( gData.nivel > 0){
+		if( gData.nivel < 2){
 
 			posOrcosAnimales = new GameObject[gData.cantidadOrquitosPorNivel()];
 
@@ -438,10 +438,11 @@ public class SistemaDejuego : MonoBehaviour {
 		float restaDePosiciones;
 
 		for (int i = 0; i < posicionesEnemigos.Length; i++) {
+			
 
 			restaDePosiciones =  posicionesEnemigos [i].transform.position.x - posEnemigoActual.transform.position.x;
 
-
+	
 			if ( (int)restaDePosiciones >= 0  && (int)restaDePosiciones <= 50) {
 
 				gData.operaRealizadas [i] = true;
@@ -465,6 +466,7 @@ public class SistemaDejuego : MonoBehaviour {
 				gData.operaRealizadas [i] = false;
 				enemigosActivos++;
 			}
+		
 		
 		} else {
 
@@ -626,7 +628,8 @@ public class SistemaDejuego : MonoBehaviour {
 				gnScript.RecibirResultado (resulString);
 				
 			if(gData.cantidadTrolls == 1){
-					QuedaUnSoloTroll ();
+					
+				QuedaUnSoloTroll ();
 
 				}
 
@@ -634,7 +637,6 @@ public class SistemaDejuego : MonoBehaviour {
 					
 					CeroTroll ();
 					fallosDelNivel = gData.fallos;
-			
 					promedioPorNivel = gData.calcularPromedio ();
 					nivelLogrado = gData.nivel;
 					ProximoNivel ();
@@ -772,7 +774,7 @@ public class SistemaDejuego : MonoBehaviour {
 
 		if(signo == 0){
 		   
-			psigno = "X";
+			psigno = "x";
 		
 		}else if(signo == 1){
 
@@ -797,6 +799,7 @@ public class SistemaDejuego : MonoBehaviour {
 		int tmp;
 		// Numero1 debe ser mayor que numero2
 		if(numero1 < numero2){
+
 			tmp = numero1;
 			numero1 = numero2;
 			numero2 = tmp;
@@ -1018,10 +1021,14 @@ public class SistemaDejuego : MonoBehaviour {
 	public void SumarFallos(){
 		
 		gData.fallos++;
-
 		txtFallos ();
 		SumarFallosPorCuentas ();
 		DisminuirJump ();
+		if(gData.fallos == 5){
+
+			restarVidas ();
+
+		}
 	
 	}
 
@@ -1029,9 +1036,6 @@ public class SistemaDejuego : MonoBehaviour {
 
 		ui.textFallos.text = "Fallos: " + gData.fallos.ToString();
 
-		if(gData.fallos == 5){
-			restarVidas ();
-		}
 	}
 
 	public void SumarAciertosPorCuentas(){
@@ -1362,7 +1366,8 @@ public class SistemaDejuego : MonoBehaviour {
 
 	// Poner los orquitos en escena
 	public void MarcarOrquitosEnEscena(){
-		if(gData.nivel > 0){
+
+		if(gData.nivel < 2){
 
 			for (int i = 0; i < gData.orcosPorAnimales.Length; i++) {
 
@@ -1377,7 +1382,7 @@ public class SistemaDejuego : MonoBehaviour {
 
 	public void OrcosAnimales(){
 
-		if(gData.nivel > 0){
+		if(gData.nivel < 2){
 
 			for (int i = 0; i < gData.orcosPorAnimales.Length; i++) {
 
@@ -1386,9 +1391,7 @@ public class SistemaDejuego : MonoBehaviour {
 					Instantiate (RandomAnimals (), posOrcosAnimales[i].transform.position, Quaternion.identity);
 
 				} else {
-
-					//Debug.Log (posOrcosAnimales[i].name);
-
+					
 					Instantiate (orquito, posOrcosAnimales[i].transform.position, Quaternion.identity);
 
 				}
@@ -1419,7 +1422,7 @@ public class SistemaDejuego : MonoBehaviour {
 		for (int i = 0; i < posOrcosAnimales.Length; i++) {
 
 		
-			restadepos = posOrcosAnimales [i].transform.position.x - pos.position.x;
+			 restadepos = posOrcosAnimales [i].transform.position.x - pos.position.x;
 
 
 			if((int)restadepos >= -30 && (int)restadepos <= 30){
@@ -1435,6 +1438,7 @@ public class SistemaDejuego : MonoBehaviour {
 
 	//Mejora/Empeora velocidad y salto
 	public void AumentarJump(){
+
 		ui.txtMsjgrlHabilidad.fontSize = 100;
 		ui.txtMsjgrlHabilidad.color = Color.white;
 		gData.jumpSpeed = gData.jumpSpeed + 20f; 

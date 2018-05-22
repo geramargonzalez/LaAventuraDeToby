@@ -891,6 +891,7 @@ MonoBehaviour:
       bonesStars: 0
       promedio: 0
       fallosPorNivel: 0
+      aciertosPorNivel: 0
       fallosMultiplicacion: 0
       fallosSuma: 0
       fallosResta: 0
@@ -904,6 +905,7 @@ MonoBehaviour:
       bonesStars: 0
       promedio: 0
       fallosPorNivel: 0
+      aciertosPorNivel: 0
       fallosMultiplicacion: 0
       fallosSuma: 0
       fallosResta: 0
@@ -917,6 +919,7 @@ MonoBehaviour:
       bonesStars: 0
       promedio: 0
       fallosPorNivel: 0
+      aciertosPorNivel: 0
       fallosMultiplicacion: 0
       fallosSuma: 0
       fallosResta: 0
@@ -930,6 +933,7 @@ MonoBehaviour:
       bonesStars: 0
       promedio: 0
       fallosPorNivel: 0
+      aciertosPorNivel: 0
       fallosMultiplicacion: 0
       fallosSuma: 0
       fallosResta: 0
@@ -943,6 +947,7 @@ MonoBehaviour:
       bonesStars: 0
       promedio: 0
       fallosPorNivel: 0
+      aciertosPorNivel: 0
       fallosMultiplicacion: 0
       fallosSuma: 0
       fallosResta: 0
@@ -956,6 +961,7 @@ MonoBehaviour:
       bonesStars: 0
       promedio: 0
       fallosPorNivel: 0
+      aciertosPorNivel: 0
       fallosMultiplicacion: 0
       fallosSuma: 0
       fallosResta: 0
