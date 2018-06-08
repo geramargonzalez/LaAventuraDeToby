@@ -45,7 +45,6 @@ public class EnemyScript : MonoBehaviour {
 		maxtime = 10;
 		move = false;
 		attack = false;
-
 		ui.texttimeOp = GameObject.Find ("ResetOperacion").GetComponent<Text>();
 		tablas.SetActive (false);
 		anim = GetComponent<Animator> ();
@@ -103,6 +102,7 @@ public class EnemyScript : MonoBehaviour {
 		SistemaDejuego.instance.SetearCrearNuevoTroll (true);
 		PararTiempoOperaciones();
 		yield return new WaitForSeconds(0.1f);
+		SistemaDejuego.instance.EnemyDerroted (this.gameObject.transform);
 		Destroy (this.gameObject);
 	}
 		

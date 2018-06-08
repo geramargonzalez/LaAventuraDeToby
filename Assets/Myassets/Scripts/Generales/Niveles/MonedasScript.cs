@@ -27,13 +27,13 @@ public class MonedasScript : MonoBehaviour {
 	void Start () {
 
 		audioCoins = GetComponent<AudioSource> ();
+		gameManager = GameObject.Find ("SistemaDejuego");
 		sisJuego = gameManager.GetComponent<SistemaDejuego>();
-
 		startFly ();
 	
 	}
 
-	// Update is called once per frame
+
 	void Update () {
 
 		if(startFlying){
@@ -64,6 +64,9 @@ public class MonedasScript : MonoBehaviour {
 			audioCoins.Play();
 		
 			SistemaDejuego.instance.SumarBone ();
+
+
+			SistemaDejuego.instance.Collectible (this.transform);
 		
 			if(coinFX == CoinFX.Vanish){
 

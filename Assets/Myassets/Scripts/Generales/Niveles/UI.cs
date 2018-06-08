@@ -30,19 +30,44 @@ public class UI  {
 
 	public Text textCheckPoint;
 
+
 	[Header("Textos de Habilidades")]
 
 	public Text txtMsjgrlHabilidad;
+
 
 	[Header("Imagenes de vida")]
 
 	public GameObject[] vidasGo;
 
+
 	[Header("Paneles de juego")]
 
 	public GameObject pnMenuJuegoTerminado;
+
 	public GameObject levelComplete;
+
 	public GameObject panelPausa;
 
+
+	[Header("Textos Zona intermedia")]
+
+	public Text divisortxt;
+
+	public Text restotxt;
+
+	public Text resultadotxt;
+
+	public Text dividendotxt;
+
+	public Text msj;
+
+	public GameObject panelMultiplo;
+
+	public GameObject contenedorGrl;
+
+	public GameObject contenedorGameOver;
+
+	public GameObject contTryAgain;
 
 }

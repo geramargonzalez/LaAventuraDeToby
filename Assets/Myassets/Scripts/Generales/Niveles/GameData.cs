@@ -43,6 +43,7 @@ public class GameData
 
 	//Orquitos/Animales
 	public bool[] orcosPorAnimales;
+	public bool[] bonesBool;
 	public int cantAnimalesConvertidos;
 
 

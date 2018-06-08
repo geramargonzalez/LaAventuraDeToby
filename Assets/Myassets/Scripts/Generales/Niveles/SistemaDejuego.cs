@@ -23,6 +23,7 @@ public class SistemaDejuego : MonoBehaviour {
 	//Todos los enemigos por Pantalla o Operaciones a derrotar
 	GameObject[] goRespuestas;
 	Transform tmp;
+
 	GameObject[] posicionesEnemigos;
 	Transform  posEnemigoActual;
 
@@ -31,8 +32,6 @@ public class SistemaDejuego : MonoBehaviour {
 
 	// Vector con todos los prefabs de los animales
 	public GameObject[] animals;
-
-
 
 	int signo;
 	int posiDelaTablaAcultar;
@@ -75,8 +74,10 @@ public class SistemaDejuego : MonoBehaviour {
 	EnemyScript gnScript;	
 
 	// Animales y Orquitos
-	public GameObject big_coin;
+	public GameObject bonePrefab;
 	public GameObject orquito;
+	public GameObject healtAnim;
+	public GameObject healthpickup;
 
 	//Enemigo prefab
 	public GameObject trollActual;
@@ -91,28 +92,34 @@ public class SistemaDejuego : MonoBehaviour {
 	 int promedioPorNivel;
 	 int fallosDelNivel;
      int  scoreNivel;
+	  
 
 	// Los diferentes puntaje....
 	int bigBoneValue = 10;
 	int orquitosValues = 500;
 	int enemyValue = 1000;
 
+	// Para recuperar vida
+	int recoveryLife;
+
 	int enemigosActivos;
 	int promedioTotalDeOpeciones;
 
 
 
-	// OPERACIONES CONCRETADAS Y QUE SE CREE UN NUEVO ENEMIGO
+	//OPERACIONES CONCRETADAS Y QUE SE CREE UN NUEVO ENEMIGO
 	bool operacionConcretada;
 	bool crearnuevoTroll;
 
 
 	//Orquitos y Animales
     GameObject[] posOrcosAnimales;
+	GameObject[] collectibles;
 
 
 	Animator animTxtHabilidad;
 	Animator animTxtMsjHabilidad;
+
 	public GameObject Habilidadestatico;
 
 
@@ -141,26 +148,22 @@ public class SistemaDejuego : MonoBehaviour {
 
 		DataCtrl.instance.RefreshData ();
 		gData = DataCtrl.instance.data;
-
 		// Cargo en los arrays los Enemigos y los orquitos
 		SeleccionarPosEnemigosPorPantalla ();
 		SeleccionarPosOrquitosPorPantalla ();
-
+		SeleccionarCollectiblesPorPantalla();
 		RefreshUI ();
-
 		camera = GameObject.Find("Main Camera");
 		player = GameObject.Find ("Dog");
 		persController = player.GetComponent<PlayerController>();
-
 		attack = false;
 		die = false;
 		isPaused = false;
 		timerOn = true;
-
 		goRespuestas = GameObject.FindGameObjectsWithTag("btnRespuesta");
-
 		Habilidadestatico.SetActive(false);
 		animTxtMsjHabilidad = ui.txtMsjgrlHabilidad.GetComponent<Animator> ();
+
 
 		Comenzar ();
 
@@ -170,8 +173,6 @@ public class SistemaDejuego : MonoBehaviour {
 
 		if (gData.yaJugo == false) {
 
-			MarcarOrquitosEnEscena ();
-
 			gData.jumpSpeed = 900f;
 
 			gData.speedBoost = 20f;
@@ -180,7 +181,12 @@ public class SistemaDejuego : MonoBehaviour {
 
 			gData.numParaPromedio = gData.cantidadTrolls;
 
+		    gData.bonesBool = new bool[60];
+
 			gData.orcosPorAnimales = new bool[gData.cantidadOrquitosPorNivel()];
+
+			MarcarOrquitosEnEscena ();
+			MarcarCollectibles ();
 
 		} 
 
@@ -235,11 +241,12 @@ public class SistemaDejuego : MonoBehaviour {
 
 
 	public void ResetData () {
-		DataCtrl.instance.ResetData(gData.nivel);
 		ui.txtPuntos.text = "0";
 		ui.txtBones.text = "0";
-		timeLeft = gData.ResetTime();
+		gData.ResetNivelActual (gData.nivel);
+		DataCtrl.instance.ResetData(gData.nivel);
 		MarcarOrquitosEnEscena();
+		MarcarCollectibles ();
 		RestaurarVidas ();
 
 	}
@@ -254,6 +261,8 @@ public class SistemaDejuego : MonoBehaviour {
 		crearnuevoTroll = false;
 
 		OrcosAnimales ();
+
+		PutBoneInScene ();
 
 		player.transform.position = new Vector3 (gData.x, gData.y, gData.z);
 	
@@ -282,13 +291,26 @@ public class SistemaDejuego : MonoBehaviour {
 
 			posicionesEnemigos[i] = GameObject.Find ("Pos" + tmp);
 
-		
-		
 		}
 
 	}
 
+
+	public void SeleccionarCollectiblesPorPantalla(){
+
+		collectibles = new GameObject[60];
+
+		for(int i = 0; i < collectibles.Length; i++){
+
+			collectibles[i] = GameObject.Find("Coll" + i);
+
+		}
+
+	}
+
+
 	public void SeleccionarPosOrquitosPorPantalla(){
+
 		// Por prueba se elige el nivel 1 para no levantar los orcos, despues va hacer el nivel 2
 		if( gData.nivel < 2){
 
@@ -296,17 +318,12 @@ public class SistemaDejuego : MonoBehaviour {
 
 			for(int i = 0; i < posOrcosAnimales.Length; i++){
 
-
 				int tmp = i + 1;
 				posOrcosAnimales[i] = GameObject.Find ("posO" + tmp);
 
 			}	
 		}
-
-
-
-	
-
+			
 	}
 
 
@@ -611,6 +628,7 @@ public class SistemaDejuego : MonoBehaviour {
 				if(attack){
 
 					attack = false;
+					
 
 				}
 
@@ -618,10 +636,8 @@ public class SistemaDejuego : MonoBehaviour {
 				
 				LimpiarRespuestas ();
 				DesactivarBotonRespuestas ();
-
 				gData.cantidadTrolls--;
 				ui.txtCantEnemigos.text = gData.cantidadTrolls.ToString ();
-				
 				SumarAciertosPorCuentas ();
 				sumarPuntos (Item.Enemigos);
 				OperacionesAritmeticasCompletadas();
@@ -735,8 +751,6 @@ public class SistemaDejuego : MonoBehaviour {
 	void operacionDividir(){
 
 		float entera = numero1 / numero2;
-
-		//Debug.Log ("Division: " + numero2 + " / " + numero1 + " = " +  entera);
 
 		resultado = (int)entera;
 
@@ -877,9 +891,32 @@ public class SistemaDejuego : MonoBehaviour {
 			if(i < 2){
 
 				if (posiDelaTablaAcultar == 1) {
+
+					bool ok = false;
+
+					int cont = 0;
+
+					while(!ok){
+						
+						tmpS = GenerarSignoParaRespuestas ();
+
+						for(int p = 0;  p < arrDes.Count; p++){
+
+							if(tmpS == arrDes[p]){
+								
+								cont++;
+							}
+						}
+
+						if(cont == 0){
+
+							arrDes.Add(tmpS);
+							ok = true;
+						}
 					
-					tmpS = GenerarSignoParaRespuestas ();
-					arrDes.Add(tmpS);
+					}
+
+
 				
 				} else {
 					
@@ -1024,6 +1061,7 @@ public class SistemaDejuego : MonoBehaviour {
 		txtFallos ();
 		SumarFallosPorCuentas ();
 		DisminuirJump ();
+
 		if(gData.fallos == 5){
 
 			restarVidas ();
@@ -1114,6 +1152,21 @@ public class SistemaDejuego : MonoBehaviour {
 		ui.vidasGo [tmp].SetActive (false);
 
 	}
+	public void SumarUIVida(){
+		
+		int tmp = gData.vidas;
+		if(tmp < 5){
+			ui.vidasGo [tmp].SetActive (true);
+		}
+
+
+	}
+
+	public void HealthGO(Transform healthIdle){
+		Instantiate (healtAnim,healthIdle.position, Quaternion.identity);
+		VidaPickUp ();
+	}
+
 
 	public void RestaurarVidas(){
 
@@ -1127,11 +1180,13 @@ public class SistemaDejuego : MonoBehaviour {
 	public void CheckLives(){
 
 		gData.vidas--;
-	
 
 		if (gData.vidas == 0) {
-			gData.vidas = 5;
+
+
+
 			DataCtrl.instance.SaveData (gData);
+
 			Invoke ("GameOver", restartdevel);
 		
 		} else {
@@ -1140,6 +1195,16 @@ public class SistemaDejuego : MonoBehaviour {
 			DataCtrl.instance.SaveData (gData);
 			Invoke ("RestartLevel", restartdevel);
 			
+		}
+	
+	}
+
+	public void VidaRecuperador(){
+
+		recoveryLife++;
+
+		if(recoveryLife == 5){
+			SumarUIVida();
 		}
 	
 	}
@@ -1170,6 +1235,7 @@ public class SistemaDejuego : MonoBehaviour {
 			timerOn = false;
 		
 		}
+
 		ui.pnMenuJuegoTerminado.gameObject.GetComponent<RectTransform> ().DOAnchorPosY (0, 0.7f, false);
 
 	}
@@ -1216,7 +1282,6 @@ public class SistemaDejuego : MonoBehaviour {
 
 
 
-
 	public void UpdateTime(){
 
 		timeLeft -= Time.deltaTime;
@@ -1258,6 +1323,16 @@ public class SistemaDejuego : MonoBehaviour {
 		ConvertirAnimal(enemy.transform);
 
 		sumarPuntos (Item.Orquitos);
+
+	}
+
+	public void EnemyDerroted(Transform enemy){
+
+		Vector3 posNew = enemy.position;
+
+		posNew.z = 20f;
+
+		Instantiate(healthpickup, posNew, Quaternion.identity);
 
 	}
 
@@ -1380,6 +1455,38 @@ public class SistemaDejuego : MonoBehaviour {
 
 	}
 
+	public void MarcarCollectibles(){
+		
+			for (int i = 0; i < gData.bonesBool.Length; i++) {
+
+				gData.bonesBool[i] = false;
+
+			
+			}
+			
+
+
+	}
+
+	public void Collectible(Transform pos){
+
+		float restadepos;
+
+		for (int i = 0; i < collectibles.Length; i++) {
+
+
+			restadepos = collectibles [i].transform.position.x - pos.position.x;
+
+			if((int)restadepos >= -10 && (int)restadepos <= 10){
+
+				gData.bonesBool [i] = true;
+
+
+			}
+		}
+
+	}
+
 	public void OrcosAnimales(){
 
 		if(gData.nivel < 2){
@@ -1401,6 +1508,22 @@ public class SistemaDejuego : MonoBehaviour {
 		}
 
 	
+	}
+
+	public void PutBoneInScene(){
+
+		for (int i = 0; i < collectibles.Length; i++) {
+
+			 if (!gData.bonesBool[i]) {
+
+				Instantiate (bonePrefab, collectibles[i].transform.position, Quaternion.identity);
+
+
+			}
+
+		}
+
+
 	}
 
 
@@ -1511,6 +1634,14 @@ public class SistemaDejuego : MonoBehaviour {
 		ui.txtMsjgrlHabilidad.color = Color.red;
 
 		ui.txtMsjgrlHabilidad.text = "GO GO GO!";
+		StartCoroutine(mostrarHabilidad());
+	}
+
+	public void VidaPickUp(){
+		ui.txtMsjgrlHabilidad.fontSize = 100;
+		ui.txtMsjgrlHabilidad.color = Color.red;
+
+		ui.txtMsjgrlHabilidad.text = "Health pick " + recoveryLife + " remains ";
 		StartCoroutine(mostrarHabilidad());
 	}
 

@@ -7,10 +7,6 @@ public class btnRespuestas : MonoBehaviour {
 	public int numero;
 
 
-	// Use this for initialization
-	void Start () {
-		
-	}
 
 	void OnMouseOver(){
 
