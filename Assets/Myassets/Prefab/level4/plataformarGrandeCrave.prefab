@@ -51,7 +51,8 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4622256307838676}
-  - component: {fileID: 60745431335621274}
+  - component: {fileID: 61338371939605928}
+  - component: {fileID: 60628978309008646}
   m_Layer: 8
   m_Name: plataformarGrandeCrave
   m_TagString: GROUND
@@ -190,7 +191,7 @@ Transform:
   m_Father: {fileID: 4622256307838676}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!60 &60745431335621274
+--- !u!60 &60628978309008646
 PolygonCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -198,11 +199,11 @@ PolygonCollider2D:
   m_GameObject: {fileID: 1237948573548102}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: f8f8f6a93dbec42e298048569951273c, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: -0.02}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -214,17 +215,41 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 3.8376343, y: 0.5028169}
-      - {x: 3.010065, y: 0.49409056}
-      - {x: 0.52554375, y: 0.4851043}
-      - {x: -2.3169575, y: 0.4858722}
-      - {x: -3.980767, y: 0.060424887}
-      - {x: -3.9740994, y: -0.8041316}
-      - {x: -1.333561, y: -0.48274085}
-      - {x: 2.4087198, y: -0.53347117}
-      - {x: 2.420159, y: -0.8986498}
-      - {x: 3.3689022, y: -0.91777664}
-      - {x: 3.965231, y: 0.32455316}
+    - - {x: -2.3096578, y: 0.5273956}
+      - {x: -2.3046079, y: 0.5165038}
+      - {x: -2.6675391, y: 0.40187624}
+      - {x: -2.8274393, y: 0.35968268}
+      - {x: -3.27646, y: 0.21798535}
+      - {x: -3.9526284, y: 0.050352283}
+      - {x: -3.9949481, y: 0.0060838666}
+      - {x: -4.031105, y: -0.7357543}
+      - {x: -2.3304899, y: -0.5159684}
+      - {x: -2.296898, y: 0.1991232}
+--- !u!61 &61338371939605928
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1237948573548102}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.8395221, y: 0.37}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 6.2808537, y: 0.25458208}
+  m_EdgeRadius: 0
 --- !u!212 &212283548743874024
 SpriteRenderer:
   m_ObjectHideFlags: 1

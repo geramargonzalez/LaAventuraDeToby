@@ -22,14 +22,10 @@ public class EnemyScript : MonoBehaviour {
 	bool contarParaPromedio;
 	public float timeRealiseOperation;
 
-
 	bool opHabilitada = false;
-
 	public UI ui;
 
 	int pos;
-
-
 
 	public Text respuesta1;
 	public Text respuesta2;
@@ -97,13 +93,16 @@ public class EnemyScript : MonoBehaviour {
 
 
 	IEnumerator DestruirTroll(){
-		
+
+		AudioCtrl.instance.TrollDeath (gameObject.transform);
+
 		SistemaDejuego.instance.SetDie(false);
 		SistemaDejuego.instance.SetearCrearNuevoTroll (true);
 		PararTiempoOperaciones();
 		yield return new WaitForSeconds(0.1f);
 		SistemaDejuego.instance.EnemyDerroted (this.gameObject.transform);
 		Destroy (this.gameObject);
+	
 	}
 		
 
@@ -146,6 +145,8 @@ public class EnemyScript : MonoBehaviour {
 		if (other.gameObject.CompareTag("Player")) {
 
 			contarParaPromedio = true;
+
+			AudioCtrl.instance.TrollShout (gameObject.transform);
 
 			SistemaDejuego.instance.ObtenerEnemigoActual (this.gameObject);
 

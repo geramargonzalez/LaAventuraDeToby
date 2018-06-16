@@ -970,6 +970,20 @@ MonoBehaviour:
       aciertosSuma: 0
       aciertosResta: 0
       aciertosDivision: 0
+    - nivel: 0
+      unlocked: 0
+      bonesStars: 0
+      promedio: 0
+      fallosPorNivel: 0
+      aciertosPorNivel: 0
+      fallosMultiplicacion: 0
+      fallosSuma: 0
+      fallosResta: 0
+      fallosDivision: 0
+      aciertosMultiplicacion: 0
+      aciertosSuma: 0
+      aciertosResta: 0
+      aciertosDivision: 0
     operaRealizadas: 
     yaJugo: 0
     x: 3.3

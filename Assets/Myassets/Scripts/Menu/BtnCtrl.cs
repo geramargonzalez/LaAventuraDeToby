@@ -103,7 +103,8 @@ public class BtnCtrl : MonoBehaviour {
 	}
 
 	public void LoadScene(){
-		//DataCtrl.instance.SetNivelRep(levelNumber);		
+		//DataCtrl.instance.SetNivelRep(levelNumber);	
+		//int tmp = levelNumber -1;
 		SceneManager.LoadScene (levelNumber.ToString());
 	}
 }

@@ -98,6 +98,7 @@ public class SistemaDejuego : MonoBehaviour {
 	int bigBoneValue = 10;
 	int orquitosValues = 500;
 	int enemyValue = 1000;
+	int healthValue = 5000;
 
 	// Para recuperar vida
 	int recoveryLife;
@@ -123,10 +124,14 @@ public class SistemaDejuego : MonoBehaviour {
 	public GameObject Habilidadestatico;
 
 
+	//public GameObject bso;
+
+
 	public enum Item {
 		Enemigos,
 		Orquitos,
-		Bone
+		Bone,
+		health
 	}
 
 		
@@ -148,18 +153,22 @@ public class SistemaDejuego : MonoBehaviour {
 
 		DataCtrl.instance.RefreshData ();
 		gData = DataCtrl.instance.data;
+
 		// Cargo en los arrays los Enemigos y los orquitos
 		SeleccionarPosEnemigosPorPantalla ();
 		SeleccionarPosOrquitosPorPantalla ();
 		SeleccionarCollectiblesPorPantalla();
 		RefreshUI ();
+
 		camera = GameObject.Find("Main Camera");
 		player = GameObject.Find ("Dog");
 		persController = player.GetComponent<PlayerController>();
+
 		attack = false;
 		die = false;
 		isPaused = false;
 		timerOn = true;
+
 		goRespuestas = GameObject.FindGameObjectsWithTag("btnRespuesta");
 		Habilidadestatico.SetActive(false);
 		animTxtMsjHabilidad = ui.txtMsjgrlHabilidad.GetComponent<Animator> ();
@@ -179,6 +188,8 @@ public class SistemaDejuego : MonoBehaviour {
 
 			gData.GuardarPosicionInicial ();
 
+			gData.cantidadTrolls = gData.cantidadEnemigoPorNivel ();
+
 			gData.numParaPromedio = gData.cantidadTrolls;
 
 		    gData.bonesBool = new bool[60];
@@ -186,6 +197,7 @@ public class SistemaDejuego : MonoBehaviour {
 			gData.orcosPorAnimales = new bool[gData.cantidadOrquitosPorNivel()];
 
 			MarcarOrquitosEnEscena ();
+
 			MarcarCollectibles ();
 
 		} 
@@ -241,6 +253,7 @@ public class SistemaDejuego : MonoBehaviour {
 
 
 	public void ResetData () {
+
 		ui.txtPuntos.text = "0";
 		ui.txtBones.text = "0";
 		gData.ResetNivelActual (gData.nivel);
@@ -312,7 +325,7 @@ public class SistemaDejuego : MonoBehaviour {
 	public void SeleccionarPosOrquitosPorPantalla(){
 
 		// Por prueba se elige el nivel 1 para no levantar los orcos, despues va hacer el nivel 2
-		if( gData.nivel < 2){
+		if(gData.nivel <= 2  || gData.nivel == 4 || gData.nivel == 6){
 
 			posOrcosAnimales = new GameObject[gData.cantidadOrquitosPorNivel()];
 
@@ -332,10 +345,8 @@ public class SistemaDejuego : MonoBehaviour {
 
 		if(!gData.operaRealizadas[gData.posActualEnemigo] && gData.posActualEnemigo <= posicionesEnemigos.Length-1){
 
-		
 			Instantiate (trollActual, posicionesEnemigos[gData.posActualEnemigo].transform.position, Quaternion.identity);
 
-		
 		} 
 
 	}
@@ -500,7 +511,7 @@ public class SistemaDejuego : MonoBehaviour {
 		}
 
 		gData.cantidadTrolls = enemigosActivos;
-		ui.txtCantEnemigos.text = gData.cantidadTrolls.ToString();
+		ui.txtCantEnemigos.text = gData.cantidadTrolls .ToString();
 		gData.numParaPromedio = gData.cantidadTrolls;
 
 	}
@@ -527,7 +538,9 @@ public class SistemaDejuego : MonoBehaviour {
 	}
 
 	public int GeneradorNumeroRandomRespuesta(){
-		float random = Random.Range((float)minResp,(float)maxResp);
+		
+			float random = Random.Range((float)minResp,(float)maxResp);
+			
 		return (int)random;
 	}
 
@@ -555,6 +568,7 @@ public class SistemaDejuego : MonoBehaviour {
 
 		}
 
+		//Debug.Log (psigno);
 		return psigno;
 
 	}
@@ -587,12 +601,18 @@ public class SistemaDejuego : MonoBehaviour {
 			maxResp = 150;
 		
 		
-		} else if (gData.nivel == 3){
+		} else if (gData.nivel == 4){
 			
 			max = 21;
 			maxIzq = 31;
 			maxResp = 200;
 		
+		} else if (gData.nivel == 6){
+
+			max = 31;
+			maxIzq = 41;
+			maxResp = 200;
+
 		}
 
 	}
@@ -628,12 +648,10 @@ public class SistemaDejuego : MonoBehaviour {
 				if(attack){
 
 					attack = false;
-					
 
 				}
 
 				AumentarJump();
-				
 				LimpiarRespuestas ();
 				DesactivarBotonRespuestas ();
 				gData.cantidadTrolls--;
@@ -811,7 +829,7 @@ public class SistemaDejuego : MonoBehaviour {
 	public void OrdenarNum1YNumero2(){
 
 		int tmp;
-		// Numero1 debe ser mayor que numero2
+
 		if(numero1 < numero2){
 
 			tmp = numero1;
@@ -888,7 +906,7 @@ public class SistemaDejuego : MonoBehaviour {
 
 		for(int i = 0;  i < 3; i++){
 
-			if(i < 2){
+			if (i < 2) {
 
 				if (posiDelaTablaAcultar == 1) {
 
@@ -896,32 +914,58 @@ public class SistemaDejuego : MonoBehaviour {
 
 					int cont = 0;
 
-					while(!ok){
+					while (!ok) {
 						
 						tmpS = GenerarSignoParaRespuestas ();
 
-						for(int p = 0;  p < arrDes.Count; p++){
+						Debug.Log ("Saco el signo " + tmpS + " pos " + i);
 
-							if(tmpS == arrDes[p]){
-								
-								cont++;
+						Debug.Log ("Saco el signo " + arrDes.Count + "pos " + i);
+
+
+						if (arrDes.Count >= 1) {
+
+							for (int p = 0; p < arrDes.Count; p++) {
+
+								//Debug.Log (tmpS + " == " + arrDes [p] + " pos " + i);
+
+								//Debug.Log (tmpS + " == " + resulString + " pos " + i);
+
+
+								if (tmpS == arrDes [p] || resulString == tmpS) {
+
+									cont++;
+									Debug.Log (tmpS + " el  signo  que se repite " + arrDes [p] + cont);
+
+
+								}
+
+								if (cont == 0) {
+
+									arrDes.Add (tmpS);
+									ok = true;
+								}
+
+						
 							}
-						}
 
-						if(cont == 0){
+						} else {
 
-							arrDes.Add(tmpS);
+							arrDes.Add (tmpS);
 							ok = true;
+						
 						}
-					
+
+
+							
 					}
 
-
+				
 				
 				} else {
-					
-					tmp = GeneradorNumeroRandomRespuesta();
-					arrDes.Add(tmp.ToString());
+
+					arrDes.Add (NoRepetirRespuesta(arrDes, tmp));
+			
 				}
 
 
@@ -935,6 +979,42 @@ public class SistemaDejuego : MonoBehaviour {
 			
 		respuestas = DesordenarListados(arrDes);
 		BotonRespuestas();
+	
+	}
+
+	public string NoRepetirRespuesta(List<string> arrDes ,int tmp1){
+
+		bool ok = false;
+
+		int cont = 0;
+
+		string tmpS = "";
+
+		while(!ok){
+
+			tmp1 = GeneradorNumeroRandomRespuesta();
+
+			tmpS = tmp1.ToString ();
+
+			for(int p = 0;  p < arrDes.Count; p++){
+
+
+				if(tmpS == arrDes[p] ||  tmpS == resulString){
+
+					cont++;
+
+
+				}
+			}
+
+			if(cont == 0){
+				
+				ok = true;
+			}
+
+		}
+
+		return tmpS;
 	
 	}
 
@@ -1043,6 +1123,11 @@ public class SistemaDejuego : MonoBehaviour {
 
 			itemValue = orquitosValues;
 			break;
+		
+		case Item.health:
+
+			itemValue = healthValue;
+			break;
 
 		default:
 			break;
@@ -1103,7 +1188,6 @@ public class SistemaDejuego : MonoBehaviour {
 
 		}
 
-
 	}
 
 
@@ -1147,22 +1231,24 @@ public class SistemaDejuego : MonoBehaviour {
 	}
 
 	public void ActualizarUIVidas(){
-		
+
 		int tmp = gData.vidas;
 		ui.vidasGo [tmp].SetActive (false);
 
+
 	}
 	public void SumarUIVida(){
-		
-		int tmp = gData.vidas;
-		if(tmp < 5){
-			ui.vidasGo [tmp].SetActive (true);
+
+		if(gData.vidas < 5){
+
+			ui.vidasGo [gData.vidas].SetActive (true);
 		}
 
 
 	}
 
 	public void HealthGO(Transform healthIdle){
+
 		Instantiate (healtAnim,healthIdle.position, Quaternion.identity);
 		VidaPickUp ();
 	}
@@ -1203,8 +1289,24 @@ public class SistemaDejuego : MonoBehaviour {
 
 		recoveryLife++;
 
-		if(recoveryLife == 5){
-			SumarUIVida();
+		bool ok = true;
+	
+		if(recoveryLife == 2){
+
+
+
+			if(gData.vidas < 5 ){
+
+				gData.vidas++;
+				RestaurarVidas ();
+
+
+			
+			}
+
+			recoveryLife = 0;
+			sumarPuntos(Item.health);
+			DataCtrl.instance.SaveData ();
 		}
 	
 	}
@@ -1216,12 +1318,16 @@ public class SistemaDejuego : MonoBehaviour {
 		ui.txtPuntos.text = gData.puntos.ToString();
 		ui.txtBones.text = gData.bones.ToString();
 
-		if(gData.bones == 100){
-		
+		if (gData.bones == 50) {
+			
 			gData.bones = 0;
-			ui.txtBones.text = gData.bones.ToString();
+			ui.txtBones.text = gData.bones.ToString ();
 		
-		}
+		} else if (gData.bones == 45) {
+			FaltaBones();
+			ui.txtBones.text = gData.bones.ToString ();
+
+		  }
 	
 	}
 
@@ -1242,6 +1348,7 @@ public class SistemaDejuego : MonoBehaviour {
 
 
 	public void RestartLevel(){
+
 		SceneManager.LoadScene (gData.nivel.ToString());
 
 	}
@@ -1251,7 +1358,7 @@ public class SistemaDejuego : MonoBehaviour {
 		
 		if (gData.cantidadTrolls == 0) {
 
-			gData.vidas = 5;
+			gData.vidas = 4;
 			 
 			if(timerOn){
 				timerOn = false;
@@ -1385,6 +1492,8 @@ public class SistemaDejuego : MonoBehaviour {
 
 		player.SetActive (false);
 
+		AudioCtrl.instance.PararBSO ();
+
 		restarVidas();
 
 	}
@@ -1442,7 +1551,7 @@ public class SistemaDejuego : MonoBehaviour {
 	// Poner los orquitos en escena
 	public void MarcarOrquitosEnEscena(){
 
-		if(gData.nivel < 2){
+		if(gData.nivel <= 2  || gData.nivel == 4 || gData.nivel == 6){
 
 			for (int i = 0; i < gData.orcosPorAnimales.Length; i++) {
 
@@ -1489,7 +1598,7 @@ public class SistemaDejuego : MonoBehaviour {
 
 	public void OrcosAnimales(){
 
-		if(gData.nivel < 2){
+		if(gData.nivel <= 2  || gData.nivel == 4 || gData.nivel == 6){
 
 			for (int i = 0; i < gData.orcosPorAnimales.Length; i++) {
 
@@ -1507,8 +1616,7 @@ public class SistemaDejuego : MonoBehaviour {
 
 		}
 
-	
-	}
+	 }
 
 	public void PutBoneInScene(){
 
@@ -1640,8 +1748,20 @@ public class SistemaDejuego : MonoBehaviour {
 	public void VidaPickUp(){
 		ui.txtMsjgrlHabilidad.fontSize = 100;
 		ui.txtMsjgrlHabilidad.color = Color.red;
+		if (recoveryLife == 2) {
+			ui.txtMsjgrlHabilidad.text = "OneLifeUp";
+		} else {
+			ui.txtMsjgrlHabilidad.text = "Health Pick: " + recoveryLife + "  ";
+		}
 
-		ui.txtMsjgrlHabilidad.text = "Health pick " + recoveryLife + " remains ";
+		StartCoroutine(mostrarHabilidad());
+	}
+
+	public void FaltaBones(){
+		ui.txtMsjgrlHabilidad.fontSize = 70;
+		ui.txtMsjgrlHabilidad.color = Color.white;
+
+		ui.txtMsjgrlHabilidad.text = "Te quedan 5 bones ";
 		StartCoroutine(mostrarHabilidad());
 	}
 
@@ -1693,10 +1813,15 @@ public class SistemaDejuego : MonoBehaviour {
 
 
 	public void MsjNivelDeJuego(){
-		ui.txtMsjgrlHabilidad.fontSize = 300;
+		if (gData.nivel == 0) {
+			ui.txtMsjgrlHabilidad.fontSize = 100;
+		} else {
+			ui.txtMsjgrlHabilidad.fontSize = 300;
+		}
+
 		ui.txtMsjgrlHabilidad.color = Color.white;
 		int tmp = 1 + gData.nivel;
-		ui.txtMsjgrlHabilidad.text = "         Level: " + tmp;
+		ui.txtMsjgrlHabilidad.text = "        Nivel: " + tmp;
 		StartCoroutine(mostrarHabilidad());
 	}
 

@@ -34,7 +34,7 @@ public class GameData
 
 	//Posicion del personaje
 	public float x = 3.3f;
-	public float y = -26.5f;
+	public float y = -53.0f;
 	public float z = 0f;
 
 	// Personaje, guardo los incrementos
@@ -50,7 +50,7 @@ public class GameData
 	// ***  METODOS *** //
 	public void GuardarPosicionInicial(){
 		x = 3.3f;
-		y = -26.5f;
+		y = -26.0f;
 		z = 0f;
 	}
 		
@@ -266,25 +266,22 @@ public class GameData
 		} 
 		if (nivel == 2) {
 		
-			cantEnem = 12;
+			cantEnem = 9;
 		
 		} 
-
-		if (nivel == 3) {
-
-			cantEnem = 13;
-	
-		} 
+			
 		if (nivel == 4) {
 		
 			cantEnem = 14;
 		
 		} 
-		if (nivel == 5) {
+		if (nivel == 6) {
 
 			cantEnem = 15;
 		
 		} 
+
+		cantidadTrolls = cantEnem;
 
 		return cantEnem;
 	
@@ -304,23 +301,19 @@ public class GameData
 			cantEnem = 21;
 
 		} 
-		if (nivel == 3) {
+		if (nivel == 2) {
+
+			cantEnem = 21;
+
+		} 
+			
+		if (nivel == 4) {
 
 			cantEnem = 10;
 
 		} 
 
-		if (nivel == 3) {
-
-			cantEnem = 21;
-
-		} 
-		if (nivel == 4) {
-
-			cantEnem = 21;
-
-		} 
-		if (nivel == 5) {
+		if (nivel == 6) {
 
 			cantEnem = 21;
 

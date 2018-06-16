@@ -38,7 +38,7 @@ public class MonedasScript : MonoBehaviour {
 
 		if(startFlying){
 
-			transform.position = Vector3.Lerp (transform.position,coinMeter.transform.position,speed);
+			transform.position = Vector3.Lerp (transform.position, coinMeter.transform.position,speed);
 
 		}
 
@@ -63,6 +63,8 @@ public class MonedasScript : MonoBehaviour {
 
 			audioCoins.Play();
 		
+			SFXCtrl.instance.showCoinSparkle (this.gameObject.transform.position);
+
 			SistemaDejuego.instance.SumarBone ();
 
 

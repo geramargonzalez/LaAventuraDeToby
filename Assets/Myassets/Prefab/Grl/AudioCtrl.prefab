@@ -1,0 +1,69 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1545219588301850}
+  m_IsPrefabParent: 1
+--- !u!1 &1545219588301850
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4784264610204280}
+  - component: {fileID: 114501753900253934}
+  m_Layer: 0
+  m_Name: AudioCtrl
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4784264610204280
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1545219588301850}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114501753900253934
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1545219588301850}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96a02ceb0759d4bd5a175dfc6c7911a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerAudio:
+    enemyHit1: {fileID: 0}
+    playerDied: {fileID: 1199767175625842, guid: 21159a19a9bc54d14be39628a36bd197,
+      type: 2}
+    hit: {fileID: 1012597709283192, guid: 38ba8b2e0a74d4f5ab7bb05d924ca11d, type: 2}
+    pickUp: {fileID: 1020215796848236, guid: f47cb1583663449e29df7c5604e1368b, type: 2}
+    checkPoint: {fileID: 1776320599605840, guid: 5e30e1fd7b60843069b1c84db00c56ed,
+      type: 2}
+  enemyAudio:
+    trollDeath: {fileID: 1269597934458646, guid: d26b1e6e221e24e73b3f5f3c052a3a12,
+      type: 2}
+    trollShout: {fileID: 1874078837422600, guid: f0519b8e590bb4e1492a3748d6aaaf2c,
+      type: 2}
+  player: {fileID: 0}
+  bsos: {fileID: 0}
+  audioOn: 1

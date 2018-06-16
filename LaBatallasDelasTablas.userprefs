@@ -2,11 +2,10 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Myassets/Scripts/Generales/Intermedia1/SisJuegoIntermedia.cs">
     <Files>
-      <File FileName="Assets/Myassets/Scripts/Generales/Intermedia1/SisJuegoIntermedia.cs" Line="447" Column="16" />
-      <File FileName="Assets/LevelCompIntermedios.cs" Line="1" Column="1" />
-      <File FileName="Assets/Myassets/Scripts/Generales/Niveles/SistemaDejuego.cs" Line="1137" Column="1" />
-      <File FileName="Assets/Myassets/Scripts/Generales/Niveles/UI.cs" Line="1" Column="1" />
-      <File FileName="Assets/Myassets/Scripts/Generales/Niveles/GameData.cs" Line="1" Column="1" />
+      <File FileName="Assets/Myassets/Scripts/Generales/Intermedia1/SisJuegoIntermedia.cs" Line="378" Column="4" />
+      <File FileName="Assets/Myassets/Scripts/Audio/AudioCtrl.cs" Line="145" Column="46" />
+      <File FileName="Assets/Myassets/Scripts/Audio/PlayerAudio.cs" Line="12" Column="2" />
+      <File FileName="Assets/Myassets/Scripts/Audio/MultiploAudio.cs" Line="13" Column="2" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

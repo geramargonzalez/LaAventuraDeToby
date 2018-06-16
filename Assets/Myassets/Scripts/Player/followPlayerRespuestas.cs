@@ -35,7 +35,6 @@ public class followPlayerRespuestas : MonoBehaviour {
 		} 
 			
 		if (!agreY) {
-			
 
 			transform.position = new Vector3 (bar.position.x, yPos, transform.position.z);
 		

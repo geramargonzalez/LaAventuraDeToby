@@ -14,7 +14,8 @@ public class EnemyHeadCtrl : MonoBehaviour {
 
 		if (coll.gameObject.CompareTag ("PlayerFeet")) 
 		{
-			//GameCtrl.instance.EnemyStompsEnemy(enemy);
+			AudioCtrl.instance.EnemyHit (coll.gameObject.transform);
+
 			SistemaDejuego.instance.EnemyStompsEnemy(enemy);
 
 			SFXCtrl.instance.showPlayerLanding(coll.gameObject.transform.position);

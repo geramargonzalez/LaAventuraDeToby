@@ -51,11 +51,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\btnRespInter.cs" />
      <Compile Include="Assets\Demigiant\DOTween\Examples\Basics.cs" />
      <Compile Include="Assets\Demigiant\DOTween\Examples\Sequences.cs" />
-     <Compile Include="Assets\healthpickup.cs" />
-     <Compile Include="Assets\LevelCompIntermedios.cs" />
+     <Compile Include="Assets\Myassets\Scripts\Audio\AudioCtrl.cs" />
+     <Compile Include="Assets\Myassets\Scripts\Audio\AudioEffects.cs" />
+     <Compile Include="Assets\Myassets\Scripts\Audio\BGMusic.cs" />
+     <Compile Include="Assets\Myassets\Scripts\Audio\EnemyAudio.cs" />
+     <Compile Include="Assets\Myassets\Scripts\Audio\MultiploAudio.cs" />
+     <Compile Include="Assets\Myassets\Scripts\Audio\PlayerAudio.cs" />
      <Compile Include="Assets\Myassets\Scripts\Enemy\BeActivator.cs" />
      <Compile Include="Assets\Myassets\Scripts\Enemy\BomberBeAI.cs" />
      <Compile Include="Assets\Myassets\Scripts\Enemy\checkPointAlcanzado.cs" />
@@ -67,8 +70,12 @@
      <Compile Include="Assets\Myassets\Scripts\Enemy\FishSpawner.cs" />
      <Compile Include="Assets\Myassets\Scripts\Enemy\HeadCtrl.cs" />
      <Compile Include="Assets\Myassets\Scripts\Enemy\OrquitosEnemy.cs" />
+     <Compile Include="Assets\Myassets\Scripts\Generales\btnRespInter.cs" />
+     <Compile Include="Assets\Myassets\Scripts\Generales\chainAndSowScript.cs" />
+     <Compile Include="Assets\Myassets\Scripts\Generales\healthpickup.cs" />
      <Compile Include="Assets\Myassets\Scripts\Generales\Intermedia1\inputValue.cs" />
      <Compile Include="Assets\Myassets\Scripts\Generales\Intermedia1\SisJuegoIntermedia.cs" />
+     <Compile Include="Assets\Myassets\Scripts\Generales\LevelCompIntermedios.cs" />
      <Compile Include="Assets\Myassets\Scripts\Generales\Niveles\ActivarYCamera.cs" />
      <Compile Include="Assets\Myassets\Scripts\Generales\Niveles\CameraFollow.cs" />
      <Compile Include="Assets\Myassets\Scripts\Generales\Niveles\CoinCollector.cs" />
@@ -113,12 +120,15 @@
      <Compile Include="Assets\Myassets\Scripts\Player\PersonajeController.cs" />
      <Compile Include="Assets\Myassets\Scripts\Player\PlayerController.cs" />
      <Compile Include="Assets\Myassets\Scripts\Player\seguimientoPuntero.cs" />
+     <Compile Include="Assets\Myassets\Sprites\Free Asset - 2D Handcrafted Art\Scripts\CamerController.cs" />
      <Compile Include="Assets\Myassets\Sprites\Orc Warrior\Scripts\MouseController.cs" />
      <Compile Include="Assets\Myassets\Sprites\Spooky Woods\Example\Scripts\BackgroundParallax.cs" />
      <Compile Include="Assets\Myassets\Sprites\Spooky Woods\Example\Scripts\CameraMove.cs" />
      <None Include="Assets\Myassets\Sprites\Actors\Enemies\monster_round\get more at bevouliin_dot_com.txt" />
      <None Include="Assets\Demigiant\DOTween\readme.txt" />
      <None Include="Assets\Demigiant\DOTween\DOTween43.xml" />
+     <None Include="Assets\Myassets\Sprites\Free Asset - 2D Handcrafted Art\Shader\NormalMappedTileAnimated.shader" />
+     <None Include="Assets\Myassets\Sprites\Free Asset - 2D Handcrafted Art\Shader\NormalMappedSprite-Animated.shader" />
      <None Include="Assets\Myassets\Sprites\Mossy Woods\Readme.txt" />
      <None Include="Assets\Myassets\Sprites\Fantasy Character\_TXT\LICENSES.txt" />
      <None Include="Assets\Myassets\Sprites\FantasyTrolls\_TXT\readme.txt" />
@@ -130,12 +140,12 @@
      <None Include="Assets\Myassets\Sprites\FantasyTrolls\_TXT\LICENSES.txt" />
      <None Include="Assets\Myassets\Sprites\craftpix-062999-2d-fantasy-knight-free-sprite-sheets 1\_TXT\readme.txt" />
      <None Include="Assets\Myassets\Sprites\Fantasy Character\_TXT\readme.txt" />
+     <None Include="Assets\Myassets\Sprites\Free Asset - 2D Handcrafted Art\Readme.txt" />
      <None Include="Assets\Myassets\Fonts\Apostrophic Labs License.txt" />
      <None Include="Assets\Myassets\Sprites\craftpix-062999-2d-fantasy-knight-free-sprite-sheets 1\_TXT\Information.txt" />
      <None Include="Assets\Myassets\Audio\Audio Credits.txt" />
      <None Include="Assets\Myassets\Sprites\craftpix-062999-2d-fantasy-knight-free-sprite-sheets\_TXT\readme.txt" />
      <None Include="Assets\Myassets\Sounds\The Essential Retro Video Game Sound Effects Collection [512 sounds] By Juhani Junkala\INFO.txt" />
-     <None Include="Assets\FlatButtonIconPack\readme.txt" />
  <Reference Include="Facebook.Unity.Settings">
  <HintPath>/Users/gerardogonzalez/Documents/Udemy/Unity/UdemyPlataformMobile2D/LaBatallasDelasTablas/Library/FacebookSDK/Facebook.Unity.Settings.dll</HintPath>
  </Reference>

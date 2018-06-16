@@ -232,7 +232,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1941776295328080}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 225.65518, y: -78.000626, z: -16.960232}
+  m_LocalPosition: {x: 3015.9146, y: -82.477425, z: -16.960232}
   m_LocalScale: {x: 4, y: 4, z: 1}
   m_Children:
   - {fileID: 224327721947091984}
@@ -435,7 +435,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -8.839553, y: -1.7}
+  m_Offset: {x: -9.576945, y: -1.621172}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -446,7 +446,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 21.599108, y: 1.5999999}
+  m_Size: {x: 23.073893, y: 1.7576561}
   m_EdgeRadius: 0
 --- !u!61 &61200195999056266
 BoxCollider2D:
@@ -925,6 +925,7 @@ MonoBehaviour:
   attack: 0
   tablas: {fileID: 1917208698086678}
   maxtime: 0
+  timeRealiseOperation: 0
   ui:
     txtPuntos: {fileID: 0}
     txtBones: {fileID: 0}
@@ -936,6 +937,18 @@ MonoBehaviour:
     textCheckPoint: {fileID: 0}
     txtMsjgrlHabilidad: {fileID: 0}
     vidasGo: []
+    pnMenuJuegoTerminado: {fileID: 0}
+    levelComplete: {fileID: 0}
+    panelPausa: {fileID: 0}
+    divisortxt: {fileID: 0}
+    restotxt: {fileID: 0}
+    resultadotxt: {fileID: 0}
+    dividendotxt: {fileID: 0}
+    msj: {fileID: 0}
+    panelMultiplo: {fileID: 0}
+    contenedorGrl: {fileID: 0}
+    contenedorGameOver: {fileID: 0}
+    contTryAgain: {fileID: 0}
   respuesta1: {fileID: 114842073044855270}
   respuesta2: {fileID: 114825490383549754}
   signoTroll: {fileID: 114458213453331712}

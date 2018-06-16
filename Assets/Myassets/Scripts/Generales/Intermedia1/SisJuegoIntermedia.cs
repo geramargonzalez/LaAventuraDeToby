@@ -115,7 +115,7 @@ public class SisJuegoIntermedia : MonoBehaviour {
 
 		if (data.nivel < 1) {
 
-			cantOperacionesParaTerminar = 5;
+			cantOperacionesParaTerminar = 7;
 			min = 1;
 			max = 10;
 			minResp = 1;
@@ -204,9 +204,11 @@ public class SisJuegoIntermedia : MonoBehaviour {
 			SumarPuntos ();
 			contarParaPromedio = true;
 			cantOperacionesParaTerminar--;
+			AudioCtrl.instance.AciertosMultiplo(this.gameObject.transform);
 
 		} else {
 
+			AudioCtrl.instance.ErrorMultiplo(this.gameObject.transform);
 			DescontarPuntosPorFallos ();
 
 		}
@@ -317,9 +319,6 @@ public class SisJuegoIntermedia : MonoBehaviour {
 	
 	}
 
-
-
-
 	public void BotonRespuestas(){
 
 		for(int i=0;  i < respuestas.Count; i++){
@@ -366,15 +365,17 @@ public class SisJuegoIntermedia : MonoBehaviour {
 	public void GameOver(){
 		
 		if (cantOperacionesParaTerminar == 0 & data.fallos <= 3) {
-
+			AudioCtrl.instance.GameOverMultiplo(this.gameObject.transform);
 			ui.contenedorGrl.SetActive (false);
 			ui.contenedorGameOver.SetActive (true);
 			promedioPorNivel = data.calcularPromedio ();
 			data.SetearNivelACtual();
 			DataCtrl.instance.SaveData(data);
 
+
 		} else if(tiempoStart == 0 || data.fallos == 4) {
 
+			AudioCtrl.instance.LoseMultiplo(this.gameObject.transform);
 			ui.contenedorGrl.SetActive (false);
 			ui.contTryAgain.SetActive (true);
 		
@@ -472,9 +473,7 @@ public class SisJuegoIntermedia : MonoBehaviour {
 		timeLeft = tiempoStart;
 	
 	}
-
-
-
+		
 	IEnumerator MostrarCuentasComienzo(){
 		
 		yield return new WaitForSeconds(1.0f);
@@ -493,11 +492,13 @@ public class SisJuegoIntermedia : MonoBehaviour {
 		ui.panelMultiplo.SetActive (false);
 		cargarValoresDelasOperaciones();
 		yield return new WaitForSeconds(.5f);
+		ResetearTiempo ();
+		ReanudarTiempo ();
 		animTroll.SetBool ("entrar",false);
 		animDog.SetBool ("entrar", false);
 		GenerarRespuestas ();
 		ui.panelMultiplo.SetActive (true);
-		ResetearTiempo ();
+
 	}
 
 

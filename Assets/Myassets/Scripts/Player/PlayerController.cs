@@ -34,11 +34,7 @@ public class PlayerController : MonoBehaviour {
 	bool leftpressed;
 	bool rightpressed;
 
-
-
-
 	public UI ui;
-
 
 	bool cantfall;
 
@@ -54,9 +50,11 @@ public class PlayerController : MonoBehaviour {
 	}
 		
 	void Update () {
+
 		isGrounded = Physics2D.OverlapBox(new Vector2(feet.position.x,feet.position.y),new Vector2(boxWidth,boxHeight),360.0f,whatIsGround);
 
 		float speed = Input.GetAxisRaw ("Horizontal");
+
 		speed *= speedBoost;
 
 		if (speed != 0) {
@@ -111,6 +109,7 @@ public class PlayerController : MonoBehaviour {
 	}
 	// 
 	public void PararMovimiento () {
+	
 		rg.velocity = new Vector2(0,rg.velocity.y);
 
 		if(!isJumping){
@@ -120,6 +119,7 @@ public class PlayerController : MonoBehaviour {
 
 
 	public void Flip(float playerSpeed){
+	
 		if(playerSpeed < 0){
 
 			sp.flipX = true;
@@ -157,17 +157,24 @@ public class PlayerController : MonoBehaviour {
 
 
 	void OnCollisionEnter2D(Collision2D other){
+
 		if(other.gameObject.CompareTag("GROUND")){
 
 			isJumping = false;
 
 		} else if (other.gameObject.tag == "Enemigos" || other.gameObject.tag == "Orquito" || other.gameObject.tag == "Spike") {
+
+			AudioCtrl.instance.PlayerDied (gameObject.transform);
+
 			SistemaDejuego.instance.PlayerDiedAnimaton (gameObject);
+		
 		}
 	}
 
 	void OnDrawGizmos(){
+
 		Gizmos.DrawWireCube (feet.position, new Vector3(boxWidth, boxHeight,0));
+	
 	}
 
 
@@ -176,6 +183,7 @@ public class PlayerController : MonoBehaviour {
 		rightpressed = true;
 		leftpressed = false;
 	}
+
 	public void MoveLeft(){
 		leftpressed = true;
 		rightpressed = false;
@@ -191,54 +199,5 @@ public class PlayerController : MonoBehaviour {
 	}
 
 
-
-
-
-/*public void OnTriggerEnter2D(Collider2D other){
-
-		switch (other.gameObject.tag )
-		{
-			case "Coin":
-
-			if(sfxOn){
-			  
-				SFXCtrl.instance.showCoinSparkle (other.gameObject.transform.position);
-			
-				GameCtrl.instance.UpdateCoinCount ();
-			
-			}
-
-			break;	
-		
-		case "Water":
-
-			//
-
-			garbajeCtrl.SetActive (false);
-
-			SFXCtrl.instance.showSplash (other.gameObject.transform.position);
-
-			GameCtrl.instance.PlayerDrowned ();
-
-			break;	
-		
-		case "PowerUp_bullets":
-
-			canFire = true;
-
-			Vector2 powerUpos = other.gameObject.transform.position;
-
-			Destroy (other.gameObject);
-
-			if(sfxOn){
-
-				SFXCtrl.instance.showSparkle(powerUpos);
-			
-			}
-
-			break;	
-		}
-	}
-*/
 
 }

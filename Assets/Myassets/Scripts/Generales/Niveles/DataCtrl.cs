@@ -181,6 +181,8 @@ public class DataCtrl : MonoBehaviour {
 
 
 	public void SetearNumeroNivel(){
+	
 		data.SetearNumeroDeNiveles();
+	
 	}
 }
